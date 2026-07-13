@@ -34,6 +34,8 @@ final class Play {
     var altLangRaw: String?
     var createdAt: Date = Date()
     var updatedAt: Date = Date()
+    /// Set when the play is published read-only to the web viewer (/lire/:id).
+    var publicShareID: String?
 
     @Relationship(deleteRule: .cascade, inverse: \Character.play)
     var characters: [Character]?

@@ -12,6 +12,7 @@ struct PlayDetailView: View {
     @State private var showAtelier = false
     @State private var showVersions = false
     @State private var showTableRead = false
+    @State private var showPublish = false
 
     enum Mode: String, CaseIterable { case script, board }
 
@@ -38,6 +39,10 @@ struct PlayDetailView: View {
                 Menu {
                     Button { showTableRead = true } label: { Label("Lecture à voix", systemImage: "speaker.wave.2") }
                     Button { showVersions = true } label: { Label("Versions", systemImage: "clock.arrow.circlepath") }
+                    Button { showPublish = true } label: {
+                        Label(play.publicShareID == nil ? "Partager la lecture (web)" : "Lecture partagée — gérer",
+                              systemImage: play.publicShareID == nil ? "globe" : "globe.badge.chevron.backward")
+                    }
                     Divider()
                     ShareLink("Exporter — pour l'IA (.json)", item: Exports.aiJSONString(play))
                     ShareLink("Exporter — texte", item: Exports.plainText(play))
@@ -49,5 +54,6 @@ struct PlayDetailView: View {
         .sheet(isPresented: $showAtelier) { AtelierView(play: play, onOpenPlay: onOpenPlay) }
         .sheet(isPresented: $showVersions) { VersionsView(play: play) }
         .sheet(isPresented: $showTableRead) { TableReadView(play: play) }
+        .sheet(isPresented: $showPublish) { PublishView(play: play) }
     }
 }
