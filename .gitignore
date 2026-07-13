@@ -1,4 +1,11 @@
-LaReplique.xcodeproj
+# The generated Xcode project IS committed (Xcode Cloud clones only this repo and
+# needs it, plus the xcodecloud/manifest.json workflow that lives inside it).
+# Regenerate with ./gen.sh after any project.yml change, then commit the diff.
+# Only per-user state is ignored:
+LaReplique.xcodeproj/xcuserdata/
+LaReplique.xcodeproj/project.xcworkspace/xcuserdata/
+LaReplique.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+
 .build
 DerivedData
 dist
