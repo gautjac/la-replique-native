@@ -13,10 +13,12 @@ knownRegions:
   - en
   - Base
 
-# Local Swift package: the atelier's shared toolbox. We link ClaudeKit only.
+# Vendored ClaudeKit (in-repo, self-contained) so Xcode Cloud — which clones only
+# this repo — can build without the sibling ../atelier-kit local package.
+# Canonical source stays ~/Claude/apps/atelier-kit; see Vendor/ClaudeKit/PROVENANCE.md.
 packages:
-  AtelierKit:
-    path: ../atelier-kit
+  ClaudeKit:
+    path: Vendor/ClaudeKit
 
 settings:
   base:
@@ -41,7 +43,7 @@ targets:
     sources:
       - path: Sources
     dependencies:
-      - package: AtelierKit
+      - package: ClaudeKit
         product: ClaudeKit
     info:
       path: Sources/Resources/Info.plist
