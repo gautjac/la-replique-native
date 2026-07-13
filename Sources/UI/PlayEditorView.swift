@@ -38,8 +38,8 @@ struct PlayEditorView: View {
         .navigationTitle(play.title.isEmpty ? "Pièce sans titre" : play.title)
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
-        #endif
         .toolbar { keyboardToolbar }
+        #endif
         .alert("Nouveau personnage", isPresented: Binding(get: { newCharTarget != nil }, set: { if !$0 { newCharTarget = nil } })) {
             TextField("Nom", text: $newCharName)
             Button("Ajouter") { commitNewCharacter() }
@@ -168,9 +168,9 @@ struct PlayEditorView: View {
 
     // MARK: Keyboard toolbar (iPhone / iPad on-screen)
 
+    #if os(iOS)
     @ToolbarContentBuilder
     private var keyboardToolbar: some ToolbarContent {
-        #if os(iOS)
         ToolbarItemGroup(placement: .keyboard) {
             Button { if let el = focusedElement { onEnter(el) } } label: { Label("Réplique", systemImage: "return") }
             Button { if let el = focusedElement { onTab(el) } } label: { Label("Type", systemImage: "arrow.2.squarepath") }
@@ -186,8 +186,8 @@ struct PlayEditorView: View {
             Spacer()
             Button("OK") { focused = nil }
         }
-        #endif
     }
+    #endif
 
     // MARK: Ops
 

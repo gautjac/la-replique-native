@@ -84,7 +84,9 @@ struct TableReadView: View {
             .navigationTitle("Lecture à voix")
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) { Button("Fermer") { reader.pause(); dismiss() } }
-                ToolbarItemGroup(placement: .bottomBar) { controls }
+            }
+            .safeAreaInset(edge: .bottom) {
+                controls.padding(12).background(Theme.deskLight)
             }
             .onAppear { reader.load(play) }
             .onDisappear { reader.pause() }
