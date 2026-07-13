@@ -5,10 +5,14 @@ import UniformTypeIdentifiers
 struct RootView: View {
     @Environment(\.modelContext) private var context
     @Query(sort: \Play.updatedAt, order: .reverse) private var plays: [Play]
+    @ObservedObject private var router = AppRouter.shared
 
+    @AppStorage("hasOnboarded") private var hasOnboarded = false
     @State private var selectedID: UUID?
     @State private var importing = false
     @State private var showKeys = false
+    @State private var showOnboarding = false
+    @State private var wantsKeysAfterOnboarding = false
 
     var selectedPlay: Play? { plays.first { $0.id == selectedID } }
 
@@ -43,6 +47,21 @@ struct RootView: View {
             }
         }
         .task { seedIfEmpty() }
+        .task {
+            if !hasOnboarded { showOnboarding = true }
+        }
+        .sheet(isPresented: $showOnboarding, onDismiss: {
+            hasOnboarded = true
+            if wantsKeysAfterOnboarding { wantsKeysAfterOnboarding = false; showKeys = true }
+        }) {
+            OnboardingView(onAddKey: { wantsKeysAfterOnboarding = true })
+        }
+        .onChange(of: router.openPlayID) { _, id in
+            // An App Intent (Siri / Shortcuts) asked to open a play.
+            guard let id else { return }
+            selectedID = id
+            router.openPlayID = nil
+        }
         .sheet(isPresented: $showKeys) { KeySetupView() }
         .fileImporter(isPresented: $importing, allowedContentTypes: [.json], allowsMultipleSelection: false) { result in
             handleImport(result)
