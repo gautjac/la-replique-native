@@ -76,6 +76,39 @@ final class EditingTests: XCTestCase {
         XCTAssertFalse(Editing.typeAhead(cue, token: "Bonjour", allowCreate: false, play: play, context: ctx))
     }
 
+    func testMoveSceneBlockCarriesItsBody() throws {
+        let (c, ctx, play) = try makePlay("""
+        { "lang":"fr","elements":[
+          {"type":"scene","label":"SCÈNE 1"},{"type":"cue","character":"A","text":"un"},
+          {"type":"scene","label":"SCÈNE 2"},{"type":"cue","character":"B","text":"deux"}
+        ] }
+        """); _ = c
+        let (_, blocks) = Editing.decompose(play)
+        let scene2 = blocks[1]                 // SCÈNE 2 block
+        Editing.moveBlock(play, blockID: scene2.id, dir: -1)
+        let labels = play.elementList.compactMap { $0.kind == .scene ? $0.label : nil }
+        XCTAssertEqual(labels, ["SCÈNE 2", "SCÈNE 1"])
+        // the cue "deux" moved with its scene
+        let arr = play.elementList
+        let s2 = arr.firstIndex { $0.label == "SCÈNE 2" }!
+        XCTAssertEqual(arr[s2 + 1].text, "deux")
+    }
+
+    func testAddSceneAndRemoveCharacterKeepsLines() throws {
+        let (c, ctx, play) = try makePlay(twoHander); _ = c
+        let added = Editing.addSceneAfter(play, blockID: nil, context: ctx)
+        XCTAssertEqual(added.kind, .scene)
+        XCTAssertEqual(play.elementList.last?.id, added.id)
+
+        let before = play.elementList.filter { $0.kind == .cue }.count
+        let bruno = play.characterList.first { $0.name == "BRUNO" }!
+        Editing.removeCharacter(play, bruno, context: ctx)
+        let after = play.elementList.filter { $0.kind == .cue }.count
+        XCTAssertEqual(after, before)   // no lines lost
+        XCTAssertFalse(play.characterList.contains { $0.name == "BRUNO" })
+        XCTAssertTrue(play.elementList.contains { $0.kind == .cue && $0.characterID == nil })
+    }
+
     func testRemoveReturnsPrevious() throws {
         let (c, ctx, play) = try makePlay(twoHander); _ = c
         let arr = play.elementList

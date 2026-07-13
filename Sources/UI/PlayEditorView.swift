@@ -7,6 +7,7 @@ import SwiftData
 struct PlayEditorView: View {
     @Environment(\.modelContext) private var context
     @Bindable var play: Play
+    @Binding var jumpTarget: UUID?
     @FocusState private var focused: UUID?
 
     @State private var newCharName = ""
@@ -29,6 +30,9 @@ struct PlayEditorView: View {
             .background(Theme.desk)
             .onChange(of: focused) { _, id in
                 if let id { withAnimation(.easeOut(duration: 0.2)) { proxy.scrollTo(id, anchor: .center) } }
+            }
+            .onChange(of: jumpTarget) { _, target in
+                if let target { focused = target; jumpTarget = nil }
             }
         }
         .navigationTitle(play.title.isEmpty ? "Pièce sans titre" : play.title)

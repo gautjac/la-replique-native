@@ -37,7 +37,7 @@ struct RootView: View {
             #endif
         } detail: {
             if let play = selectedPlay {
-                PlayEditorView(play: play)
+                PlayDetailView(play: play)
             } else {
                 EmptyStateView()
             }

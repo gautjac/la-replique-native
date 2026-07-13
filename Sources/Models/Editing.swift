@@ -82,6 +82,15 @@ enum Editing {
         return c
     }
 
+    /// Remove a character; their lines are kept (unassigned), never deleted.
+    static func removeCharacter(_ play: Play, _ char: Character, context: ModelContext) {
+        let cid = char.id.uuidString
+        for el in play.elementList where el.kind == .cue && el.characterID == cid { el.characterID = nil }
+        char.play = nil
+        context.delete(char)
+        play.touch()
+    }
+
     // MARK: Elements
 
     /// Insert a fresh element of `kind` after `after` (or at end when nil).
@@ -141,6 +150,79 @@ enum Editing {
         renumber(arr)
         play.touch()
         return prev
+    }
+
+    // MARK: Beat-board blocks (act heading, or scene heading + its body)
+
+    struct Block: Identifiable {
+        let id: UUID
+        let isAct: Bool
+        var els: [Element]
+        var heading: Element { els[0] }
+    }
+
+    static func decompose(_ play: Play) -> (preamble: [Element], blocks: [Block]) {
+        var preamble: [Element] = []
+        var blocks: [Block] = []
+        var cur: Block?
+        for el in sorted(play) {
+            if el.kind == .act {
+                if let c = cur { blocks.append(c); cur = nil }
+                blocks.append(Block(id: el.id, isAct: true, els: [el]))
+            } else if el.kind == .scene {
+                if let c = cur { blocks.append(c) }
+                cur = Block(id: el.id, isAct: false, els: [el])
+            } else if cur != nil {
+                cur!.els.append(el)
+            } else if !blocks.isEmpty {
+                blocks[blocks.count - 1].els.append(el)
+            } else {
+                preamble.append(el)
+            }
+        }
+        if let c = cur { blocks.append(c) }
+        return (preamble, blocks)
+    }
+
+    private static func recompose(_ preamble: [Element], _ blocks: [Block]) {
+        renumber(preamble + blocks.flatMap(\.els))
+    }
+
+    static func moveBlock(_ play: Play, blockID: UUID, dir: Int) {
+        var (pre, blocks) = decompose(play)
+        guard let i = blocks.firstIndex(where: { $0.id == blockID }) else { return }
+        let j = i + dir
+        guard j >= 0, j < blocks.count else { return }
+        blocks.swapAt(i, j)
+        recompose(pre, blocks)
+        play.touch()
+    }
+
+    @discardableResult
+    static func addSceneAfter(_ play: Play, blockID: UUID?, context: ModelContext) -> Element {
+        var (pre, blocks) = decompose(play)
+        let n = blocks.filter { !$0.isAct }.count + 1
+        let heading = Element(kind: .scene)
+        heading.label = Labels.scene(n, play.lang); heading.setting = ""
+        heading.play = play
+        context.insert(heading)
+        let block = Block(id: heading.id, isAct: false, els: [heading])
+        let at = blockID.flatMap { id in blocks.firstIndex { $0.id == id } } ?? (blocks.count - 1)
+        blocks.insert(block, at: min(at + 1, blocks.count))
+        recompose(pre, blocks)
+        play.touch()
+        return heading
+    }
+
+    @discardableResult
+    static func addActAtEnd(_ play: Play, context: ModelContext) -> Element {
+        let n = sorted(play).filter { $0.kind == .act }.count + 1
+        let act = Element(kind: .act, order: sorted(play).count)
+        act.label = Labels.act(n, play.lang)
+        act.play = play
+        context.insert(act)
+        play.touch()
+        return act
     }
 
     /// Type-ahead speaker on a cue: space switches to an existing cast member by
