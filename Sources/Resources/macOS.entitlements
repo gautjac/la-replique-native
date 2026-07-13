@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- App Sandbox: required for a distributable native macOS app. -->
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+	<!-- Import .json/.txt plays and write exported files to user-chosen paths. -->
+	<key>com.apple.security.files.user-selected.read-write</key>
+	<true/>
+	<!-- Network: BYOK Claude (Anthropic) + ElevenLabs TTS + CloudKit sync. -->
+	<key>com.apple.security.network.client</key>
+	<true/>
+	<!-- iCloud / CloudKit private-DB sync of plays across the user's devices. -->
+	<key>com.apple.developer.icloud-services</key>
+	<array>
+		<string>CloudKit</string>
+	</array>
+	<key>com.apple.developer.icloud-container-identifiers</key>
+	<array>
+		<string>iCloud.app.atelier.lareplique</string>
+	</array>
+	<key>aps-environment</key>
+	<string>development</string>
+</dict>
+</plist>

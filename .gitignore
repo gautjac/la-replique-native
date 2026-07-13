@@ -1,0 +1,6 @@
+LaReplique.xcodeproj
+.build
+DerivedData
+dist
+.DS_Store
+*.xcuserstate

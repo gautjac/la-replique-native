@@ -1,0 +1,20 @@
+{
+  "format": "la-replique/1",
+  "title": "La porte",
+  "subtitle": "esquisse",
+  "author": "",
+  "lang": "fr",
+  "characters": [
+    { "name": "ALICE", "note": "la sœur aînée" },
+    { "name": "BRUNO", "note": "revenu après dix ans" }
+  ],
+  "elements": [
+    { "type": "act", "label": "ACTE I" },
+    { "type": "scene", "label": "SCÈNE 1", "setting": "Une cuisine. Fin de soirée." },
+    { "type": "stage", "text": "Alice essuie la même assiette depuis trop longtemps. On frappe. Elle n'ouvre pas." },
+    { "type": "cue", "character": "BRUNO", "parenthetical": "derrière la porte", "text": "Je sais que t'es là. La lumière est allumée." },
+    { "type": "cue", "character": "ALICE", "text": "La lumière est toujours allumée. Ça veut rien dire." },
+    { "type": "cue", "character": "BRUNO", "text": "Dix ans, Alice. Ouvre la porte." },
+    { "type": "stage", "text": "Un temps. Elle pose l'assiette." }
+  ]
+}
