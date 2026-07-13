@@ -4,10 +4,12 @@ import SwiftUI
 /// Distribution and Mesures inspectors as sheets.
 struct PlayDetailView: View {
     @Bindable var play: Play
+    var onOpenPlay: (UUID) -> Void
     @State private var mode: Mode = .script
     @State private var jumpTarget: UUID?
     @State private var showCast = false
     @State private var showMeasures = false
+    @State private var showAtelier = false
 
     enum Mode: String, CaseIterable { case script, board }
 
@@ -28,11 +30,13 @@ struct PlayDetailView: View {
                 .fixedSize()
             }
             ToolbarItemGroup {
+                Button { showAtelier = true } label: { Label("Atelier", systemImage: "sparkles") }
                 Button { showCast = true } label: { Label("Distribution", systemImage: "person.2") }
                 Button { showMeasures = true } label: { Label("Mesures", systemImage: "chart.bar") }
             }
         }
         .sheet(isPresented: $showCast) { CastPanel(play: play) }
         .sheet(isPresented: $showMeasures) { MeasuresView(play: play) }
+        .sheet(isPresented: $showAtelier) { AtelierView(play: play, onOpenPlay: onOpenPlay) }
     }
 }
