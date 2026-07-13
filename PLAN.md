@@ -106,8 +106,14 @@ widgets, Handoff, keyboard shortcuts, Quick Look.
 - **P3 — Atelier AI, BYOK ClaudeKit (1–2 days):** prompts + streaming + draft UI; goldens.
 - **P4 — Table-read / TTS (1 day).**
 - **P5 — Import/export/print/versions (1–2 days).**
-- **P5.5 — Web viewer (1–2 days):** publish/unpublish service + `/lire/:id` route (CloudKit JS,
-  reusing web components).
+- **P5.5 — Web viewer — ✅ DONE.** Native `Publish` service (publish/mettre-à-jour/dépublier →
+  `PublicPlay` record, `recordName == shareID`, public CloudKit DB) + `PublishView` sheet wired
+  into the ••• menu; `Play.publicShareID`. Web app: `/lire/:id` route + `src/lire/{cloudkit,Lire}`
+  (CloudKit JS read via origin-restricted web token `VITE_CLOUDKIT_TOKEN` in Netlify env). Live &
+  verified at `la-replique.netlify.app/lire/demo`. 3 PublishTests (25 total green, iOS+macOS).
+  **Deploy-time gap (needs a signed native build to exercise):** on first publish, dev CloudKit
+  auto-creates the `PublicPlay` type; then grant the record type **World: read** in the CloudKit
+  dashboard so the web token can read it. The web viewer points at the **development** environment.
 - **P6 — Polish (2 days):** Pencil, Shortcuts, a11y/i18n, Conduite AI 9-category walk, onboarding.
 - **P7 — Ship (1 day):** bundle ids + iCloud/CloudKit entitlements; **register extension bundle
   ids via ASC API first**; **Xcode Cloud on GA macOS** (dodges ITMS-90111); **real-device build**
