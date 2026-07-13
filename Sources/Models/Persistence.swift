@@ -12,7 +12,7 @@ enum Persistence {
 
     @MainActor
     static let shared: ModelContainer = {
-        let schema = Schema([Play.self, Character.self, Element.self])
+        let schema = Schema([Play.self, Character.self, Element.self, Version.self])
 
         // Under XCTest / SwiftUI previews, skip CloudKit — the mirroring delegate
         // is unstable in those hosts and would destabilize the process.

@@ -51,12 +51,30 @@ enum PlayFormat {
     @MainActor
     @discardableResult
     static func makePlay(from doc: PlayDoc, into context: ModelContext) -> Play {
+        let play = Play(title: "", lang: .fr)
+        context.insert(play)
+        populate(play, from: doc, context: context)
+        return play
+    }
+
+    /// Replace a play's content from a document, keeping the same Play id (used by
+    /// version restore).
+    @MainActor
+    static func replaceContent(of play: Play, with doc: PlayDoc, context: ModelContext) {
+        for e in play.elementList { e.play = nil; context.delete(e) }
+        for c in play.characterList { c.play = nil; context.delete(c) }
+        populate(play, from: doc, context: context)
+    }
+
+    @MainActor
+    private static func populate(_ play: Play, from doc: PlayDoc, context: ModelContext) {
         let lang = Lang(rawValue: doc.lang ?? "fr") ?? .fr
-        let play = Play(title: doc.title ?? (lang == .fr ? "Pièce importée" : "Imported play"), lang: lang)
+        play.lang = lang
+        play.title = doc.title ?? (lang == .fr ? "Pièce importée" : "Imported play")
         play.subtitle = doc.subtitle ?? ""
         play.author = doc.author ?? ""
         play.altLang = doc.altLang.flatMap(Lang.init(rawValue:))
-        context.insert(play)
+        play.touch()
 
         var characters: [Character] = []
         var byName: [String: Character] = [:]
@@ -117,7 +135,6 @@ enum PlayFormat {
             el.play = play
             context.insert(el)
         }
-        return play
     }
 
     // MARK: Encode (clean AI-friendly export — speakers by name)
