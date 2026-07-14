@@ -40,6 +40,39 @@ final class EditingTests: XCTestCase {
         XCTAssertNotNil(play.character(id: new.characterID)) // linked to a real speaker
     }
 
+    private let structured = """
+    { "lang":"fr","characters":[{"name":"A"}],
+      "elements":[
+        {"type":"act","label":"ACTE I"},
+        {"type":"scene","label":"S1"},{"type":"cue","character":"A","text":"un"},
+        {"type":"scene","label":"S2"},{"type":"cue","character":"A","text":"deux"},
+        {"type":"act","label":"ACTE II"},
+        {"type":"scene","label":"S3"},{"type":"cue","character":"A","text":"trois"}
+      ] }
+    """
+
+    func testMoveBlockBeforeReordersAndCarriesBody() throws {
+        let (c, _, play) = try makePlay(structured); _ = c
+        let blocks = Editing.decompose(play).blocks
+        let s3 = blocks.first { !$0.isAct && $0.heading.label == "S3" }!
+        let s1 = blocks.first { !$0.isAct && $0.heading.label == "S1" }!
+        Editing.moveBlock(play, blockID: s3.id, before: s1.id) // S3 → first scene under ACTE I
+        let order = Editing.decompose(play).blocks.filter { !$0.isAct }.map { $0.heading.label }
+        XCTAssertEqual(order, ["S3", "S1", "S2"])
+        let after = Editing.decompose(play).blocks.first { $0.heading.label == "S3" }!
+        XCTAssertTrue(after.els.contains { $0.text == "trois" }) // its line moved with it
+    }
+
+    func testRemoveSceneHeadingKeepsLines() throws {
+        let (c, ctx, play) = try makePlay(structured); _ = c
+        let s2 = Editing.decompose(play).blocks.first { $0.heading.label == "S2" }!
+        let cuesBefore = play.elementList.filter { $0.kind == .cue }.count
+        Editing.removeSceneHeading(play, sceneID: s2.id, context: ctx)
+        XCTAssertFalse(play.elementList.contains { $0.kind == .scene && $0.label == "S2" })
+        XCTAssertEqual(play.elementList.filter { $0.kind == .cue }.count, cuesBefore) // "deux" survives
+        XCTAssertTrue(play.elementList.contains { $0.text == "deux" })
+    }
+
     func testSuggestSpeakerPrefix() throws {
         let (c, _, play) = try makePlay(twoHander); _ = c
         // Unique prefix → that character.

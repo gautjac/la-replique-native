@@ -199,6 +199,30 @@ enum Editing {
     }
 
     @discardableResult
+    /// Move a block so it sits immediately before `targetID` (or to the very end
+    /// when `targetID` is nil). Powers the board's drag-and-drop and act picker.
+    static func moveBlock(_ play: Play, blockID: UUID, before targetID: UUID?) {
+        guard blockID != targetID else { return }
+        var (pre, blocks) = decompose(play)
+        guard let from = blocks.firstIndex(where: { $0.id == blockID }) else { return }
+        let moving = blocks.remove(at: from)
+        let to = targetID.flatMap { id in blocks.firstIndex { $0.id == id } } ?? blocks.count
+        blocks.insert(moving, at: min(to, blocks.count))
+        recompose(pre, blocks)
+        play.touch()
+    }
+
+    /// Remove a scene heading, keeping its dialogue (the lines fold into the
+    /// preceding block). Non-destructive — the words survive.
+    static func removeSceneHeading(_ play: Play, sceneID: UUID, context: ModelContext) {
+        guard let heading = (play.elements ?? []).first(where: { $0.id == sceneID && $0.kind == .scene }) else { return }
+        heading.play = nil
+        context.delete(heading)
+        let (pre, blocks) = decompose(play)
+        recompose(pre, blocks)
+        play.touch()
+    }
+
     static func addSceneAfter(_ play: Play, blockID: UUID?, context: ModelContext) -> Element {
         var (pre, blocks) = decompose(play)
         let n = blocks.filter { !$0.isAct }.count + 1
