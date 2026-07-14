@@ -12,6 +12,7 @@
 		1A15BC42334059836F69E0E8 /* PublishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442F8B81DD1AC08766EF4A3C /* PublishView.swift */; };
 		1DA219C965B2CF674124C44B /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17F8610078151FC121B6AD9 /* Theme.swift */; };
 		24AA7E3DA27FCB5B6ECFE98A /* ClaudeKit in Frameworks */ = {isa = PBXBuildFile; productRef = ABDA3E1FBF2593FF74B90A6E /* ClaudeKit */; };
+		32B2822005DDCBDF9E7F4295 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8933CDC332742C69B5B85375 /* Assets.xcassets */; };
 		3BC38D7DA6C07E651BCAE6C3 /* PlayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127FAEBB75C2CF9AFDF111B /* PlayModel.swift */; };
 		47A69D303732B92AA7EF10CA /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A841C6188596192E6666CE /* RootView.swift */; };
 		55B29FCF8942C8A1E3947A1B /* KeySetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D652024252A8468181983 /* KeySetupView.swift */; };
@@ -80,6 +81,7 @@
 		80D6E9ECE6DF32532DE93DF9 /* Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
 		8259C8C54BD486E3E312772A /* LaRepliqueApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaRepliqueApp.swift; sourceTree = "<group>"; };
 		85F69A8DE67A6A180CEF7A60 /* Editing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editing.swift; sourceTree = "<group>"; };
+		8933CDC332742C69B5B85375 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E4178D968B33B66F7CEC733 /* AtelierView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtelierView.swift; sourceTree = "<group>"; };
 		8F2A96FBCFDA91492495565B /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		A111263E507B472A5164F649 /* ClaudeKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ClaudeKit; path = Vendor/ClaudeKit; sourceTree = SOURCE_ROOT; };
@@ -185,6 +187,7 @@
 		D2F748375511D12399FB21E4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8933CDC332742C69B5B85375 /* Assets.xcassets */,
 				0A126504B89F5E2BB5E87929 /* Info.plist */,
 				188EBAEB89B77CB043862770 /* iOS.entitlements */,
 				F4DCB8ADC2A6062FD0B12EC8 /* macOS.entitlements */,
@@ -323,6 +326,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32B2822005DDCBDF9E7F4295 /* Assets.xcassets in Resources */,
 				F8A0AD5FC24896136D97A8F3 /* sample-play.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
