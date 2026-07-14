@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		017E8F2CD516DA78430866C5 /* LanguagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D054ECA47C669F0F6E230E68 /* LanguagePicker.swift */; };
 		0400949DF365A6C63FD597D9 /* PublishTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC0882A90904B508A95F6F /* PublishTests.swift */; };
 		06930CD71F319AE4EF43816E /* PlayFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C935361BCAA27F70D475F66 /* PlayFormatTests.swift */; };
 		1A15BC42334059836F69E0E8 /* PublishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442F8B81DD1AC08766EF4A3C /* PublishView.swift */; };
@@ -46,6 +47,7 @@
 		EF9F6BBF1AB6318AC94E434D /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC63563BBF37D30ACEB3373 /* Persistence.swift */; };
 		F8A0AD5FC24896136D97A8F3 /* sample-play.json in Resources */ = {isa = PBXBuildFile; fileRef = 101AFC926F891560E1112D62 /* sample-play.json */; };
 		FA436608FFC864CE39B3F2C2 /* MeasuresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4340471FE7CEDA2550E7EFA /* MeasuresView.swift */; };
+		FE135D83BA8C96A1D3CDC9EA /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = FF01714DC7BE8CB5BE756FCC /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,11 +99,13 @@
 		BD3E1659701972CAA924A220 /* VersionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionsView.swift; sourceTree = "<group>"; };
 		BDC63563BBF37D30ACEB3373 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		C4340471FE7CEDA2550E7EFA /* MeasuresView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasuresView.swift; sourceTree = "<group>"; };
+		D054ECA47C669F0F6E230E68 /* LanguagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePicker.swift; sourceTree = "<group>"; };
 		D4A4263EEE0211E43F038787 /* LaRepliqueTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LaRepliqueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D90D652024252A8468181983 /* KeySetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySetupView.swift; sourceTree = "<group>"; };
 		DD92AD10C3725C9B5E2E34F8 /* TabKeyMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabKeyMonitor.swift; sourceTree = "<group>"; };
 		F34686CBA80DB13A0D1525CC /* CastPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastPanel.swift; sourceTree = "<group>"; };
 		F4DCB8ADC2A6062FD0B12EC8 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
+		FF01714DC7BE8CB5BE756FCC /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		FF8B89EE28A54CD1EC9CD0D9 /* PlayEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEditorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -162,6 +166,7 @@
 				F34686CBA80DB13A0D1525CC /* CastPanel.swift */,
 				857AEEAED1A109D53A7D5781 /* KeyCommandHost.swift */,
 				D90D652024252A8468181983 /* KeySetupView.swift */,
+				D054ECA47C669F0F6E230E68 /* LanguagePicker.swift */,
 				C4340471FE7CEDA2550E7EFA /* MeasuresView.swift */,
 				66CAF7D0F3D808204F504140 /* OnboardingView.swift */,
 				0D039A8AC7CAF85248A4365A /* PlayDetailView.swift */,
@@ -199,6 +204,7 @@
 				8933CDC332742C69B5B85375 /* Assets.xcassets */,
 				0A126504B89F5E2BB5E87929 /* Info.plist */,
 				188EBAEB89B77CB043862770 /* iOS.entitlements */,
+				FF01714DC7BE8CB5BE756FCC /* Localizable.xcstrings */,
 				F4DCB8ADC2A6062FD0B12EC8 /* macOS.entitlements */,
 				101AFC926F891560E1112D62 /* sample-play.json */,
 			);
@@ -312,6 +318,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				Base,
+				en,
 				fr,
 			);
 			mainGroup = 0DFAE326AA0ACB13EFB3646E;
@@ -336,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32B2822005DDCBDF9E7F4295 /* Assets.xcassets in Resources */,
+				FE135D83BA8C96A1D3CDC9EA /* Localizable.xcstrings in Resources */,
 				F8A0AD5FC24896136D97A8F3 /* sample-play.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -371,6 +379,7 @@
 				55B29FCF8942C8A1E3947A1B /* KeySetupView.swift in Sources */,
 				DBAF8B2BA420BD2E77FE692C /* Keys.swift in Sources */,
 				DC120FCF2ACDAA225760852C /* LaRepliqueApp.swift in Sources */,
+				017E8F2CD516DA78430866C5 /* LanguagePicker.swift in Sources */,
 				FA436608FFC864CE39B3F2C2 /* MeasuresView.swift in Sources */,
 				A05F1B1E88C79CCB767C21FC /* OnboardingView.swift in Sources */,
 				EF9F6BBF1AB6318AC94E434D /* Persistence.swift in Sources */,
@@ -462,6 +471,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 6.0;
 			};
@@ -600,6 +610,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 6.0;
 			};

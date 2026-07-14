@@ -40,7 +40,7 @@ struct MeasuresView: View {
         }
     }
 
-    private func card(_ label: String, _ value: String, wide: Bool = false, accent: Bool = false) -> some View {
+    private func card(_ label: LocalizedStringKey, _ value: String, wide: Bool = false, accent: Bool = false) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(value).font(.title.weight(.bold)).foregroundStyle(.white)
             Text(label).font(.caption).foregroundStyle(.secondary)

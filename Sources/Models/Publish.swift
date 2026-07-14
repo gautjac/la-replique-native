@@ -20,8 +20,8 @@ enum Publish {
         case failed(String)
         var errorDescription: String? {
             switch self {
-            case .notSignedIn: return "Connecte-toi à iCloud pour publier une lecture."
-            case .encoding: return "La pièce n'a pas pu être encodée."
+            case .notSignedIn: return String(localized: "Connecte-toi à iCloud pour publier une lecture.")
+            case .encoding: return String(localized: "La pièce n'a pas pu être encodée.")
             case .failed(let m): return m
             }
         }
@@ -106,13 +106,13 @@ enum Publish {
     private static func friendly(_ e: CKError) -> String {
         switch e.code {
         case .networkUnavailable, .networkFailure:
-            return "Pas de connexion réseau."
+            return String(localized: "Pas de connexion réseau.")
         case .notAuthenticated:
-            return "Connecte-toi à iCloud pour publier une lecture."
+            return String(localized: "Connecte-toi à iCloud pour publier une lecture.")
         case .quotaExceeded:
-            return "Quota iCloud dépassé."
+            return String(localized: "Quota iCloud dépassé.")
         case .permissionFailure:
-            return "Permission iCloud refusée."
+            return String(localized: "Permission iCloud refusée.")
         default:
             return e.localizedDescription
         }

@@ -10,8 +10,8 @@ struct OnboardingView: View {
     private struct Point: Identifiable {
         let id = UUID()
         let icon: String
-        let title: String
-        let body: String
+        let title: LocalizedStringKey
+        let body: LocalizedStringKey
     }
 
     private let points: [Point] = [

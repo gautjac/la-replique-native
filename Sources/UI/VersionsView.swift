@@ -69,7 +69,7 @@ struct VersionsView: View {
     private func versionRow(_ v: Version) -> some View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 2) {
-                Text(v.name.isEmpty ? "Sans nom" : v.name).font(.headline).foregroundStyle(.white)
+                Text(v.name.isEmpty ? String(localized: "Sans nom") : v.name).font(.headline).foregroundStyle(.white)
                 Text(v.createdAt.formatted(date: .abbreviated, time: .shortened))
                     .font(.caption).foregroundStyle(Theme.inkFaint)
             }

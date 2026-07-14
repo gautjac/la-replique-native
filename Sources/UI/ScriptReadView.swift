@@ -18,7 +18,7 @@ struct ScriptReadView: View {
             .padding(.vertical, 28)
         }
         .background(Theme.desk)
-        .navigationTitle(play.title.isEmpty ? "Pièce sans titre" : play.title)
+        .navigationTitle(play.title.isEmpty ? String(localized: "Pièce sans titre") : play.title)
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
@@ -26,7 +26,7 @@ struct ScriptReadView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(play.title.isEmpty ? "Pièce sans titre" : play.title)
+            Text(play.title.isEmpty ? String(localized: "Pièce sans titre") : play.title)
                 .font(.system(size: 34, weight: .bold))
                 .foregroundStyle(.white)
             if !play.subtitle.isEmpty {

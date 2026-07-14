@@ -67,7 +67,7 @@ struct PlayEditorView: View {
 
     var body: some View {
         editorBody
-        .navigationTitle(play.title.isEmpty ? "Pièce sans titre" : play.title)
+        .navigationTitle(play.title.isEmpty ? String(localized: "Pièce sans titre") : play.title)
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif

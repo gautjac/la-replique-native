@@ -1,0 +1,1559 @@
+{
+  "sourceLanguage": "fr",
+  "strings": {
+    "": {},
+    "%@": {},
+    "%lld": {},
+    "%lld / %lld": {},
+    "%lld comédien·ne·s · %lld rôles": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld actors · %lld roles"
+          }
+        }
+      }
+    },
+    "%lld rép · %lld sc": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ln · %lld sc"
+          }
+        }
+      }
+    },
+    "%lld répliques · %lld personnages": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld lines · %lld characters"
+          }
+        }
+      }
+    },
+    "%lld répliques · %lld personnages présents": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld lines · %lld characters present"
+          }
+        }
+      }
+    },
+    "ACTE": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ACT"
+          }
+        }
+      }
+    },
+    "Acte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Act"
+          }
+        }
+      }
+    },
+    "Action…": {},
+    "Ajoute des scènes pour voir la grille.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add scenes to see the grid."
+          }
+        }
+      }
+    },
+    "Ajoute ta clé Claude pour utiliser l'Atelier.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add your Claude key to use the Atelier."
+          }
+        }
+      }
+    },
+    "Ajoute un synopsis…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a synopsis…"
+          }
+        }
+      }
+    },
+    "Ajouter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add"
+          }
+        }
+      }
+    },
+    "Ajouter ma clé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add my key"
+          }
+        }
+      }
+    },
+    "Ajouter ma clé Claude": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add my Claude key"
+          }
+        }
+      }
+    },
+    "Annuler": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        }
+      }
+    },
+    "Atelier": {},
+    "Aucun personnage pour l'instant.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No characters yet."
+          }
+        }
+      }
+    },
+    "Aucune scène. Ajoute une carte pour bâtir ta structure.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No scenes yet. Add a card to build your structure."
+          }
+        }
+      }
+    },
+    "Aucune version. Fige un état pour y revenir plus tard.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No versions yet. Save a snapshot to come back to later."
+          }
+        }
+      }
+    },
+    "Autrice / auteur": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Author"
+          }
+        }
+      }
+    },
+    "Ce qui se passe sur scène…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What happens on stage…"
+          }
+        }
+      }
+    },
+    "Chaque rôle partage une scène avec un autre.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Every role shares a scene with another."
+          }
+        }
+      }
+    },
+    "Choisis une pièce, ou crée-en une.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a play, or create one."
+          }
+        }
+      }
+    },
+    "Clé Anthropic": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anthropic key"
+          }
+        }
+      }
+    },
+    "Clé ElevenLabs": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ElevenLabs key"
+          }
+        }
+      }
+    },
+    "Clé enregistrée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key saved"
+          }
+        }
+      }
+    },
+    "Clés": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keys"
+          }
+        }
+      }
+    },
+    "Clés (IA · voix)…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keys (AI · voices)…"
+          }
+        }
+      }
+    },
+    "Colle ta clé…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paste your key…"
+          }
+        }
+      }
+    },
+    "Commencer à écrire": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start writing"
+          }
+        }
+      }
+    },
+    "Comédien·ne %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actor %lld"
+          }
+        }
+      }
+    },
+    "Connecte-toi à iCloud pour publier une lecture.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in to iCloud to publish a reading."
+          }
+        }
+      }
+    },
+    "Copier": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy"
+          }
+        }
+      }
+    },
+    "Copié": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copied"
+          }
+        }
+      }
+    },
+    "Crée une nouvelle pièce et l'ouvre dans La Réplique.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Creates a new play and opens it in La Réplique."
+          }
+        }
+      }
+    },
+    "DOUBLURES POSSIBLES": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "POSSIBLE DOUBLING"
+          }
+        }
+      }
+    },
+    "Demander": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ask"
+          }
+        }
+      }
+    },
+    "Descendre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move down"
+          }
+        }
+      }
+    },
+    "Distribution": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cast"
+          }
+        }
+      }
+    },
+    "Dépose une scène ici": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drop a scene here"
+          }
+        }
+      }
+    },
+    "Dépublier": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unpublish"
+          }
+        }
+      }
+    },
+    "Détails": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Details"
+          }
+        }
+      }
+    },
+    "EN": {},
+    "English": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "English"
+          }
+        }
+      }
+    },
+    "Enregistrer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
+        }
+      }
+    },
+    "Enregistrée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved"
+          }
+        }
+      }
+    },
+    "Entrée : nouvelle réplique · Tab : changer le type · Nom + espace/« : » : personnage · ⌫ : supprimer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return: new line · Tab: change type · Name + space/“:” : character · ⌫: delete"
+          }
+        }
+      }
+    },
+    "Exporter — pour l'IA (.json)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export — for AI (.json)"
+          }
+        }
+      }
+    },
+    "Exporter — texte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export — text"
+          }
+        }
+      }
+    },
+    "FIL DE CHAQUE PERSONNAGE": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EACH CHARACTER’S THREAD"
+          }
+        }
+      }
+    },
+    "FR": {},
+    "Fermer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        }
+      }
+    },
+    "Français": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "French"
+          }
+        }
+      }
+    },
+    "GRILLE DE PRÉSENCE": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PRESENCE GRID"
+          }
+        }
+      }
+    },
+    "Glisse une carte pour la déplacer • touche-la pour les détails.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag a card to move it • tap it for details."
+          }
+        }
+      }
+    },
+    "Importer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import"
+          }
+        }
+      }
+    },
+    "Insérer dans la scène": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insert into the scene"
+          }
+        }
+      }
+    },
+    "L'Atelier propose — rien n'entre dans ta pièce sans ton geste.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Atelier suggests — nothing enters your play without your choice."
+          }
+        }
+      }
+    },
+    "L'Atelier — écriture assistée (Claude)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Atelier — assisted writing (Claude)"
+          }
+        }
+      }
+    },
+    "L'état actuel de la pièce est remplacé.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The play’s current state is replaced."
+          }
+        }
+      }
+    },
+    "La Réplique": {},
+    "La page est vide.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The page is empty."
+          }
+        }
+      }
+    },
+    "La page est vide. Commence par une réplique.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The page is empty. Start with a line."
+          }
+        }
+      }
+    },
+    "La pièce n'a pas pu être encodée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The play could not be encoded."
+          }
+        }
+      }
+    },
+    "Lecture partagée — gérer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shared reading — manage"
+          }
+        }
+      }
+    },
+    "Lecture à voix": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Table read"
+          }
+        }
+      }
+    },
+    "Lecture à voix — voix ElevenLabs": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Table read — ElevenLabs voices"
+          }
+        }
+      }
+    },
+    "Lieu, moment…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place, time…"
+          }
+        }
+      }
+    },
+    "Lieu, moment… (facultatif)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place, time… (optional)"
+          }
+        }
+      }
+    },
+    "Mes pièces": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My plays"
+          }
+        }
+      }
+    },
+    "Mesures": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Measures"
+          }
+        }
+      }
+    },
+    "Mettre à jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Update"
+          }
+        }
+      }
+    },
+    "Monter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move up"
+          }
+        }
+      }
+    },
+    "Nom": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name"
+          }
+        }
+      }
+    },
+    "Nom (ex. « 1er jet »)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name (e.g. “1st draft”)"
+          }
+        }
+      }
+    },
+    "Nouveau personnage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New character"
+          }
+        }
+      }
+    },
+    "Nouveau personnage…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New character…"
+          }
+        }
+      }
+    },
+    "Nouvelle pièce": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New play"
+          }
+        }
+      }
+    },
+    "Nouvelle pièce dans ${applicationName}": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New play in ${applicationName}"
+          }
+        }
+      }
+    },
+    "Nouvelle pièce intitulée ${titleText}": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New play titled ${titleText}"
+          }
+        }
+      }
+    },
+    "Outil": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tool"
+          }
+        }
+      }
+    },
+    "Ouvrir": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open"
+          }
+        }
+      }
+    },
+    "Ouvrir dans le texte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open in the text"
+          }
+        }
+      }
+    },
+    "Partager": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share"
+          }
+        }
+      }
+    },
+    "Partager la lecture": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share the reading"
+          }
+        }
+      }
+    },
+    "Partager la lecture (web)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share the reading (web)"
+          }
+        }
+      }
+    },
+    "Pas de connexion réseau.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No network connection."
+          }
+        }
+      }
+    },
+    "Pas encore partagée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not shared yet"
+          }
+        }
+      }
+    },
+    "Permission iCloud refusée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud permission denied."
+          }
+        }
+      }
+    },
+    "Pièce": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play"
+          }
+        }
+      }
+    },
+    "Pièce introuvable.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play not found."
+          }
+        }
+      }
+    },
+    "Plus": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "More"
+          }
+        }
+      }
+    },
+    "Pour qui ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "For whom?"
+          }
+        }
+      }
+    },
+    "Première scène": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First scene"
+          }
+        }
+      }
+    },
+    "Publie une pièce en lecture seule sur le web et renvoie le lien à partager.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Publishes a play read-only on the web and returns a link to share."
+          }
+        }
+      }
+    },
+    "Publie « %@ » pour obtenir un lien de lecture web.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Publish “%@” to get a web reading link."
+          }
+        }
+      }
+    },
+    "Publier ${play} en lecture seule": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Publish ${play} read-only"
+          }
+        }
+      }
+    },
+    "Publier une lecture": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Publish a reading"
+          }
+        }
+      }
+    },
+    "Publier une lecture dans ${applicationName}": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Publish a reading in ${applicationName}"
+          }
+        }
+      }
+    },
+    "Publier — lecture seule": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Publish — read-only"
+          }
+        }
+      }
+    },
+    "Publiée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Published"
+          }
+        }
+      }
+    },
+    "Publiée. Lien : %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Published. Link: %@"
+          }
+        }
+      }
+    },
+    "Quel personnage ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Which character?"
+          }
+        }
+      }
+    },
+    "Qui est-ce ? (facultatif)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Who are they? (optional)"
+          }
+        }
+      }
+    },
+    "Qui parle dans quelle scène.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Who speaks in which scene."
+          }
+        }
+      }
+    },
+    "Quota iCloud dépassé.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud quota exceeded."
+          }
+        }
+      }
+    },
+    "Restaurer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore"
+          }
+        }
+      }
+    },
+    "Restaurer cette version ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore this version?"
+          }
+        }
+      }
+    },
+    "Retirer l'en-tête (garde les répliques)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove the heading (keep the lines)"
+          }
+        }
+      }
+    },
+    "Rôles qui ne partagent jamais une scène.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Roles that never share a scene."
+          }
+        }
+      }
+    },
+    "SCÈNE": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SCENE"
+          }
+        }
+      }
+    },
+    "SCÈNE 1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SCENE 1"
+          }
+        }
+      }
+    },
+    "Sa réplique…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Their line…"
+          }
+        }
+      }
+    },
+    "Scène": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scene"
+          }
+        }
+      }
+    },
+    "Scène courante": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current scene"
+          }
+        }
+      }
+    },
+    "Sous-titre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subtitle"
+          }
+        }
+      }
+    },
+    "Supprimer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
+        }
+      }
+    },
+    "Synopsis, intention…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synopsis, intention…"
+          }
+        }
+      }
+    },
+    "Tableau": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Board"
+          }
+        }
+      }
+    },
+    "Tes clés restent sur cet appareil, dans le trousseau. Elles ne quittent jamais l'app.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your keys stay on this device, in the keychain. They never leave the app."
+          }
+        }
+      }
+    },
+    "Tes clés restent sur cet appareil. Rien n'est obligatoire pour commencer.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your keys stay on this device. Nothing is required to begin."
+          }
+        }
+      }
+    },
+    "Texte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text"
+          }
+        }
+      }
+    },
+    "Titre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Title"
+          }
+        }
+      }
+    },
+    "Un atelier d'écriture pour la scène — bilingue, sur iPhone, iPad et Mac.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A writing studio for the stage — bilingual, on iPhone, iPad and Mac."
+          }
+        }
+      }
+    },
+    "Une autre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Another"
+          }
+        }
+      }
+    },
+    "Une lecture publiée est en lecture seule sur le web — le texte, pas le fichier modifiable. N'importe qui avec le lien peut la lire.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A published reading is read-only on the web — the text, not the editable file. Anyone with the link can read it."
+          }
+        }
+      }
+    },
+    "Versions": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versions"
+          }
+        }
+      }
+    },
+    "Voix ElevenLabs (id, facultatif)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ElevenLabs voice (id, optional)"
+          }
+        }
+      }
+    },
+    "Vue": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View"
+          }
+        }
+      }
+    },
+    "console.anthropic.com → API keys": {},
+    "elevenlabs.io → Profile → API key": {},
+    "jeu": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "action"
+          }
+        }
+      }
+    },
+    "« Mettre à jour » republie la version actuelle sous le même lien.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“Update” republishes the current version under the same link."
+          }
+        }
+      }
+    },
+    "Écrire la première réplique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Write the first line"
+          }
+        }
+      }
+    },
+    "ébauche · à toi de décider": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "draft · your call"
+          }
+        }
+      }
+    },
+    "—": {},
+    "•••••••• (remplacer)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "•••••••• (replace)"
+          }
+        }
+      }
+    },
+    "＋": {},
+    "Système": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System"
+          }
+        }
+      }
+    },
+    "Langue de l'interface": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interface language"
+          }
+        }
+      }
+    },
+    "Prend effet au prochain lancement.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Applies on next launch."
+          }
+        }
+      }
+    },
+    "Actes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acts"
+          }
+        }
+      }
+    },
+    "Dramaturgie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dramaturgy"
+          }
+        }
+      }
+    },
+    "Durée estimée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Est. runtime"
+          }
+        }
+      }
+    },
+    "Début": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start"
+          }
+        }
+      }
+    },
+    "Entends la pièce : chaque personnage prend une voix distincte.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hear the play: each character takes a distinct voice."
+          }
+        }
+      }
+    },
+    "Entrée pour une réplique, Tab pour changer de personnage. La mise en page suit.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return for a line, Tab to switch character. The layout follows."
+          }
+        }
+      }
+    },
+    "Et si…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What if…"
+          }
+        }
+      }
+    },
+    "L'Atelier, à ta main": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Atelier, at hand"
+          }
+        }
+      }
+    },
+    "Mots dits": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Words spoken"
+          }
+        }
+      }
+    },
+    "Partage la lecture": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share the reading"
+          }
+        }
+      }
+    },
+    "Pièce sans titre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Untitled play"
+          }
+        }
+      }
+    },
+    "Publie une pièce en lecture seule et envoie un simple lien web.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Publish a play read-only and send a simple web link."
+          }
+        }
+      }
+    },
+    "Relancer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suggest"
+          }
+        }
+      }
+    },
+    "Relances, dramaturgie, traduction — avec ta propre clé Claude, sur ton appareil.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prompts, dramaturgy, translation — with your own Claude key, on your device."
+          }
+        }
+      }
+    },
+    "Répliques": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lines"
+          }
+        }
+      }
+    },
+    "Sans nom": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unnamed"
+          }
+        }
+      }
+    },
+    "Scènes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scenes"
+          }
+        }
+      }
+    },
+    "Traduire": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate"
+          }
+        }
+      }
+    },
+    "Voix": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voice"
+          }
+        }
+      }
+    },
+    "je cherche la voix…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "checking the voice…"
+          }
+        }
+      }
+    },
+    "je lis la scène…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "reading the scene…"
+          }
+        }
+      }
+    },
+    "je traduis…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "translating…"
+          }
+        }
+      }
+    },
+    "Écris au clavier": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Write with the keyboard"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

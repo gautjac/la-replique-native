@@ -12,8 +12,8 @@ struct AtelierView: View {
         var id: String { rawValue }
         var label: String {
             switch self {
-            case .relance: return "Relancer"; case .etsi: return "Et si…"
-            case .dramaturgie: return "Dramaturgie"; case .voix: return "Voix"; case .traduire: return "Traduire"
+            case .relance: return String(localized: "Relancer"); case .etsi: return String(localized: "Et si…")
+            case .dramaturgie: return String(localized: "Dramaturgie"); case .voix: return String(localized: "Voix"); case .traduire: return String(localized: "Traduire")
             }
         }
     }
@@ -167,7 +167,7 @@ struct AtelierView: View {
     // MARK: Run
 
     private func run() async {
-        error = nil; busy = true; stage = "je lis la scène…"
+        error = nil; busy = true; stage = String(localized: "je lis la scène…")
         defer { busy = false }
         do {
             let sceneText = Atelier.scriptText(selectedEls, play: play)
@@ -175,7 +175,7 @@ struct AtelierView: View {
             switch tool {
             case .relance:
                 let name = play.character(id: charID)?.name ?? names.first ?? "?"
-                stage = "je cherche la voix…"
+                stage = String(localized: "je cherche la voix…")
                 relanceRes = try await Atelier.relance(lang: play.lang, scene: sceneText, characterName: name, cast: names)
             case .dramaturgie:
                 dramRes = try await Atelier.dramaturgie(lang: play.lang, scene: sceneText)
@@ -187,7 +187,7 @@ struct AtelierView: View {
                 let lines = play.elementList.filter { $0.kind == .cue && $0.characterID == cid }.compactMap { $0.text }
                 voixRes = try await Atelier.voix(lang: play.lang, characterName: name, lines: lines)
             case .traduire:
-                stage = "je traduis…"
+                stage = String(localized: "je traduis…")
                 let to: Lang = play.lang == .fr ? .en : .fr
                 let items = Translate.buildBundle(play)
                 let res = try await Atelier.traduire(from: play.lang, to: to, items: items)

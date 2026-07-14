@@ -68,7 +68,7 @@ struct BeatBoardView: View {
         return groups.enumerated().map { i, g in
             let next = i + 1 < groups.count ? groups[i + 1] : nil
             let nextHead = next.flatMap { $0.act?.id ?? $0.scenes.first?.heading.id }
-            let label = g.act?.label?.isEmpty == false ? g.act!.label! : (g.act != nil ? "ACTE" : "Début")
+            let label = g.act?.label?.isEmpty == false ? g.act!.label! : (g.act != nil ? String(localized: "ACTE") : String(localized: "Début"))
             return Column(id: g.act?.id ?? Self.looseColumnID, act: g.act, scenes: g.scenes, nextHeadID: nextHead, label: label)
         }
     }

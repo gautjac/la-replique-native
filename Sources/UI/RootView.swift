@@ -114,7 +114,7 @@ private struct PlayRow: View {
                     .padding(.horizontal, 6).padding(.vertical, 2)
                     .background(Theme.gel.opacity(0.18), in: Capsule())
                     .foregroundStyle(Theme.gelBright)
-                Text(play.title.isEmpty ? "Pièce sans titre" : play.title)
+                Text(play.title.isEmpty ? String(localized: "Pièce sans titre") : play.title)
                     .font(.headline).lineLimit(1)
             }
             if !play.subtitle.isEmpty {
