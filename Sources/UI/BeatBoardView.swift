@@ -52,18 +52,18 @@ struct BeatBoardView: View {
 
     private func columns() -> [Column] {
         let blocks = Editing.decompose(play).blocks
-        // Group into (act?, [sceneBlocks]).
+        // Group into (act?, [sceneBlocks]) — a plain in-place fold (no captured
+        // mutable state, which Swift 6 strict concurrency flags as a data race).
         var groups: [(act: Element?, scenes: [Editing.Block])] = []
-        var curAct: Element? = nil
-        var curScenes: [Editing.Block] = []
-        func flush() {
-            if curAct != nil || !curScenes.isEmpty { groups.append((curAct, curScenes)) }
-        }
         for b in blocks {
-            if b.isAct { flush(); curAct = b.heading; curScenes = [] }
-            else { curScenes.append(b) }
+            if b.isAct {
+                groups.append((b.heading, []))
+            } else if groups.isEmpty {
+                groups.append((nil, [b])) // scenes before any act → a "Début" column
+            } else {
+                groups[groups.count - 1].scenes.append(b)
+            }
         }
-        flush()
         // Attach the "next column head" for append-to-end drops.
         return groups.enumerated().map { i, g in
             let next = i + 1 < groups.count ? groups[i + 1] : nil

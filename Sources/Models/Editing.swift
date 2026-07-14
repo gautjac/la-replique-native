@@ -198,7 +198,6 @@ enum Editing {
         play.touch()
     }
 
-    @discardableResult
     /// Move a block so it sits immediately before `targetID` (or to the very end
     /// when `targetID` is nil). Powers the board's drag-and-drop and act picker.
     static func moveBlock(_ play: Play, blockID: UUID, before targetID: UUID?) {
@@ -223,6 +222,7 @@ enum Editing {
         play.touch()
     }
 
+    @discardableResult
     static func addSceneAfter(_ play: Play, blockID: UUID?, context: ModelContext) -> Element {
         var (pre, blocks) = decompose(play)
         let n = blocks.filter { !$0.isAct }.count + 1
