@@ -14,6 +14,7 @@
 		1DA219C965B2CF674124C44B /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17F8610078151FC121B6AD9 /* Theme.swift */; };
 		24AA7E3DA27FCB5B6ECFE98A /* ClaudeKit in Frameworks */ = {isa = PBXBuildFile; productRef = ABDA3E1FBF2593FF74B90A6E /* ClaudeKit */; };
 		32B2822005DDCBDF9E7F4295 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8933CDC332742C69B5B85375 /* Assets.xcassets */; };
+		36547E43C6E895FA8FBE534A /* SheetUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED88417F6BFAA3AB35CC3DC /* SheetUI.swift */; };
 		3BC38D7DA6C07E651BCAE6C3 /* PlayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127FAEBB75C2CF9AFDF111B /* PlayModel.swift */; };
 		47A69D303732B92AA7EF10CA /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A841C6188596192E6666CE /* RootView.swift */; };
 		55B29FCF8942C8A1E3947A1B /* KeySetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D652024252A8468181983 /* KeySetupView.swift */; };
@@ -87,6 +88,7 @@
 		8933CDC332742C69B5B85375 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E4178D968B33B66F7CEC733 /* AtelierView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtelierView.swift; sourceTree = "<group>"; };
 		8F2A96FBCFDA91492495565B /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
+		9ED88417F6BFAA3AB35CC3DC /* SheetUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetUI.swift; sourceTree = "<group>"; };
 		A111263E507B472A5164F649 /* ClaudeKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ClaudeKit; path = Vendor/ClaudeKit; sourceTree = SOURCE_ROOT; };
 		A311599E7169E88946C6ABD2 /* StatsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsTests.swift; sourceTree = "<group>"; };
 		A8FB9223FB4D7F6D203E95E6 /* Versions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Versions.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				442F8B81DD1AC08766EF4A3C /* PublishView.swift */,
 				15A841C6188596192E6666CE /* RootView.swift */,
 				33744A5AFC25595AEC87F333 /* ScriptReadView.swift */,
+				9ED88417F6BFAA3AB35CC3DC /* SheetUI.swift */,
 				DD92AD10C3725C9B5E2E34F8 /* TabKeyMonitor.swift */,
 				65B608AAA7EB25108A2B3E3D /* TableReadView.swift */,
 				BD3E1659701972CAA924A220 /* VersionsView.swift */,
@@ -379,6 +382,7 @@
 				1A15BC42334059836F69E0E8 /* PublishView.swift in Sources */,
 				47A69D303732B92AA7EF10CA /* RootView.swift in Sources */,
 				894B0D13EE62AB580F322208 /* ScriptReadView.swift in Sources */,
+				36547E43C6E895FA8FBE534A /* SheetUI.swift in Sources */,
 				7E3C02856E281B07E978E768 /* Stats.swift in Sources */,
 				1BC9CABE27EEC839A761C636 /* TabKeyMonitor.swift in Sources */,
 				AF2BB620AC8F247CC4FDC91B /* TableReadView.swift in Sources */,

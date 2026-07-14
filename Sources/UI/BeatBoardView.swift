@@ -311,39 +311,53 @@ private struct SceneDetailSheet: View {
 
     var body: some View {
         NavigationStack {
-            Form {
-                Section("Scène") {
-                    TextField("Titre (ex. SCÈNE 1)", text: bind(\.label, upper: true))
-                    TextField("Lieu, moment…", text: bind(\.setting))
-                }
-                Section("Ce qui se passe, ce que ça change") {
-                    TextField("Synopsis / intention", text: bind(\.synopsis), axis: .vertical)
-                        .lineLimit(3...8)
-                }
-                Section("Fonction dramatique") {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 128), spacing: 8)], alignment: .leading, spacing: 8) {
-                        beatChip(nil)
-                        ForEach(BeatMeta.all, id: \.self) { beatChip($0) }
+            ScrollView {
+                VStack(alignment: .leading, spacing: 22) {
+                    FieldGroup("Scène") {
+                        TextField("SCÈNE 1", text: bind(\.label, upper: true)).sheetField()
+                        TextField("Lieu, moment…", text: bind(\.setting)).sheetField()
                     }
-                    .padding(.vertical, 4)
-                }
-                if acts.count > 1 {
-                    Section("Acte") {
-                        Picker("Acte", selection: Binding(get: { currentActID }, set: { onMoveToAct($0) })) {
-                            ForEach(acts, id: \.id) { a in Text(a.label).tag(a.id) }
+                    FieldGroup("Ce qui se passe, ce que ça change") {
+                        TextField("Synopsis, intention…", text: bind(\.synopsis), axis: .vertical)
+                            .lineLimit(3...8)
+                            .sheetField()
+                    }
+                    FieldGroup("Fonction dramatique") {
+                        FlowLayout(spacing: 8, rowSpacing: 8) {
+                            beatChip(nil)
+                            ForEach(BeatMeta.all, id: \.self) { beatChip($0) }
                         }
-                        .pickerStyle(.menu)
                     }
-                }
-                Section {
-                    Button { onJump() } label: { Label("Ouvrir dans le texte", systemImage: "arrow.up.forward.square") }
-                    Button(role: .destructive) { onRemove() } label: {
-                        Label("Retirer l'en-tête (garde les répliques)", systemImage: "scissors")
+                    if acts.count > 1 {
+                        FieldGroup("Acte") {
+                            Picker("", selection: Binding(get: { currentActID }, set: { onMoveToAct($0) })) {
+                                ForEach(acts, id: \.id) { a in Text(a.label).tag(a.id) }
+                            }
+                            .labelsHidden()
+                            .pickerStyle(.menu)
+                            .tint(Theme.gelBright)
+                        }
                     }
-                } footer: {
+
+                    Divider().overlay(Theme.rule)
+
+                    VStack(spacing: 10) {
+                        Button { onJump() } label: {
+                            Label("Ouvrir dans le texte", systemImage: "arrow.up.forward.square").frame(maxWidth: .infinity)
+                        }.buttonStyle(.bordered)
+                        Button(role: .destructive) { onRemove() } label: {
+                            Label("Retirer l'en-tête (garde les répliques)", systemImage: "scissors").frame(maxWidth: .infinity)
+                        }.buttonStyle(.bordered)
+                    }
+
                     Text("\(stats.lines) répliques · \(stats.speakerIDs.count) personnages présents")
+                        .font(.footnote).foregroundStyle(Theme.inkFaint)
+                        .frame(maxWidth: .infinity)
                 }
+                .padding(24)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .background(Theme.deskLight)
             .navigationTitle(scene.label?.isEmpty == false ? scene.label! : "Scène")
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
@@ -351,7 +365,7 @@ private struct SceneDetailSheet: View {
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Fermer") { dismiss() } } }
         }
         #if os(macOS)
-        .frame(width: 460, height: 520)
+        .frame(width: 480, height: 600)
         #endif
     }
 
@@ -364,10 +378,10 @@ private struct SceneDetailSheet: View {
         } label: {
             Text(b.map { BeatMeta.label($0, play.lang) } ?? "— aucune —")
                 .font(.caption.weight(.semibold))
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 7)
+                .padding(.horizontal, 13).padding(.vertical, 7)
                 .foregroundStyle(selected ? .white : color)
                 .background(selected ? color : color.opacity(0.14), in: Capsule())
+                .overlay(Capsule().stroke(selected ? Color.clear : color.opacity(0.3), lineWidth: 1))
         }
         .buttonStyle(.plain)
     }
