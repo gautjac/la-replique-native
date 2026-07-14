@@ -12,6 +12,9 @@ struct PlayEditorView: View {
 
     @State private var newCharName = ""
     @State private var newCharTarget: UUID?
+    #if os(macOS)
+    @StateObject private var tabMonitor = TabKeyMonitor()
+    #endif
 
     private var elements: [Element] { play.elementList }
     private var focusedElement: Element? { elements.first { $0.id == focused } }
@@ -45,6 +48,22 @@ struct PlayEditorView: View {
             Button("Ajouter") { commitNewCharacter() }
             Button("Annuler", role: .cancel) { newCharTarget = nil; newCharName = "" }
         }
+        #if os(macOS)
+        // Tab cycles the focused block's type (AppKit would otherwise steal Tab
+        // for focus traversal before SwiftUI's key handler runs).
+        .onAppear {
+            let focusBinding = $focused
+            tabMonitor.focusedID = focused
+            tabMonitor.onCycle = { id in
+                guard let el = play.elementList.first(where: { $0.id == id }) else { return }
+                Editing.convert(el, to: Editing.cycleKind(el.kind), play: play, context: context)
+                focusBinding.wrappedValue = el.id
+            }
+            tabMonitor.start()
+        }
+        .onDisappear { tabMonitor.stop() }
+        .onChange(of: focused) { _, id in tabMonitor.focusedID = id }
+        #endif
     }
 
     // MARK: Title

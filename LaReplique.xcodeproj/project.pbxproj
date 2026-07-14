@@ -10,6 +10,7 @@
 		0400949DF365A6C63FD597D9 /* PublishTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC0882A90904B508A95F6F /* PublishTests.swift */; };
 		06930CD71F319AE4EF43816E /* PlayFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C935361BCAA27F70D475F66 /* PlayFormatTests.swift */; };
 		1A15BC42334059836F69E0E8 /* PublishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442F8B81DD1AC08766EF4A3C /* PublishView.swift */; };
+		1BC9CABE27EEC839A761C636 /* TabKeyMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD92AD10C3725C9B5E2E34F8 /* TabKeyMonitor.swift */; };
 		1DA219C965B2CF674124C44B /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17F8610078151FC121B6AD9 /* Theme.swift */; };
 		24AA7E3DA27FCB5B6ECFE98A /* ClaudeKit in Frameworks */ = {isa = PBXBuildFile; productRef = ABDA3E1FBF2593FF74B90A6E /* ClaudeKit */; };
 		32B2822005DDCBDF9E7F4295 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8933CDC332742C69B5B85375 /* Assets.xcassets */; };
@@ -94,6 +95,7 @@
 		C4340471FE7CEDA2550E7EFA /* MeasuresView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasuresView.swift; sourceTree = "<group>"; };
 		D4A4263EEE0211E43F038787 /* LaRepliqueTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LaRepliqueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D90D652024252A8468181983 /* KeySetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySetupView.swift; sourceTree = "<group>"; };
+		DD92AD10C3725C9B5E2E34F8 /* TabKeyMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabKeyMonitor.swift; sourceTree = "<group>"; };
 		F34686CBA80DB13A0D1525CC /* CastPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastPanel.swift; sourceTree = "<group>"; };
 		F4DCB8ADC2A6062FD0B12EC8 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		FF8B89EE28A54CD1EC9CD0D9 /* PlayEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEditorView.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				442F8B81DD1AC08766EF4A3C /* PublishView.swift */,
 				15A841C6188596192E6666CE /* RootView.swift */,
 				33744A5AFC25595AEC87F333 /* ScriptReadView.swift */,
+				DD92AD10C3725C9B5E2E34F8 /* TabKeyMonitor.swift */,
 				65B608AAA7EB25108A2B3E3D /* TableReadView.swift */,
 				BD3E1659701972CAA924A220 /* VersionsView.swift */,
 			);
@@ -373,6 +376,7 @@
 				47A69D303732B92AA7EF10CA /* RootView.swift in Sources */,
 				894B0D13EE62AB580F322208 /* ScriptReadView.swift in Sources */,
 				7E3C02856E281B07E978E768 /* Stats.swift in Sources */,
+				1BC9CABE27EEC839A761C636 /* TabKeyMonitor.swift in Sources */,
 				AF2BB620AC8F247CC4FDC91B /* TableReadView.swift in Sources */,
 				1DA219C965B2CF674124C44B /* Theme.swift in Sources */,
 				5D7629456C1C31710E4AA9A7 /* Translate.swift in Sources */,
