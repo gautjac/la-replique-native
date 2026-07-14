@@ -52,9 +52,10 @@ struct PlayEditorView: View {
     @ViewBuilder private var editorBody: some View {
         #if os(iOS)
         KeyCommandHost(onTab: {
-            if let id = editorFocus.id, let el = play.elementList.first(where: { $0.id == id }) {
-                cycleType(el)
-            }
+            guard let id = editorFocus.id, let el = play.elementList.first(where: { $0.id == id }) else { return }
+            Editing.convert(el, to: Editing.cycleKind(el.kind), play: play, context: context)
+            // Re-focus after the row rebuilds, else the next Tab has no focused block.
+            DispatchQueue.main.async { focused = id }
         }) { scrollBody }
         #else
         scrollBody
@@ -81,7 +82,8 @@ struct PlayEditorView: View {
             tabMonitor.onCycle = { id in
                 guard let el = play.elementList.first(where: { $0.id == id }) else { return }
                 Editing.convert(el, to: Editing.cycleKind(el.kind), play: play, context: context)
-                focusBinding.wrappedValue = el.id
+                // Re-focus after the row rebuilds, else the next Tab has no focused block.
+                DispatchQueue.main.async { focusBinding.wrappedValue = id }
             }
             tabMonitor.start()
         }
@@ -250,7 +252,10 @@ struct PlayEditorView: View {
     }
     private func onTab(_ el: Element) {
         cycleType(el)
-        focused = el.id
+        // Cycling replaces the row's view, so SwiftUI drops focus as the old
+        // field disappears; re-assert it on the next tick, once the new field exists.
+        let id = el.id
+        DispatchQueue.main.async { focused = id }
     }
     private func onBackspace(_ el: Element) {
         let prev = Editing.remove(el, play: play, context: context)
