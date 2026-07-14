@@ -13,6 +13,7 @@ struct PlayDetailView: View {
     @State private var showVersions = false
     @State private var showTableRead = false
     @State private var showPublish = false
+    @State private var showKeys = false
 
     enum Mode: String, CaseIterable { case script, board }
 
@@ -46,6 +47,8 @@ struct PlayDetailView: View {
                     Divider()
                     ShareLink("Exporter — pour l'IA (.json)", item: Exports.aiJSONString(play))
                     ShareLink("Exporter — texte", item: Exports.plainText(play))
+                    Divider()
+                    Button { showKeys = true } label: { Label("Clés (IA · voix)…", systemImage: "key") }
                 } label: { Label("Plus", systemImage: "ellipsis.circle") }
             }
         }
@@ -55,5 +58,6 @@ struct PlayDetailView: View {
         .sheet(isPresented: $showVersions) { VersionsView(play: play) }
         .sheet(isPresented: $showTableRead) { TableReadView(play: play) }
         .sheet(isPresented: $showPublish) { PublishView(play: play) }
+        .sheet(isPresented: $showKeys) { KeySetupView() }
     }
 }

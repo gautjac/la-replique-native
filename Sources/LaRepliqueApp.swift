@@ -15,5 +15,12 @@ struct LaRepliqueApp: App {
         #if os(macOS)
         .defaultSize(width: 1280, height: 840)
         #endif
+
+        #if os(macOS)
+        // BYOK keys live in the standard Settings window (⌘,) on the Mac.
+        Settings {
+            KeySettingsView()
+        }
+        #endif
     }
 }

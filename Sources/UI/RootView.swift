@@ -33,7 +33,11 @@ struct RootView: View {
                 ToolbarItemGroup {
                     Button { newPlay() } label: { Label("Nouvelle pièce", systemImage: "plus") }
                     Button { importing = true } label: { Label("Importer", systemImage: "square.and.arrow.down") }
+                    // Keys live in Settings (⌘,) on macOS and the ••• menu on both
+                    // platforms; this button is just the iOS convenience.
+                    #if os(iOS)
                     Button { showKeys = true } label: { Label("Clés", systemImage: "key") }
+                    #endif
                 }
             }
             #if os(macOS)

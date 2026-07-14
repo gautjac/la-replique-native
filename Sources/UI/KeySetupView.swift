@@ -66,3 +66,45 @@ struct KeySetupView: View {
         if !e.isEmpty { _ = AppKeys.elevenLabs.save(e) }
     }
 }
+
+#if os(macOS)
+/// The macOS Settings (⌘,) pane for the BYOK keys — a native grouped Form, the
+/// idiomatic home for credential setup on the Mac.
+struct KeySettingsView: View {
+    @State private var claude = ""
+    @State private var eleven = ""
+    @State private var claudeSet = AppKeys.hasAnthropic
+    @State private var elevenSet = AppKeys.hasElevenLabs
+
+    var body: some View {
+        Form {
+            Section("L'Atelier — écriture assistée (Claude)") {
+                if claudeSet { Label("Clé enregistrée", systemImage: "checkmark.seal.fill").foregroundStyle(.green) }
+                SecureField("Clé Anthropic", text: $claude)
+                Text("console.anthropic.com → API keys").font(.caption).foregroundStyle(.secondary)
+            }
+            Section("Lecture à voix — voix ElevenLabs") {
+                if elevenSet { Label("Clé enregistrée", systemImage: "checkmark.seal.fill").foregroundStyle(.green) }
+                SecureField("Clé ElevenLabs", text: $eleven)
+                Text("elevenlabs.io → Profile → API key").font(.caption).foregroundStyle(.secondary)
+            }
+            Section {
+                Button("Enregistrer", action: save)
+                    .disabled(claude.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                              && eleven.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            } footer: {
+                Text("Tes clés restent sur cet appareil, dans le trousseau. Elles ne quittent jamais l'app.")
+            }
+        }
+        .formStyle(.grouped)
+        .frame(width: 480, height: 380)
+    }
+
+    private func save() {
+        let c = claude.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !c.isEmpty { _ = AppKeys.anthropic.save(c); claudeSet = true; claude = "" }
+        let e = eleven.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !e.isEmpty { _ = AppKeys.elevenLabs.save(e); elevenSet = true; eleven = "" }
+    }
+}
+#endif
