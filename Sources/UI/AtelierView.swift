@@ -55,7 +55,11 @@ struct AtelierView: View {
                     }
                 }.padding(18)
             }
+            .background(Theme.deskLight)
             .navigationTitle("Atelier")
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Fermer") { dismiss() } } }
             .sheet(isPresented: $showKeys) { KeySetupView() }
         }

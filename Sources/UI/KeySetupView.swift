@@ -12,52 +12,50 @@ struct KeySetupView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
-                Section {
-                    keyField("Clé Anthropic (Claude)", text: $claude, isSet: claudeSet,
-                             hint: "console.anthropic.com → API keys")
-                } header: { Text("L'Atelier — écriture assistée") }
-
-                Section {
-                    keyField("Clé ElevenLabs", text: $eleven, isSet: elevenSet,
-                             hint: "elevenlabs.io → Profile → API key")
-                } header: { Text("Lecture à voix — voix ElevenLabs") }
-                footer: {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 22) {
+                    FieldGroup("L'Atelier — écriture assistée") {
+                        keyField(text: $claude, isSet: claudeSet, hint: "console.anthropic.com → API keys")
+                    }
+                    FieldGroup("Lecture à voix — voix ElevenLabs") {
+                        keyField(text: $eleven, isSet: elevenSet, hint: "elevenlabs.io → Profile → API key")
+                    }
                     Text("Tes clés restent sur cet appareil, dans le trousseau. Elles ne quittent jamais l'app.")
+                        .font(.footnote).foregroundStyle(Theme.inkFaint)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
+                .padding(24)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .background(Theme.deskLight)
             .navigationTitle("Clés")
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Enregistrer") { save(); dismiss() }
-                }
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Fermer") { dismiss() }
-                }
+                ToolbarItem(placement: .confirmationAction) { Button("Enregistrer") { save(); dismiss() } }
+                ToolbarItem(placement: .cancellationAction) { Button("Fermer") { dismiss() } }
             }
         }
         #if os(macOS)
-        .frame(width: 460, height: 360)
+        .frame(width: 460, height: 400)
         #endif
     }
 
     @ViewBuilder
-    private func keyField(_ title: String, text: Binding<String>, isSet: Bool, hint: String) -> some View {
+    private func keyField(text: Binding<String>, isSet: Bool, hint: String) -> some View {
         VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                Text(title).font(.subheadline.weight(.medium))
-                if isSet {
-                    Label("Enregistrée", systemImage: "checkmark.seal.fill")
-                        .font(.caption).foregroundStyle(Theme.jade).labelStyle(.titleAndIcon)
-                }
+            if isSet {
+                Label("Enregistrée", systemImage: "checkmark.seal.fill")
+                    .font(.caption).foregroundStyle(Theme.jade)
             }
             SecureField(isSet ? "•••••••• (remplacer)" : "Colle ta clé…", text: text)
-                .textFieldStyle(.roundedBorder)
+                .sheetField()
                 #if os(iOS)
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
                 #endif
-            Text(hint).font(.caption).foregroundStyle(.secondary)
+            Text(hint).font(.caption).foregroundStyle(Theme.inkFaint)
         }
     }
 

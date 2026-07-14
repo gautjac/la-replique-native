@@ -11,39 +11,52 @@ struct CastPanel: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                Section {
-                    Picker("Langue de la pièce", selection: langBinding) {
-                        Text("FR").tag(Lang.fr); Text("EN").tag(Lang.en)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 22) {
+                    FieldGroup("Langue de la pièce") {
+                        Picker("", selection: langBinding) {
+                            Text("Français").tag(Lang.fr)
+                            Text("English").tag(Lang.en)
+                        }
+                        .labelsHidden()
+                        .pickerStyle(.segmented)
                     }
-                    .pickerStyle(.segmented)
+                    FieldGroup("Ajouter un personnage") {
+                        HStack(spacing: 10) {
+                            TextField("Nom", text: $draft).onSubmit(addCharacter).sheetField()
+                            Button(action: addCharacter) { Image(systemName: "plus") }
+                                .buttonStyle(.borderedProminent)
+                                .disabled(draft.trimmingCharacters(in: .whitespaces).isEmpty)
+                        }
+                    }
+                    FieldGroup("Distribution") {
+                        if play.characterList.isEmpty {
+                            Text("Aucun personnage pour l'instant.")
+                                .font(.callout).foregroundStyle(Theme.inkFaint)
+                                .frame(maxWidth: .infinity, alignment: .leading).padding(.vertical, 6)
+                        } else {
+                            VStack(spacing: 10) {
+                                ForEach(play.characterList) { c in
+                                    CharacterCard(play: play, character: c,
+                                                  stat: stats.first { $0.character.id == c.id },
+                                                  onDelete: { Editing.removeCharacter(play, c, context: context) })
+                                }
+                            }
+                        }
+                    }
                 }
-                Section {
-                    HStack {
-                        TextField("Ajouter un personnage", text: $draft)
-                            .onSubmit(addCharacter)
-                        Button(action: addCharacter) { Image(systemName: "plus.circle.fill") }
-                            .disabled(draft.trimmingCharacters(in: .whitespaces).isEmpty)
-                    }
-                }
-                Section("Distribution") {
-                    ForEach(play.characterList) { c in
-                        CharacterRow(play: play, character: c,
-                                     stat: stats.first { $0.character.id == c.id })
-                    }
-                    .onDelete { idx in
-                        idx.map { play.characterList[$0] }.forEach { Editing.removeCharacter(play, $0, context: context) }
-                    }
-                    if play.characterList.isEmpty {
-                        Text("Aucun personnage pour l'instant.").foregroundStyle(.secondary)
-                    }
-                }
+                .padding(24)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .background(Theme.deskLight)
             .navigationTitle("Distribution")
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Fermer") { dismiss() } } }
         }
         #if os(macOS)
-        .frame(width: 460, height: 560)
+        .frame(width: 480, height: 580)
         #endif
     }
 
@@ -59,13 +72,14 @@ struct CastPanel: View {
     }
 }
 
-private struct CharacterRow: View {
+private struct CharacterCard: View {
     @Bindable var play: Play
     @Bindable var character: Character
     let stat: Stats.CastStat?
+    var onDelete: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 10) {
                 Menu {
                     ForEach(Theme.castSwatches, id: \.self) { hex in
@@ -74,25 +88,35 @@ private struct CharacterRow: View {
                         }
                     }
                 } label: {
-                    Circle().fill(Color(hexString: character.colorHex)).frame(width: 16, height: 16)
+                    Circle().fill(Color(hexString: character.colorHex)).frame(width: 18, height: 18)
+                        .overlay(Circle().stroke(.white.opacity(0.15)))
                 }
                 .menuStyle(.borderlessButton).fixedSize()
 
                 TextField("Nom", text: nameBinding).textFieldStyle(.plain)
-                    .font(.headline)
+                    .font(.headline).foregroundStyle(.white)
+                Spacer()
+                if let s = stat {
+                    Text("\(s.lines) rép · \(s.scenes) sc").font(.caption2).foregroundStyle(Theme.inkFaint)
+                }
+                Button(action: onDelete) { Image(systemName: "trash") }
+                    .buttonStyle(.borderless).foregroundStyle(Theme.inkFaint).font(.caption)
             }
             TextField("Qui est-ce ? (facultatif)", text: noteBinding)
-                .font(.caption).foregroundStyle(.secondary).textFieldStyle(.plain)
+                .textFieldStyle(.plain).font(.subheadline).foregroundStyle(Theme.inkFaint)
             HStack(spacing: 6) {
-                Image(systemName: "waveform").font(.caption2).foregroundStyle(.tertiary)
+                Image(systemName: "waveform").font(.caption2).foregroundStyle(Theme.inkFaint)
                 TextField("Voix ElevenLabs (id, facultatif)", text: voiceBinding)
-                    .font(.caption).foregroundStyle(.secondary).textFieldStyle(.plain)
-            }
-            if let s = stat {
-                Text("\(s.lines) répliques · \(s.scenes) scènes").font(.caption2).foregroundStyle(.tertiary)
+                    .textFieldStyle(.plain).font(.caption).foregroundStyle(Theme.inkFaint)
             }
         }
-        .padding(.vertical, 2)
+        .padding(12)
+        .background(Theme.desk, in: RoundedRectangle(cornerRadius: 12))
+        .overlay(alignment: .leading) {
+            RoundedRectangle(cornerRadius: 2).fill(Color(hexString: character.colorHex))
+                .frame(width: 3).padding(.vertical, 12)
+        }
+        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Theme.rule))
     }
 
     private var nameBinding: Binding<String> {

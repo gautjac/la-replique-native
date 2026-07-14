@@ -15,7 +15,11 @@ struct MeasuresView: View {
                 }
                 .padding(20)
             }
+            .background(Theme.deskLight)
             .navigationTitle("Mesures")
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Fermer") { dismiss() } } }
         }
         #if os(macOS)
@@ -51,7 +55,7 @@ struct MeasuresView: View {
     @ViewBuilder private var presenceGrid: some View {
         let scenes = Stats.scenes(play)
         VStack(alignment: .leading, spacing: 8) {
-            Text("Grille de présence").font(.headline).foregroundStyle(.white)
+            Text("GRILLE DE PRÉSENCE").font(.caption2.weight(.bold)).kerning(1.2).foregroundStyle(Theme.inkFaint)
             Text("Qui parle dans quelle scène.").font(.caption).foregroundStyle(.secondary)
             if scenes.isEmpty {
                 Text("Ajoute des scènes pour voir la grille.").font(.caption).foregroundStyle(.tertiary)
@@ -88,7 +92,7 @@ struct MeasuresView: View {
         if !labels.isEmpty && !play.characterList.isEmpty {
             let globalMax = max(1, lines.map(\.maxCount).max() ?? 1)
             VStack(alignment: .leading, spacing: 10) {
-                Text("Fil de chaque personnage").font(.headline).foregroundStyle(.white)
+                Text("FIL DE CHAQUE PERSONNAGE").font(.caption2.weight(.bold)).kerning(1.2).foregroundStyle(Theme.inkFaint)
                 ForEach(lines, id: \.character.id) { tl in
                     VStack(alignment: .leading, spacing: 4) {
                         HStack(spacing: 6) {
@@ -114,7 +118,7 @@ struct MeasuresView: View {
         if play.characterList.count >= 2, !groups.isEmpty {
             let doublings = groups.filter { $0.count > 1 }
             VStack(alignment: .leading, spacing: 8) {
-                Text("Doublures possibles").font(.headline).foregroundStyle(.white)
+                Text("DOUBLURES POSSIBLES").font(.caption2.weight(.bold)).kerning(1.2).foregroundStyle(Theme.inkFaint)
                 Text("Rôles qui ne partagent jamais une scène.").font(.caption).foregroundStyle(.secondary)
                 if doublings.isEmpty {
                     Text("Chaque rôle partage une scène avec un autre.").font(.caption).foregroundStyle(.tertiary)
