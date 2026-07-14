@@ -40,6 +40,18 @@ final class EditingTests: XCTestCase {
         XCTAssertNotNil(play.character(id: new.characterID)) // linked to a real speaker
     }
 
+    func testSuggestSpeakerPrefix() throws {
+        let (c, _, play) = try makePlay(twoHander); _ = c
+        // Unique prefix → that character.
+        XCTAssertEqual(Editing.suggestSpeaker(play, prefix: "al")?.name, "ALICE")
+        XCTAssertEqual(Editing.suggestSpeaker(play, prefix: "BRU")?.name, "BRUNO")
+        // Case-insensitive, full name still matches.
+        XCTAssertEqual(Editing.suggestSpeaker(play, prefix: "alice")?.name, "ALICE")
+        // No match / empty → nil.
+        XCTAssertNil(Editing.suggestSpeaker(play, prefix: "z"))
+        XCTAssertNil(Editing.suggestSpeaker(play, prefix: ""))
+    }
+
     func testAlternateSpeakerFlips() throws {
         let (c, ctx, play) = try makePlay(twoHander); _ = c
         let brunoCue = play.elementList.first { $0.kind == .cue }!

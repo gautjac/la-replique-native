@@ -228,6 +228,14 @@ enum Editing {
     /// Type-ahead speaker on a cue: space switches to an existing cast member by
     /// name; colon switches or creates. Returns whether it handled the token.
     @discardableResult
+    /// The best cast member whose name begins with `prefix` (case-insensitive),
+    /// for the cue speaker autocomplete. nil if the prefix is empty or unmatched.
+    static func suggestSpeaker(_ play: Play, prefix: String) -> Character? {
+        let p = prefix.trimmingCharacters(in: .whitespaces).uppercased()
+        guard !p.isEmpty else { return nil }
+        return play.characterList.first { $0.name.uppercased().hasPrefix(p) }
+    }
+
     static func typeAhead(_ el: Element, token: String, allowCreate: Bool, play: Play, context: ModelContext) -> Bool {
         let name = token.trimmingCharacters(in: .whitespaces)
         guard !name.isEmpty, el.kind == .cue else { return false }

@@ -12,6 +12,8 @@ struct PlayEditorView: View {
 
     @State private var newCharName = ""
     @State private var newCharTarget: UUID?
+    /// Live speaker autocomplete for the focused cue (prefix match on the cast).
+    @State private var speakerHint: SpeakerHint?
     #if os(macOS)
     @StateObject private var tabMonitor = TabKeyMonitor()
     #else
@@ -38,6 +40,7 @@ struct PlayEditorView: View {
                 #if os(iOS)
                 editorFocus.id = id
                 #endif
+                if speakerHint?.el != id { speakerHint = nil }
             }
             .onChange(of: jumpTarget) { _, target in
                 if let target { focused = target; jumpTarget = nil }
@@ -184,6 +187,20 @@ struct PlayEditorView: View {
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 10) {
                     speakerMenu(el, current: ch)
+                    if let hint = speakerHint, hint.el == el.id {
+                        Button { acceptSpeakerHint(el) } label: {
+                            HStack(spacing: 3) {
+                                Image(systemName: "return")
+                                Text(hint.name.uppercased())
+                            }
+                            .font(.caption2.weight(.semibold))
+                            .padding(.horizontal, 7).padding(.vertical, 2)
+                            .background(Theme.gel.opacity(0.16), in: Capsule())
+                            .foregroundStyle(Theme.gelBright)
+                        }
+                        .buttonStyle(.plain)
+                        .transition(.opacity)
+                    }
                     TextField("jeu", text: text(el, \.parenthetical))
                         .font(.subheadline).foregroundStyle(Theme.inkFaint).textFieldStyle(.plain)
                 }
@@ -191,7 +208,10 @@ struct PlayEditorView: View {
                     .font(.system(size: 18)).foregroundStyle(Theme.ink).textFieldStyle(.plain)
                     .focused($focused, equals: el.id)
                     .editorKeys(isEmpty: (el.text ?? "").isEmpty, el: el, onEnter: { onEnter(el) }, onTab: { onTab(el) }, onBackspace: { onBackspace(el) })
-                    .onChange(of: el.text ?? "") { _, newValue in handleTypeAhead(el, newValue) }
+                    .onChange(of: el.text ?? "") { _, newValue in
+                        handleTypeAhead(el, newValue)
+                        updateSpeakerHint(el, newValue)
+                    }
             }.padding(.vertical, 8)
         }
     }
@@ -241,9 +261,38 @@ struct PlayEditorView: View {
         focused = el.id
     }
     private func onEnter(_ el: Element) {
+        // If a speaker suggestion is showing for this cue, Return picks it
+        // (and drops you into the line) instead of starting a new réplique.
+        if speakerHint?.el == el.id {
+            acceptSpeakerHint(el)
+            return
+        }
         let other = Editing.alternateSpeaker(play, after: el)
         let new = Editing.insert(.cue, after: el, play: play, context: context, speaker: other)
         focused = new.id
+    }
+
+    /// Show/refresh the speaker suggestion while the cue's line is a single
+    /// leading token that prefixes an existing character.
+    private func updateSpeakerHint(_ el: Element, _ value: String) {
+        guard el.kind == .cue,
+              !value.isEmpty, !value.contains(" "), !value.contains("\n"),
+              let match = Editing.suggestSpeaker(play, prefix: value) else {
+            if speakerHint?.el == el.id { speakerHint = nil }
+            return
+        }
+        speakerHint = SpeakerHint(el: el.id, charID: match.id, name: match.name)
+    }
+
+    /// Assign the suggested speaker, clear the typed prefix, and stay in the line.
+    private func acceptSpeakerHint(_ el: Element) {
+        guard let hint = speakerHint, hint.el == el.id,
+              let c = play.characterList.first(where: { $0.id == hint.charID }) else { return }
+        el.characterID = c.id.uuidString
+        el.text = ""
+        play.touch()
+        speakerHint = nil
+        focused = el.id
     }
     /// Cycle a block's type in place (no focus change) — shared by the Tab key
     /// intercepts (macOS monitor / iOS key command) and the toolbar button.
@@ -279,6 +328,15 @@ struct PlayEditorView: View {
     private func text(_ el: Element, _ key: ReferenceWritableKeyPath<Element, String?>) -> Binding<String> {
         Binding(get: { el[keyPath: key] ?? "" }, set: { el[keyPath: key] = $0; play.touch() })
     }
+}
+
+// MARK: - Speaker autocomplete
+
+/// A live speaker suggestion for a cue being typed (prefix match on the cast).
+private struct SpeakerHint: Equatable {
+    let el: UUID
+    let charID: UUID
+    let name: String
 }
 
 // MARK: - Editor key handling
