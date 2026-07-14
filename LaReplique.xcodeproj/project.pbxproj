@@ -40,6 +40,7 @@
 		DAF5CCA8AA7E9B672AC57F26 /* EditingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6E46EE727AAA5A2B59302 /* EditingTests.swift */; };
 		DBAF8B2BA420BD2E77FE692C /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A96FBCFDA91492495565B /* Keys.swift */; };
 		DC120FCF2ACDAA225760852C /* LaRepliqueApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8259C8C54BD486E3E312772A /* LaRepliqueApp.swift */; };
+		E23B5E3A44EB321A362346B9 /* KeyCommandHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857AEEAED1A109D53A7D5781 /* KeyCommandHost.swift */; };
 		E5395A0EC5877045CF876C30 /* PlayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D039A8AC7CAF85248A4365A /* PlayDetailView.swift */; };
 		EF9F6BBF1AB6318AC94E434D /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC63563BBF37D30ACEB3373 /* Persistence.swift */; };
 		F8A0AD5FC24896136D97A8F3 /* sample-play.json in Resources */ = {isa = PBXBuildFile; fileRef = 101AFC926F891560E1112D62 /* sample-play.json */; };
@@ -81,6 +82,7 @@
 		6F3781D76A801FBE30D1CA53 /* PlayFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayFormat.swift; sourceTree = "<group>"; };
 		80D6E9ECE6DF32532DE93DF9 /* Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
 		8259C8C54BD486E3E312772A /* LaRepliqueApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaRepliqueApp.swift; sourceTree = "<group>"; };
+		857AEEAED1A109D53A7D5781 /* KeyCommandHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCommandHost.swift; sourceTree = "<group>"; };
 		85F69A8DE67A6A180CEF7A60 /* Editing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editing.swift; sourceTree = "<group>"; };
 		8933CDC332742C69B5B85375 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E4178D968B33B66F7CEC733 /* AtelierView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtelierView.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				8E4178D968B33B66F7CEC733 /* AtelierView.swift */,
 				B5554D762F55CF36DDC8D78C /* BeatBoardView.swift */,
 				F34686CBA80DB13A0D1525CC /* CastPanel.swift */,
+				857AEEAED1A109D53A7D5781 /* KeyCommandHost.swift */,
 				D90D652024252A8468181983 /* KeySetupView.swift */,
 				C4340471FE7CEDA2550E7EFA /* MeasuresView.swift */,
 				66CAF7D0F3D808204F504140 /* OnboardingView.swift */,
@@ -361,6 +364,7 @@
 				7DEFA89B4B424DDEB401BBD4 /* CastPanel.swift in Sources */,
 				9A7A9C9C2750F39ED7EE0874 /* Editing.swift in Sources */,
 				79099219C4624E5A57F47E28 /* Intents.swift in Sources */,
+				E23B5E3A44EB321A362346B9 /* KeyCommandHost.swift in Sources */,
 				55B29FCF8942C8A1E3947A1B /* KeySetupView.swift in Sources */,
 				DBAF8B2BA420BD2E77FE692C /* Keys.swift in Sources */,
 				DC120FCF2ACDAA225760852C /* LaRepliqueApp.swift in Sources */,

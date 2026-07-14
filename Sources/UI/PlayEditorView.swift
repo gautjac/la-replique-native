@@ -14,12 +14,14 @@ struct PlayEditorView: View {
     @State private var newCharTarget: UUID?
     #if os(macOS)
     @StateObject private var tabMonitor = TabKeyMonitor()
+    #else
+    @StateObject private var editorFocus = EditorFocus()
     #endif
 
     private var elements: [Element] { play.elementList }
     private var focusedElement: Element? { elements.first { $0.id == focused } }
 
-    var body: some View {
+    private var scrollBody: some View {
         ScrollViewReader { proxy in
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
@@ -33,15 +35,37 @@ struct PlayEditorView: View {
             .background(Theme.desk)
             .onChange(of: focused) { _, id in
                 if let id { withAnimation(.easeOut(duration: 0.2)) { proxy.scrollTo(id, anchor: .center) } }
+                #if os(iOS)
+                editorFocus.id = id
+                #endif
             }
             .onChange(of: jumpTarget) { _, target in
                 if let target { focused = target; jumpTarget = nil }
             }
         }
+        #if os(iOS)
+        .toolbar { keyboardToolbar }
+        #endif
+    }
+
+    /// On iOS the scroll body is wrapped so a hardware Tab can be intercepted.
+    @ViewBuilder private var editorBody: some View {
+        #if os(iOS)
+        KeyCommandHost(onTab: {
+            if let id = editorFocus.id, let el = play.elementList.first(where: { $0.id == id }) {
+                cycleType(el)
+            }
+        }) { scrollBody }
+        #else
+        scrollBody
+        #endif
+    }
+
+    var body: some View {
+        editorBody
         .navigationTitle(play.title.isEmpty ? "Pièce sans titre" : play.title)
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar { keyboardToolbar }
         #endif
         .alert("Nouveau personnage", isPresented: Binding(get: { newCharTarget != nil }, set: { if !$0 { newCharTarget = nil } })) {
             TextField("Nom", text: $newCharName)
@@ -219,8 +243,13 @@ struct PlayEditorView: View {
         let new = Editing.insert(.cue, after: el, play: play, context: context, speaker: other)
         focused = new.id
     }
-    private func onTab(_ el: Element) {
+    /// Cycle a block's type in place (no focus change) — shared by the Tab key
+    /// intercepts (macOS monitor / iOS key command) and the toolbar button.
+    private func cycleType(_ el: Element) {
         Editing.convert(el, to: Editing.cycleKind(el.kind), play: play, context: context)
+    }
+    private func onTab(_ el: Element) {
+        cycleType(el)
         focused = el.id
     }
     private func onBackspace(_ el: Element) {
