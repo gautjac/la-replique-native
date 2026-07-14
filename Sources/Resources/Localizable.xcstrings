@@ -1553,6 +1553,347 @@
           }
         }
       }
+    },
+    "À propos de la pièce": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About the Play"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Résumé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synopsis"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Publié avec la lecture web, sous le titre.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Published with the web reading, under the title."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "La pièce en chiffres": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Play in Numbers"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Personnage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Character"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Personnages": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Characters"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Réplique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Line"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Mots": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Words"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Durée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Runtime"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Langues": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Languages"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Originale": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Original"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Surtitres": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Surtitles"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Aucune": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "None"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Création": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Première"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Où et quand la pièce a été créée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Where and when the play premiered."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Notes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notes"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Intentions, pistes, rappels…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intentions, leads, reminders…"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Privées — jamais publiées ni exportées.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Private — never published or exported."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Créée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Created"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Modifiée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updated"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Informations…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get Info…"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "p. ex. pièce en deux actes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "e.g. a play in two acts"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Une phrase ou deux sur la pièce.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A sentence or two about the play."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Langue de la pièce": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play language"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Ajouter un personnage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a character"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Ce qui se passe, ce que ça change": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What happens, what it changes"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Fonction dramatique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dramatic function"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "L'Atelier — écriture assistée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Studio — AI writing"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Lien de lecture": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading link"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Nouvelle version": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New version"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Versions enregistrées": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved versions"
+          }
+        }
+      },
+      "extractionState": "manual"
     }
   },
   "version": "1.0"

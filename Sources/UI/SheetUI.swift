@@ -3,19 +3,22 @@ import SwiftUI
 // A small shared look for the app's dark modal sheets, so they read as one
 // system: an uppercase group label over a full-width, dark-filled control.
 
-/// A labelled group: a small caps header above its content.
+/// A labelled group: a small caps header above its content. The title is a
+/// `LocalizedStringKey` so section headers translate with the interface language
+/// (a plain `String` here would render the French key verbatim in English).
 struct FieldGroup<Content: View>: View {
-    let title: String
+    let title: LocalizedStringKey
     @ViewBuilder var content: Content
-    init(_ title: String, @ViewBuilder content: () -> Content) {
+    init(_ title: LocalizedStringKey, @ViewBuilder content: () -> Content) {
         self.title = title
         self.content = content()
     }
     var body: some View {
         VStack(alignment: .leading, spacing: 9) {
-            Text(title.uppercased())
+            Text(title)
                 .font(.caption2.weight(.bold))
                 .kerning(1.2)
+                .textCase(.uppercase)
                 .foregroundStyle(Theme.inkFaint)
             content
         }

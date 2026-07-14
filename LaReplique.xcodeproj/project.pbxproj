@@ -47,6 +47,7 @@
 		EF9F6BBF1AB6318AC94E434D /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC63563BBF37D30ACEB3373 /* Persistence.swift */; };
 		F8A0AD5FC24896136D97A8F3 /* sample-play.json in Resources */ = {isa = PBXBuildFile; fileRef = 101AFC926F891560E1112D62 /* sample-play.json */; };
 		FA436608FFC864CE39B3F2C2 /* MeasuresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4340471FE7CEDA2550E7EFA /* MeasuresView.swift */; };
+		FCE26E723AE4DA2494B844FB /* PlayInfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4060A5C8C00ADBCDBC263E /* PlayInfoSheet.swift */; };
 		FE135D83BA8C96A1D3CDC9EA /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = FF01714DC7BE8CB5BE756FCC /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +71,7 @@
 		2127FAEBB75C2CF9AFDF111B /* PlayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayModel.swift; sourceTree = "<group>"; };
 		25E39FF62E4D85AF2B100A5E /* AtelierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtelierTests.swift; sourceTree = "<group>"; };
 		2C935361BCAA27F70D475F66 /* PlayFormatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayFormatTests.swift; sourceTree = "<group>"; };
+		2D4060A5C8C00ADBCDBC263E /* PlayInfoSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayInfoSheet.swift; sourceTree = "<group>"; };
 		33744A5AFC25595AEC87F333 /* ScriptReadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptReadView.swift; sourceTree = "<group>"; };
 		3DFB4216228ECFF94BE99288 /* VersionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionsTests.swift; sourceTree = "<group>"; };
 		3E5165603F4EAD5377B4FD5B /* Intents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intents.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				66CAF7D0F3D808204F504140 /* OnboardingView.swift */,
 				0D039A8AC7CAF85248A4365A /* PlayDetailView.swift */,
 				FF8B89EE28A54CD1EC9CD0D9 /* PlayEditorView.swift */,
+				2D4060A5C8C00ADBCDBC263E /* PlayInfoSheet.swift */,
 				442F8B81DD1AC08766EF4A3C /* PublishView.swift */,
 				15A841C6188596192E6666CE /* RootView.swift */,
 				33744A5AFC25595AEC87F333 /* ScriptReadView.swift */,
@@ -386,6 +389,7 @@
 				E5395A0EC5877045CF876C30 /* PlayDetailView.swift in Sources */,
 				74F62846EA100D9C6DF0B189 /* PlayEditorView.swift in Sources */,
 				7070D7FF3559AD8E5C3536B0 /* PlayFormat.swift in Sources */,
+				FCE26E723AE4DA2494B844FB /* PlayInfoSheet.swift in Sources */,
 				3BC38D7DA6C07E651BCAE6C3 /* PlayModel.swift in Sources */,
 				61C46C6763EC2286672B438E /* Publish.swift in Sources */,
 				1A15BC42334059836F69E0E8 /* PublishView.swift in Sources */,

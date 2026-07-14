@@ -9,6 +9,7 @@ struct RootView: View {
 
     @AppStorage("hasOnboarded") private var hasOnboarded = false
     @State private var selectedID: UUID?
+    @State private var infoPlay: Play?
     @State private var importing = false
     @State private var showKeys = false
     @State private var showOnboarding = false
@@ -21,7 +22,14 @@ struct RootView: View {
             List(selection: $selectedID) {
                 ForEach(plays) { play in
                     PlayRow(play: play).tag(play.id)
+                        // Double-click opens the play's info card without stealing
+                        // the List's single-click selection.
+                        .simultaneousGesture(TapGesture(count: 2).onEnded { infoPlay = play })
                         .contextMenu {
+                            Button { infoPlay = play } label: {
+                                Label("Informations…", systemImage: "info.circle")
+                            }
+                            Divider()
                             Button(role: .destructive) { delete(play) } label: {
                                 Label("Supprimer", systemImage: "trash")
                             }
@@ -67,6 +75,7 @@ struct RootView: View {
             router.openPlayID = nil
         }
         .sheet(isPresented: $showKeys) { KeySetupView() }
+        .sheet(item: $infoPlay) { PlayInfoSheet(play: $0) }
         .fileImporter(isPresented: $importing, allowedContentTypes: [.json], allowsMultipleSelection: false) { result in
             handleImport(result)
         }

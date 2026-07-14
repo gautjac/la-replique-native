@@ -9,6 +9,7 @@ struct PlayDoc: Codable {
     var title: String?
     var subtitle: String?
     var author: String?
+    var logline: String?
     var lang: String?
     var altLang: String?
     var characters: [CharDoc]?
@@ -73,6 +74,7 @@ enum PlayFormat {
         play.title = doc.title ?? (lang == .fr ? "Pièce importée" : "Imported play")
         play.subtitle = doc.subtitle ?? ""
         play.author = doc.author ?? ""
+        if let logline = doc.logline { play.logline = logline }
         play.altLang = doc.altLang.flatMap(Lang.init(rawValue:))
         play.touch()
 
@@ -164,6 +166,7 @@ enum PlayFormat {
         }
         return PlayDoc(format: "la-replique/1", title: play.title,
                        subtitle: nn(play.subtitle), author: nn(play.author),
+                       logline: nn(play.logline),
                        lang: play.lang.rawValue, altLang: play.altLang?.rawValue,
                        characters: chars, elements: els)
     }

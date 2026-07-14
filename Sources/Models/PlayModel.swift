@@ -30,6 +30,12 @@ final class Play {
     var title: String = ""
     var subtitle: String = ""
     var author: String = ""
+    /// A short synopsis / logline. Published with the reading; shown under the title.
+    var logline: String = ""
+    /// Freeform private notes. NEVER published or exported — stays in the private store.
+    var notes: String = ""
+    /// Production history — première / création (venue, company, date). Private.
+    var premiere: String = ""
     var langRaw: String = Lang.fr.rawValue
     var altLangRaw: String?
     var createdAt: Date = Date()
