@@ -67,6 +67,11 @@ targets:
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
         ITSAppUsesNonExemptEncryption: false
+        # Storyboard-free launch screen (iOS 14+). Required so the app is treated
+        # as supporting all iPad sizes; without it App Store delivery prep fails.
+        # Charcoal "desk" background so the launch reads as intentional.
+        UILaunchScreen:
+          UIColorName: LaunchBackground
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: app.atelier.lareplique
