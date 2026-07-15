@@ -58,7 +58,7 @@ struct RootView: View {
                 EmptyStateView()
             }
         }
-        .task { seedIfEmpty() }
+        .task { await seedIfEmpty() }
         .task {
             if !hasOnboarded { showOnboarding = true }
         }
@@ -94,8 +94,18 @@ struct RootView: View {
         context.delete(play)
     }
 
-    private func seedIfEmpty() {
-        guard plays.isEmpty,
+    /// Seeds the bundled sample ("La porte") only when the library is *really*
+    /// empty. On a CloudKit store a fresh device reads empty for a beat while the
+    /// first import is still in flight — seeding then gave every device its own
+    /// duplicate of the sample (2 copies of "La porte" on iPhone + iPad). So on a
+    /// synced store: let the import land first, then re-check against the store
+    /// itself rather than the `@Query`, whose snapshot is captured and can be stale.
+    private func seedIfEmpty() async {
+        if Persistence.tier == .cloudKit {
+            try? await Task.sleep(for: .seconds(8))
+        }
+        let empty = ((try? context.fetchCount(FetchDescriptor<Play>())) ?? 1) == 0
+        guard empty,
               let url = Bundle.main.url(forResource: "sample-play", withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let doc = try? PlayFormat.decode(data) else { return }
