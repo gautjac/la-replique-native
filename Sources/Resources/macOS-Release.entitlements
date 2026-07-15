@@ -23,7 +23,11 @@
 	<array>
 		<string>iCloud.app.atelier.lareplique</string>
 	</array>
-	<key>aps-environment</key>
+	<!-- NOTE: macOS uses com.apple.developer.aps-environment; the bare
+	     `aps-environment` key is iOS-only and is silently STRIPPED at signing on
+	     macOS — which is exactly what broke CloudKit push (and cross-device sync)
+	     on the Mac through builds 38–41. -->
+	<key>com.apple.developer.aps-environment</key>
 	<string>production</string>
 </dict>
 </plist>
