@@ -65,8 +65,22 @@ final class Play {
         set { altLangRaw = newValue?.rawValue }
     }
 
+    /// Ordered views of the to-many relationships. NOTE: both SORT on every access
+    /// (O(n log n) + faults every object), so never call them more than once per
+    /// view body — bind to a `let` and reuse. For counts, use the `…Count` helpers
+    /// below, which don't sort at all.
     var characterList: [Character] { (characters ?? []).sorted { $0.order < $1.order } }
     var elementList: [Element] { (elements ?? []).sorted { $0.order < $1.order } }
+
+    /// Counts without sorting — the sidebar renders these for every play on every
+    /// pass, and ordering is irrelevant to a count.
+    var characterCount: Int { characters?.count ?? 0 }
+    var cueCount: Int {
+        guard let elements else { return 0 }
+        var n = 0
+        for el in elements where el.kind == .cue { n += 1 }
+        return n
+    }
 
     func character(id: String?) -> Character? {
         guard let id else { return nil }

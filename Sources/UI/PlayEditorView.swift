@@ -117,8 +117,11 @@ struct PlayEditorView: View {
     // MARK: Page
 
     private var page: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            if elements.isEmpty {
+        // Sort ONCE per render — `elements` sorts on every access, and this body
+        // used to hit it twice (emptiness + ForEach) on every keystroke.
+        let els = elements
+        return VStack(alignment: .leading, spacing: 2) {
+            if els.isEmpty {
                 VStack(spacing: 14) {
                     Text("La page est vide. Commence par une réplique.").foregroundStyle(Theme.inkFaint)
                     Button("Écrire la première réplique") { startWriting() }
@@ -126,7 +129,7 @@ struct PlayEditorView: View {
                 }
                 .frame(maxWidth: .infinity).padding(.vertical, 40)
             } else {
-                ForEach(elements) { el in
+                ForEach(els) { el in
                     row(el).id(el.id)
                 }
             }

@@ -90,7 +90,8 @@ struct BeatBoardView: View {
                 emptyState
             } else {
                 ScrollView([.horizontal, .vertical]) {
-                    HStack(alignment: .top, spacing: 18) {
+                    // Lazy so a long play only builds the cards actually on screen.
+                    LazyHStack(alignment: .top, spacing: 18) {
                         ForEach(cols) { col in
                             columnView(col, allColumns: cols)
                         }
@@ -101,7 +102,9 @@ struct BeatBoardView: View {
         }
         .background(Theme.desk)
         .sheet(item: Binding(get: { detailSceneID.map { IdemID(id: $0) } }, set: { detailSceneID = $0?.id })) { wrap in
-            if let block = Editing.decompose(play).blocks.first(where: { $0.id == wrap.id && !$0.isAct }) {
+            // Reuse the already-computed columns — decomposing the whole play a
+            // second time here doubled the cost of every board render.
+            if let block = cols.flatMap(\.scenes).first(where: { $0.id == wrap.id }) {
                 SceneDetailSheet(
                     play: play,
                     block: block,

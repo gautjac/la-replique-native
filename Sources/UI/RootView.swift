@@ -129,7 +129,7 @@ private struct PlayRow: View {
             if !play.subtitle.isEmpty {
                 Text(play.subtitle).font(.subheadline).foregroundStyle(.secondary).lineLimit(1)
             }
-            Text("\(play.elementList.filter { $0.kind == .cue }.count) répliques · \(play.characterList.count) personnages")
+            Text("\(play.cueCount) répliques · \(play.characterCount) personnages")
                 .font(.caption).foregroundStyle(.tertiary)
         }
         .padding(.vertical, 2)
