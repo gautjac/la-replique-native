@@ -22,6 +22,28 @@ enum Persistence {
             return try! ModelContainer(for: schema, configurations: [ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)])
         }
 
+        #if DEBUG
+        // `LR_SCHEMA_PRIME=1` — schema-priming run (see tools/prime-schema.sh).
+        //
+        // Production CloudKit can't create record types, so every type must be
+        // materialised in DEVELOPMENT and deployed. But a type only appears once a
+        // record of it is saved — which is how `CD_Version` came to exist in
+        // neither environment, leaving the first saved version silently unsyncable.
+        //
+        // This opens a THROWAWAY store so a Development-CloudKit run can mint the
+        // missing types without touching the real library or its mirroring
+        // metadata (pointing a dev build at the production store would reset that
+        // metadata and risk re-uploading everything as duplicates).
+        if env["LR_SCHEMA_PRIME"] == "1" {
+            let url = URL.temporaryDirectory.appending(path: "lr-schema-prime-\(env["LR_PRIME_TAG"] ?? "0").store")
+            let cfg = ModelConfiguration(schema: schema, url: url, cloudKitDatabase: .automatic)
+            let container = try! ModelContainer(for: schema, configurations: [cfg])
+            tier = .cloudKit
+            NSLog("[LaReplique] SCHEMA PRIME store: %@", url.path)
+            return container
+        }
+        #endif
+
         // Tier 1 — CloudKit-synced (the goal).
         do {
             let cfg = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false, cloudKitDatabase: .automatic)
@@ -50,3 +72,32 @@ enum Persistence {
         return try! ModelContainer(for: schema, configurations: [ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)])
     }()
 }
+
+#if DEBUG
+extension Persistence {
+    /// Writes one row of EVERY model so CloudKit mints the full record-type set in
+    /// the Development environment (a type only exists once a record of it is
+    /// saved). Deploy Development → Production afterwards. No-op unless
+    /// LR_SCHEMA_PRIME=1, which also forces a throwaway store.
+    @MainActor
+    static func primeSchemaIfRequested(_ context: ModelContext) {
+        guard ProcessInfo.processInfo.environment["LR_SCHEMA_PRIME"] == "1" else { return }
+        let play = Play(title: "Schema prime")
+        context.insert(play)
+        let character = Character(name: "PRIME", colorHex: "#4f7cff", order: 0)
+        character.play = play
+        context.insert(character)
+        let element = Element(kind: .cue, order: 0)
+        element.play = play
+        element.text = "prime"
+        context.insert(element)
+        context.insert(Version(playID: play.id, name: "prime", json: "{}"))
+        do {
+            try context.save()
+            NSLog("[LaReplique] SCHEMA PRIME: saved one row of Play/Character/Element/Version — waiting for CloudKit export…")
+        } catch {
+            NSLog("[LaReplique] SCHEMA PRIME failed: %@", String(describing: error))
+        }
+    }
+}
+#endif

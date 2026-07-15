@@ -58,7 +58,12 @@ struct RootView: View {
                 EmptyStateView()
             }
         }
-        .task { await seedIfEmpty() }
+        .task {
+            #if DEBUG
+            Persistence.primeSchemaIfRequested(context)
+            #endif
+            await seedIfEmpty()
+        }
         .task {
             if !hasOnboarded { showOnboarding = true }
         }
