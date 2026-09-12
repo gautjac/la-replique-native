@@ -4,6 +4,13 @@ import SwiftData
 /// P1 — the editable script surface. Keyboard-driven on Mac/iPad (Return = new
 /// réplique · Tab = change block type · name+space/colon = switch speaker · ⌫ on
 /// an empty block = delete); a keyboard toolbar drives the same on iPhone.
+///
+/// Performance shape (2026-09-12): every block is its own `ElementRow` view, so
+/// SwiftUI's Observation scopes a keystroke to the ONE row whose `Element`
+/// changed. Before, rows were built inline in this body — a keystroke on a
+/// 1500-element play re-sorted the play and rebuilt all 1500 rows (measured:
+/// 1.5–4 s per keystroke on the simulator). Rows are also `Equatable`, so a
+/// parent re-render (focus/hint change) skips rows whose inputs didn't change.
 struct PlayEditorView: View {
     @Environment(\.modelContext) private var context
     @Bindable var play: Play
@@ -20,8 +27,13 @@ struct PlayEditorView: View {
     @StateObject private var editorFocus = EditorFocus()
     #endif
 
-    private var elements: [Element] { play.elementList }
-    private var focusedElement: Element? { elements.first { $0.id == focused } }
+    /// Find one element WITHOUT sorting the play. `elementList` sorts on every
+    /// access — fine once per render, wasteful for a single lookup.
+    private func element(_ id: UUID?) -> Element? {
+        guard let id else { return nil }
+        return (play.elements ?? []).first { $0.id == id }
+    }
+    private var focusedElement: Element? { element(focused) }
 
     private var scrollBody: some View {
         ScrollViewReader { proxy in
@@ -40,10 +52,15 @@ struct PlayEditorView: View {
                 #if os(iOS)
                 editorFocus.id = id
                 #endif
-                if speakerHint?.el != id { speakerHint = nil }
+                if let h = speakerHint, h.el != id { speakerHint = nil }
             }
             .onChange(of: jumpTarget) { _, target in
-                if let target { focused = target; jumpTarget = nil }
+                // The stack is lazy: bring the block into existence first, then
+                // focus it once its field is there.
+                guard let target else { return }
+                jumpTarget = nil
+                proxy.scrollTo(target, anchor: .center)
+                DispatchQueue.main.async { focused = target }
             }
         }
         #if os(iOS)
@@ -55,7 +72,7 @@ struct PlayEditorView: View {
     @ViewBuilder private var editorBody: some View {
         #if os(iOS)
         KeyCommandHost(onTab: {
-            guard let id = editorFocus.id, let el = play.elementList.first(where: { $0.id == id }) else { return }
+            guard let id = editorFocus.id, let el = element(id) else { return }
             Editing.convert(el, to: Editing.cycleKind(el.kind), play: play, context: context)
             // Re-focus after the row rebuilds, else the next Tab has no focused block.
             DispatchQueue.main.async { focused = id }
@@ -83,7 +100,7 @@ struct PlayEditorView: View {
             let focusBinding = $focused
             tabMonitor.focusedID = focused
             tabMonitor.onCycle = { id in
-                guard let el = play.elementList.first(where: { $0.id == id }) else { return }
+                guard let el = (play.elements ?? []).first(where: { $0.id == id }) else { return }
                 Editing.convert(el, to: Editing.cycleKind(el.kind), play: play, context: context)
                 // Re-focus after the row rebuilds, else the next Tab has no focused block.
                 DispatchQueue.main.async { focusBinding.wrappedValue = id }
@@ -117,10 +134,22 @@ struct PlayEditorView: View {
     // MARK: Page
 
     private var page: some View {
-        // Sort ONCE per render — `elements` sorts on every access, and this body
-        // used to hit it twice (emptiness + ForEach) on every keystroke.
-        let els = elements
-        return VStack(alignment: .leading, spacing: 2) {
+        // Sort ONCE per render — `elementList` sorts on every access. This body
+        // only re-runs on structural change (insert/remove/reorder), focus, or a
+        // speaker-hint change; keystrokes are absorbed by the rows.
+        let els = play.elementList
+        #if DEBUG
+        RenderCounter.page(els.count)
+        #endif
+        let actions = RowActions(
+            enter: onEnter, tab: onTab, backspace: onBackspace,
+            textChanged: { el, v in handleTypeAhead(el, v); updateSpeakerHint(el, v) },
+            acceptHint: acceptSpeakerHint,
+            newCharacter: { el in newCharTarget = el.id })
+        // Lazy: only the blocks on screen exist as views. A 1500-line play used
+        // to instantiate 1500 text fields, and any environment change (window
+        // activation, resize, keyboard) re-ran every one of them (~1.5 s).
+        return LazyVStack(alignment: .leading, spacing: 2) {
             if els.isEmpty {
                 VStack(spacing: 14) {
                     Text("La page est vide. Commence par une réplique.").foregroundStyle(Theme.inkFaint)
@@ -130,7 +159,11 @@ struct PlayEditorView: View {
                 .frame(maxWidth: .infinity).padding(.vertical, 40)
             } else {
                 ForEach(els) { el in
-                    row(el).id(el.id)
+                    ElementRow(el: el, play: play, focus: $focused,
+                               hint: speakerHint?.el == el.id ? speakerHint : nil,
+                               actions: actions)
+                        .equatable()
+                        .id(el.id)
                 }
             }
             Text("Entrée : nouvelle réplique · Tab : changer le type · Nom + espace/« : » : personnage · ⌫ : supprimer")
@@ -140,98 +173,6 @@ struct PlayEditorView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(28)
         .background(Theme.paper, in: RoundedRectangle(cornerRadius: 18))
-    }
-
-    // MARK: Rows
-
-    @ViewBuilder
-    private func row(_ el: Element) -> some View {
-        switch el.kind {
-        case .act:
-            HStack(spacing: 12) {
-                Rectangle().fill(Theme.paperShade).frame(height: 1)
-                TextField("", text: text(el, \.label))
-                    .font(.system(size: 16, weight: .bold)).kerning(3).foregroundStyle(Theme.ink)
-                    .textFieldStyle(.plain).multilineTextAlignment(.center).fixedSize()
-                    .focused($focused, equals: el.id)
-                    .editorKeys(isEmpty: (el.label ?? "").isEmpty, el: el, onEnter: { onEnter(el) }, onTab: { onTab(el) }, onBackspace: { onBackspace(el) })
-                Rectangle().fill(Theme.paperShade).frame(height: 1)
-            }.padding(.vertical, 16)
-
-        case .scene:
-            VStack(alignment: .leading, spacing: 3) {
-                TextField("SCÈNE", text: text(el, \.label))
-                    .font(.system(size: 15, weight: .bold)).kerning(2).foregroundStyle(Theme.ink)
-                    .textFieldStyle(.plain)
-                    .focused($focused, equals: el.id)
-                    .editorKeys(isEmpty: (el.label ?? "").isEmpty, el: el, onEnter: { onEnter(el) }, onTab: { onTab(el) }, onBackspace: { onBackspace(el) })
-                TextField("Lieu, moment… (facultatif)", text: text(el, \.setting))
-                    .font(.subheadline).foregroundStyle(Theme.inkFaint).textFieldStyle(.plain)
-            }.padding(.top, 16).padding(.bottom, 8)
-
-        case .stage:
-            TextField("Ce qui se passe sur scène…", text: text(el, \.text), axis: .vertical)
-                .font(.system(size: 16)).foregroundStyle(Theme.inkSoft).textFieldStyle(.plain)
-                .padding(.leading, 14)
-                .overlay(alignment: .leading) { Rectangle().fill(Theme.gel.opacity(0.55)).frame(width: 2) }
-                .padding(.vertical, 8)
-                .focused($focused, equals: el.id)
-                .editorKeys(isEmpty: (el.text ?? "").isEmpty, el: el, onEnter: { onEnter(el) }, onTab: { onTab(el) }, onBackspace: { onBackspace(el) })
-
-        case .action:
-            TextField("Action…", text: text(el, \.text), axis: .vertical)
-                .font(.system(size: 16)).foregroundStyle(Theme.ink).textFieldStyle(.plain)
-                .padding(.vertical, 6)
-                .focused($focused, equals: el.id)
-                .editorKeys(isEmpty: (el.text ?? "").isEmpty, el: el, onEnter: { onEnter(el) }, onTab: { onTab(el) }, onBackspace: { onBackspace(el) })
-
-        case .cue:
-            let ch = play.character(id: el.characterID)
-            VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 10) {
-                    speakerMenu(el, current: ch)
-                    if let hint = speakerHint, hint.el == el.id {
-                        Button { acceptSpeakerHint(el) } label: {
-                            HStack(spacing: 3) {
-                                Image(systemName: "return")
-                                Text(hint.name.uppercased())
-                            }
-                            .font(.caption2.weight(.semibold))
-                            .padding(.horizontal, 7).padding(.vertical, 2)
-                            .background(Theme.gel.opacity(0.16), in: Capsule())
-                            .foregroundStyle(Theme.gelBright)
-                        }
-                        .buttonStyle(.plain)
-                        .transition(.opacity)
-                    }
-                    TextField("jeu", text: text(el, \.parenthetical))
-                        .font(.subheadline).foregroundStyle(Theme.inkFaint).textFieldStyle(.plain)
-                }
-                TextField("Sa réplique…", text: text(el, \.text), axis: .vertical)
-                    .font(.system(size: 18)).foregroundStyle(Theme.ink).textFieldStyle(.plain)
-                    .focused($focused, equals: el.id)
-                    .editorKeys(isEmpty: (el.text ?? "").isEmpty, el: el, onEnter: { onEnter(el) }, onTab: { onTab(el) }, onBackspace: { onBackspace(el) })
-                    .onChange(of: el.text ?? "") { _, newValue in
-                        handleTypeAhead(el, newValue)
-                        updateSpeakerHint(el, newValue)
-                    }
-            }.padding(.vertical, 8)
-        }
-    }
-
-    private func speakerMenu(_ el: Element, current: Character?) -> some View {
-        Menu {
-            ForEach(play.characterList) { c in
-                Button(c.name) { el.characterID = c.id.uuidString; play.touch() }
-            }
-            Divider()
-            Button("Nouveau personnage…") { newCharTarget = el.id }
-        } label: {
-            Text(current?.name.uppercased() ?? "+ PERSONNAGE")
-                .font(.system(size: 15, weight: .bold)).kerning(2)
-                .foregroundStyle(Color(hexString: current?.colorHex))
-        }
-        .menuStyle(.borderlessButton).fixedSize()
     }
 
     // MARK: Keyboard toolbar (iPhone / iPad on-screen)
@@ -276,7 +217,8 @@ struct PlayEditorView: View {
     }
 
     /// Show/refresh the speaker suggestion while the cue's line is a single
-    /// leading token that prefixes an existing character.
+    /// leading token that prefixes an existing character. Only writes the state
+    /// when it actually changes — a parent re-render is not free.
     private func updateSpeakerHint(_ el: Element, _ value: String) {
         guard el.kind == .cue,
               !value.isEmpty, !value.contains(" "), !value.contains("\n"),
@@ -284,13 +226,14 @@ struct PlayEditorView: View {
             if speakerHint?.el == el.id { speakerHint = nil }
             return
         }
-        speakerHint = SpeakerHint(el: el.id, charID: match.id, name: match.name)
+        let hint = SpeakerHint(el: el.id, charID: match.id, name: match.name)
+        if speakerHint != hint { speakerHint = hint }
     }
 
     /// Assign the suggested speaker, clear the typed prefix, and stay in the line.
     private func acceptSpeakerHint(_ el: Element) {
         guard let hint = speakerHint, hint.el == el.id,
-              let c = play.characterList.first(where: { $0.id == hint.charID }) else { return }
+              let c = (play.characters ?? []).first(where: { $0.id == hint.charID }) else { return }
         el.characterID = c.id.uuidString
         el.text = ""
         play.touch()
@@ -322,24 +265,167 @@ struct PlayEditorView: View {
     private func commitNewCharacter() {
         defer { newCharName = ""; newCharTarget = nil }
         let name = newCharName.trimmingCharacters(in: .whitespaces)
-        guard !name.isEmpty, let id = newCharTarget, let el = elements.first(where: { $0.id == id }) else { return }
+        guard !name.isEmpty, let el = element(newCharTarget) else { return }
         let c = Editing.addCharacter(play, name: name.uppercased(), context: context)
         el.characterID = c.id.uuidString
-    }
-
-    // A Binding<String> onto an optional String? model field.
-    private func text(_ el: Element, _ key: ReferenceWritableKeyPath<Element, String?>) -> Binding<String> {
-        Binding(get: { el[keyPath: key] ?? "" }, set: { el[keyPath: key] = $0; play.touch() })
     }
 }
 
 // MARK: - Speaker autocomplete
 
 /// A live speaker suggestion for a cue being typed (prefix match on the cast).
-private struct SpeakerHint: Equatable {
+private struct SpeakerHint: Equatable, Sendable {
     let el: UUID
     let charID: UUID
     let name: String
+}
+
+/// What a row can ask its editor to do. One value per page render, shared by
+/// every row (closures aren't comparable, so `ElementRow ==` ignores it).
+private struct RowActions {
+    var enter: (Element) -> Void
+    var tab: (Element) -> Void
+    var backspace: (Element) -> Void
+    var textChanged: (Element, String) -> Void
+    var acceptHint: (Element) -> Void
+    var newCharacter: (Element) -> Void
+}
+
+// MARK: - One block of the script
+
+/// One element of the play as an editable row. Its body reads only ITS element
+/// (plus the cast, for the speaker), so Observation re-runs it — and nothing
+/// else — when that element changes.
+private struct ElementRow: View, Equatable {
+    let el: Element
+    let play: Play
+    var focus: FocusState<UUID?>.Binding
+    let hint: SpeakerHint?
+    let actions: RowActions
+
+    /// What decides whether a parent pass needs to redraw this row: the element
+    /// and play identities plus the speaker hint. Sendable, so `==` can stay
+    /// nonisolated (Swift 6 won't let it read the main-actor view properties).
+    /// Observation still invalidates the row when the element itself mutates.
+    private struct Key: Equatable, Sendable {
+        let el: UUID     // the model's own id — object identity isn't stable across SwiftData faults
+        let play: UUID
+        let hint: SpeakerHint?
+    }
+    nonisolated private let key: Key
+
+    init(el: Element, play: Play, focus: FocusState<UUID?>.Binding, hint: SpeakerHint?, actions: RowActions) {
+        self.el = el; self.play = play; self.focus = focus; self.hint = hint; self.actions = actions
+        self.key = Key(el: el.id, play: play.id, hint: hint)
+    }
+
+    nonisolated static func == (a: ElementRow, b: ElementRow) -> Bool { a.key == b.key }
+
+    var body: some View {
+        #if DEBUG
+        let _ = RenderCounter.row(el.id)
+        #endif
+        switch el.kind {
+        case .act:
+            HStack(spacing: 12) {
+                Rectangle().fill(Theme.paperShade).frame(height: 1)
+                TextField("", text: text(\.label))
+                    .font(.system(size: 16, weight: .bold)).kerning(3).foregroundStyle(Theme.ink)
+                    .textFieldStyle(.plain).multilineTextAlignment(.center).fixedSize()
+                    .focused(focus, equals: el.id)
+                    .modifier(keys(isEmpty: (el.label ?? "").isEmpty))
+                Rectangle().fill(Theme.paperShade).frame(height: 1)
+            }.padding(.vertical, 16)
+
+        case .scene:
+            VStack(alignment: .leading, spacing: 3) {
+                TextField("SCÈNE", text: text(\.label))
+                    .font(.system(size: 15, weight: .bold)).kerning(2).foregroundStyle(Theme.ink)
+                    .textFieldStyle(.plain)
+                    .focused(focus, equals: el.id)
+                    .modifier(keys(isEmpty: (el.label ?? "").isEmpty))
+                TextField("Lieu, moment… (facultatif)", text: text(\.setting))
+                    .font(.subheadline).foregroundStyle(Theme.inkFaint).textFieldStyle(.plain)
+            }.padding(.top, 16).padding(.bottom, 8)
+
+        case .stage:
+            TextField("Ce qui se passe sur scène…", text: text(\.text), axis: .vertical)
+                .font(.system(size: 16)).foregroundStyle(Theme.inkSoft).textFieldStyle(.plain)
+                .padding(.leading, 14)
+                .overlay(alignment: .leading) { Rectangle().fill(Theme.gel.opacity(0.55)).frame(width: 2) }
+                .padding(.vertical, 8)
+                .focused(focus, equals: el.id)
+                .modifier(keys(isEmpty: (el.text ?? "").isEmpty))
+
+        case .action:
+            TextField("Action…", text: text(\.text), axis: .vertical)
+                .font(.system(size: 16)).foregroundStyle(Theme.ink).textFieldStyle(.plain)
+                .padding(.vertical, 6)
+                .focused(focus, equals: el.id)
+                .modifier(keys(isEmpty: (el.text ?? "").isEmpty))
+
+        case .cue:
+            let ch = play.character(id: el.characterID)
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(spacing: 10) {
+                    speakerMenu(current: ch)
+                    if let hint {
+                        Button { actions.acceptHint(el) } label: {
+                            HStack(spacing: 3) {
+                                Image(systemName: "return")
+                                Text(hint.name.uppercased())
+                            }
+                            .font(.caption2.weight(.semibold))
+                            .padding(.horizontal, 7).padding(.vertical, 2)
+                            .background(Theme.gel.opacity(0.16), in: Capsule())
+                            .foregroundStyle(Theme.gelBright)
+                        }
+                        .buttonStyle(.plain)
+                        .transition(.opacity)
+                    }
+                    TextField("jeu", text: text(\.parenthetical))
+                        .font(.subheadline).foregroundStyle(Theme.inkFaint).textFieldStyle(.plain)
+                }
+                TextField("Sa réplique…", text: text(\.text), axis: .vertical)
+                    .font(.system(size: 18)).foregroundStyle(Theme.ink).textFieldStyle(.plain)
+                    .focused(focus, equals: el.id)
+                    .modifier(keys(isEmpty: (el.text ?? "").isEmpty))
+                    .onChange(of: el.text ?? "") { _, newValue in actions.textChanged(el, newValue) }
+            }.padding(.vertical, 8)
+        }
+    }
+
+    private func speakerMenu(current: Character?) -> some View {
+        Menu {
+            ForEach(play.characterList) { c in
+                Button(c.name) { el.characterID = c.id.uuidString; play.touch() }
+            }
+            Divider()
+            Button("Nouveau personnage…") { actions.newCharacter(el) }
+        } label: {
+            Text(current?.name.uppercased() ?? "+ PERSONNAGE")
+                .font(.system(size: 15, weight: .bold)).kerning(2)
+                .foregroundStyle(Color(hexString: current?.colorHex))
+        }
+        .menuStyle(.borderlessButton).fixedSize()
+    }
+
+    private func keys(isEmpty: Bool) -> EditorKeys {
+        EditorKeys(isEmpty: isEmpty,
+                   onEnter: { actions.enter(el) },
+                   onTab: { actions.tab(el) },
+                   onBackspace: { actions.backspace(el) })
+    }
+
+    // A Binding<String> onto an optional String? model field.
+    private func text(_ key: ReferenceWritableKeyPath<Element, String?>) -> Binding<String> {
+        Binding(get: { el[keyPath: key] ?? "" }, set: {
+            #if DEBUG
+            RenderCounter.log.debug("set \(el.id.uuidString.prefix(8), privacy: .public)")
+            #endif
+            el[keyPath: key] = $0; play.touch()
+        })
+    }
 }
 
 // MARK: - Editor key handling
@@ -364,11 +450,5 @@ private struct EditorKeys: ViewModifier {
                 }
                 return .ignored
             }
-    }
-}
-
-private extension View {
-    func editorKeys(isEmpty: Bool, el: Element, onEnter: @escaping () -> Void, onTab: @escaping () -> Void, onBackspace: @escaping () -> Void) -> some View {
-        modifier(EditorKeys(isEmpty: isEmpty, onEnter: onEnter, onTab: onTab, onBackspace: onBackspace))
     }
 }

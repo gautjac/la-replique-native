@@ -1,10 +1,12 @@
 import SwiftUI
 
-/// Bring-your-own-key setup. Both keys are stored in the Keychain (ClaudeKit's
-/// `KeychainStore`) — the Atelier (Claude) and table-read (ElevenLabs) surfaces
-/// unlock once their key is present.
+/// Réglages: interface language, sync status, and the bring-your-own keys.
+/// Both keys are stored in the Keychain (ClaudeKit's `KeychainStore`) — the
+/// Atelier (Claude) and table-read (ElevenLabs) surfaces unlock once their key
+/// is present.
 struct KeySetupView: View {
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject private var loc = LocalizationManager.shared
     @State private var claude = ""
     @State private var eleven = ""
     @State private var claudeSet = AppKeys.hasAnthropic
@@ -30,7 +32,7 @@ struct KeySetupView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             .background(Theme.deskLight)
-            .navigationTitle("Clés")
+            .navigationTitle("Réglages")
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
@@ -38,6 +40,9 @@ struct KeySetupView: View {
                 ToolbarItem(placement: .confirmationAction) { Button("Enregistrer") { save(); dismiss() } }
                 ToolbarItem(placement: .cancellationAction) { Button("Fermer") { dismiss() } }
             }
+            // The picker inside switches the language live; re-render this sheet
+            // too (its @State — typed keys — lives on the struct and survives).
+            .id(loc.language)
         }
         #if os(macOS)
         .frame(width: 460, height: 400)

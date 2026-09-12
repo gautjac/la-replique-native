@@ -17,7 +17,13 @@ enum Persistence {
         // Under XCTest / SwiftUI previews, skip CloudKit — the mirroring delegate
         // is unstable in those hosts and would destabilize the process.
         let env = ProcessInfo.processInfo.environment
-        if env["XCTestConfigurationFilePath"] != nil || env["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
+        var ephemeral = env["XCTestConfigurationFilePath"] != nil || env["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+        #if DEBUG
+        // `LR_EPHEMERAL=1` — a throwaway in-memory store for driving a Debug build
+        // on a developer Mac WITHOUT opening (or syncing) the real library.
+        if env["LR_EPHEMERAL"] == "1" { ephemeral = true }
+        #endif
+        if ephemeral {
             tier = .memory
             return try! ModelContainer(for: schema, configurations: [ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)])
         }

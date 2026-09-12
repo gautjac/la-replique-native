@@ -65,6 +65,16 @@
         }
       }
     },
+    "Actes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acts"
+          }
+        }
+      }
+    },
     "Action…": {},
     "Ajoute des scènes pour voir la grille.": {
       "localizations": {
@@ -126,6 +136,17 @@
         }
       }
     },
+    "Ajouter un personnage": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a character"
+          }
+        }
+      }
+    },
     "Annuler": {
       "localizations": {
         "en": {
@@ -143,6 +164,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "No characters yet."
+          }
+        }
+      }
+    },
+    "Aucune": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "None"
           }
         }
       }
@@ -183,6 +215,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "What happens on stage…"
+          }
+        }
+      }
+    },
+    "Ce qui se passe, ce que ça change": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What happens, what it changes"
           }
         }
       }
@@ -317,12 +360,34 @@
         }
       }
     },
+    "Création": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Première"
+          }
+        }
+      }
+    },
     "Crée une nouvelle pièce et l'ouvre dans La Réplique.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Creates a new play and opens it in La Réplique."
+          }
+        }
+      }
+    },
+    "Créée": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Created"
           }
         }
       }
@@ -363,6 +428,47 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cast"
+          }
+        }
+      }
+    },
+    "Dramaturgie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dramaturgy"
+          }
+        }
+      }
+    },
+    "Durée": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Runtime"
+          }
+        }
+      }
+    },
+    "Durée estimée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Est. runtime"
+          }
+        }
+      }
+    },
+    "Début": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start"
           }
         }
       }
@@ -428,12 +534,42 @@
         }
       }
     },
+    "Entends la pièce : chaque personnage prend une voix distincte.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hear the play: each character takes a distinct voice."
+          }
+        }
+      }
+    },
     "Entrée : nouvelle réplique · Tab : changer le type · Nom + espace/« : » : personnage · ⌫ : supprimer": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Return: new line · Tab: change type · Name + space/“:” : character · ⌫: delete"
+          }
+        }
+      }
+    },
+    "Entrée pour une réplique, Tab pour changer de personnage. La mise en page suit.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return for a line, Tab to switch character. The layout follows."
+          }
+        }
+      }
+    },
+    "Et si…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What if…"
           }
         }
       }
@@ -479,6 +615,17 @@
         }
       }
     },
+    "Fonction dramatique": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dramatic function"
+          }
+        }
+      }
+    },
     "Français": {
       "localizations": {
         "en": {
@@ -519,12 +666,34 @@
         }
       }
     },
+    "Informations…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get Info…"
+          }
+        }
+      }
+    },
     "Insérer dans la scène": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Insert into the scene"
+          }
+        }
+      }
+    },
+    "Intentions, pistes, rappels…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intentions, leads, reminders…"
           }
         }
       }
@@ -539,12 +708,33 @@
         }
       }
     },
+    "L'Atelier — écriture assistée": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Studio — AI writing"
+          }
+        }
+      }
+    },
     "L'Atelier — écriture assistée (Claude)": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "The Atelier — assisted writing (Claude)"
+          }
+        }
+      }
+    },
+    "L'Atelier, à ta main": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Atelier, at hand"
           }
         }
       }
@@ -580,12 +770,65 @@
         }
       }
     },
+    "La pièce en chiffres": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Play in Numbers"
+          }
+        }
+      }
+    },
     "La pièce n'a pas pu être encodée.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "The play could not be encoded."
+          }
+        }
+      }
+    },
+    "Langue de l'interface": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interface language"
+          }
+        }
+      }
+    },
+    "Langue de la pièce": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play language"
+          }
+        }
+      }
+    },
+    "Langue · Language": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language · Langue"
+          }
+        }
+      }
+    },
+    "Langues": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Languages"
           }
         }
       }
@@ -616,6 +859,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "Table read — ElevenLabs voices"
+          }
+        }
+      }
+    },
+    "Lien de lecture": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading link"
           }
         }
       }
@@ -670,12 +924,44 @@
         }
       }
     },
+    "Modifiée": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updated"
+          }
+        }
+      }
+    },
     "Monter": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Move up"
+          }
+        }
+      }
+    },
+    "Mots": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Words"
+          }
+        }
+      }
+    },
+    "Mots dits": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Words spoken"
           }
         }
       }
@@ -696,6 +982,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "Name (e.g. “1st draft”)"
+          }
+        }
+      }
+    },
+    "Notes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notes"
           }
         }
       }
@@ -750,6 +1047,28 @@
         }
       }
     },
+    "Nouvelle version": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New version"
+          }
+        }
+      }
+    },
+    "Originale": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Original"
+          }
+        }
+      }
+    },
     "Outil": {
       "localizations": {
         "en": {
@@ -776,6 +1095,27 @@
           "stringUnit": {
             "state": "translated",
             "value": "Open in the text"
+          }
+        }
+      }
+    },
+    "Où et quand la pièce a été créée.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Where and when the play premiered."
+          }
+        }
+      }
+    },
+    "Partage la lecture": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share the reading"
           }
         }
       }
@@ -840,6 +1180,28 @@
         }
       }
     },
+    "Personnage": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Character"
+          }
+        }
+      }
+    },
+    "Personnages": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Characters"
+          }
+        }
+      }
+    },
     "Pièce": {
       "localizations": {
         "en": {
@@ -856,6 +1218,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Play not found."
+          }
+        }
+      }
+    },
+    "Pièce sans titre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Untitled play"
           }
         }
       }
@@ -886,6 +1258,37 @@
           "stringUnit": {
             "state": "translated",
             "value": "First scene"
+          }
+        }
+      }
+    },
+    "Prend effet au prochain lancement.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Applies on next launch."
+          }
+        }
+      }
+    },
+    "Privées — jamais publiées ni exportées.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Private — never published or exported."
+          }
+        }
+      }
+    },
+    "Publie une pièce en lecture seule et envoie un simple lien web.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Publish a play read-only and send a simple web link."
           }
         }
       }
@@ -950,6 +1353,17 @@
         }
       }
     },
+    "Publié avec la lecture web, sous le titre.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Published with the web reading, under the title."
+          }
+        }
+      }
+    },
     "Publiée": {
       "localizations": {
         "en": {
@@ -1010,6 +1424,26 @@
         }
       }
     },
+    "Relancer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suggest"
+          }
+        }
+      }
+    },
+    "Relances, dramaturgie, traduction — avec ta propre clé Claude, sur ton appareil.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prompts, dramaturgy, translation — with your own Claude key, on your device."
+          }
+        }
+      }
+    },
     "Restaurer": {
       "localizations": {
         "en": {
@@ -1036,6 +1470,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "Remove the heading (keep the lines)"
+          }
+        }
+      }
+    },
+    "Réglages": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        }
+      }
+    },
+    "Réglages…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings…"
+          }
+        }
+      }
+    },
+    "Réplique": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Line"
+          }
+        }
+      }
+    },
+    "Répliques": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lines"
+          }
+        }
+      }
+    },
+    "Résumé": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synopsis"
           }
         }
       }
@@ -1080,6 +1566,16 @@
         }
       }
     },
+    "Sans nom": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unnamed"
+          }
+        }
+      }
+    },
     "Scène": {
       "localizations": {
         "en": {
@@ -1096,6 +1592,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Current scene"
+          }
+        }
+      }
+    },
+    "Scènes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scenes"
           }
         }
       }
@@ -1120,12 +1626,33 @@
         }
       }
     },
+    "Surtitres": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Surtitles"
+          }
+        }
+      }
+    },
     "Synopsis, intention…": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Synopsis, intention…"
+          }
+        }
+      }
+    },
+    "Système": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System"
           }
         }
       }
@@ -1180,6 +1707,16 @@
         }
       }
     },
+    "Traduire": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate"
+          }
+        }
+      }
+    },
     "Un atelier d'écriture pour la scène — bilingue, sur iPhone, iPad et Mac.": {
       "localizations": {
         "en": {
@@ -1210,12 +1747,44 @@
         }
       }
     },
+    "Une phrase ou deux sur la pièce.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A sentence or two about the play."
+          }
+        }
+      }
+    },
     "Versions": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Versions"
+          }
+        }
+      }
+    },
+    "Versions enregistrées": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved versions"
+          }
+        }
+      }
+    },
+    "Voix": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voice"
           }
         }
       }
@@ -1242,278 +1811,6 @@
     },
     "console.anthropic.com → API keys": {},
     "elevenlabs.io → Profile → API key": {},
-    "jeu": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "action"
-          }
-        }
-      }
-    },
-    "« Mettre à jour » republie la version actuelle sous le même lien.": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "“Update” republishes the current version under the same link."
-          }
-        }
-      }
-    },
-    "Écrire la première réplique": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Write the first line"
-          }
-        }
-      }
-    },
-    "ébauche · à toi de décider": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "draft · your call"
-          }
-        }
-      }
-    },
-    "—": {},
-    "•••••••• (remplacer)": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "•••••••• (replace)"
-          }
-        }
-      }
-    },
-    "＋": {},
-    "Système": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "System"
-          }
-        }
-      }
-    },
-    "Langue de l'interface": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Interface language"
-          }
-        }
-      }
-    },
-    "Prend effet au prochain lancement.": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Applies on next launch."
-          }
-        }
-      }
-    },
-    "Actes": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Acts"
-          }
-        }
-      }
-    },
-    "Dramaturgie": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dramaturgy"
-          }
-        }
-      }
-    },
-    "Durée estimée": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Est. runtime"
-          }
-        }
-      }
-    },
-    "Début": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Start"
-          }
-        }
-      }
-    },
-    "Entends la pièce : chaque personnage prend une voix distincte.": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hear the play: each character takes a distinct voice."
-          }
-        }
-      }
-    },
-    "Entrée pour une réplique, Tab pour changer de personnage. La mise en page suit.": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Return for a line, Tab to switch character. The layout follows."
-          }
-        }
-      }
-    },
-    "Et si…": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "What if…"
-          }
-        }
-      }
-    },
-    "L'Atelier, à ta main": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The Atelier, at hand"
-          }
-        }
-      }
-    },
-    "Mots dits": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Words spoken"
-          }
-        }
-      }
-    },
-    "Partage la lecture": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Share the reading"
-          }
-        }
-      }
-    },
-    "Pièce sans titre": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Untitled play"
-          }
-        }
-      }
-    },
-    "Publie une pièce en lecture seule et envoie un simple lien web.": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Publish a play read-only and send a simple web link."
-          }
-        }
-      }
-    },
-    "Relancer": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Suggest"
-          }
-        }
-      }
-    },
-    "Relances, dramaturgie, traduction — avec ta propre clé Claude, sur ton appareil.": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Prompts, dramaturgy, translation — with your own Claude key, on your device."
-          }
-        }
-      }
-    },
-    "Répliques": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lines"
-          }
-        }
-      }
-    },
-    "Sans nom": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unnamed"
-          }
-        }
-      }
-    },
-    "Scènes": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Scenes"
-          }
-        }
-      }
-    },
-    "Traduire": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Translate"
-          }
-        }
-      }
-    },
-    "Voix": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Voice"
-          }
-        }
-      }
-    },
     "je cherche la voix…": {
       "localizations": {
         "en": {
@@ -1544,6 +1841,58 @@
         }
       }
     },
+    "jeu": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "action"
+          }
+        }
+      }
+    },
+    "p. ex. pièce en deux actes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "e.g. a play in two acts"
+          }
+        }
+      }
+    },
+    "« Mettre à jour » republie la version actuelle sous le même lien.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“Update” republishes the current version under the same link."
+          }
+        }
+      }
+    },
+    "À propos de la pièce": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About the Play"
+          }
+        }
+      }
+    },
+    "Écrire la première réplique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Write the first line"
+          }
+        }
+      }
+    },
     "Écris au clavier": {
       "localizations": {
         "en": {
@@ -1554,347 +1903,28 @@
         }
       }
     },
-    "À propos de la pièce": {
+    "ébauche · à toi de décider": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "About the Play"
+            "value": "draft · your call"
           }
         }
-      },
-      "extractionState": "manual"
+      }
     },
-    "Résumé": {
+    "—": {},
+    "•••••••• (remplacer)": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Synopsis"
+            "value": "•••••••• (replace)"
           }
         }
-      },
-      "extractionState": "manual"
+      }
     },
-    "Publié avec la lecture web, sous le titre.": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Published with the web reading, under the title."
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "La pièce en chiffres": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The Play in Numbers"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Personnage": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Character"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Personnages": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Characters"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Réplique": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Line"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Mots": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Words"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Durée": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Runtime"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Langues": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Languages"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Originale": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Original"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Surtitres": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Surtitles"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Aucune": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "None"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Création": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Première"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Où et quand la pièce a été créée.": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Where and when the play premiered."
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Notes": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Notes"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Intentions, pistes, rappels…": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Intentions, leads, reminders…"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Privées — jamais publiées ni exportées.": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Private — never published or exported."
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Créée": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Created"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Modifiée": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Updated"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Informations…": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Get Info…"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "p. ex. pièce en deux actes": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "e.g. a play in two acts"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Une phrase ou deux sur la pièce.": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A sentence or two about the play."
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Langue de la pièce": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Play language"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Ajouter un personnage": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add a character"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Ce qui se passe, ce que ça change": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "What happens, what it changes"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Fonction dramatique": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dramatic function"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "L'Atelier — écriture assistée": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The Studio — AI writing"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Lien de lecture": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reading link"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Nouvelle version": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New version"
-          }
-        }
-      },
-      "extractionState": "manual"
-    },
-    "Versions enregistrées": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Saved versions"
-          }
-        }
-      },
-      "extractionState": "manual"
-    }
+    "＋": {}
   },
   "version": "1.0"
 }

@@ -10,6 +10,7 @@
 		017E8F2CD516DA78430866C5 /* LanguagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D054ECA47C669F0F6E230E68 /* LanguagePicker.swift */; };
 		0400949DF365A6C63FD597D9 /* PublishTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC0882A90904B508A95F6F /* PublishTests.swift */; };
 		06930CD71F319AE4EF43816E /* PlayFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C935361BCAA27F70D475F66 /* PlayFormatTests.swift */; };
+		0F51153FAABAEBCAA35A4C9B /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9107FC0CF0BD796A902EA30 /* ModelTests.swift */; };
 		1A15BC42334059836F69E0E8 /* PublishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442F8B81DD1AC08766EF4A3C /* PublishView.swift */; };
 		1BC9CABE27EEC839A761C636 /* TabKeyMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD92AD10C3725C9B5E2E34F8 /* TabKeyMonitor.swift */; };
 		1DA219C965B2CF674124C44B /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17F8610078151FC121B6AD9 /* Theme.swift */; };
@@ -34,6 +35,7 @@
 		94A6B272807AD0A48C6D6FC8 /* CorpusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9507CF6D90AADB70C1C5E0D /* CorpusTests.swift */; };
 		9A7A9C9C2750F39ED7EE0874 /* Editing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F69A8DE67A6A180CEF7A60 /* Editing.swift */; };
 		A05F1B1E88C79CCB767C21FC /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CAF7D0F3D808204F504140 /* OnboardingView.swift */; };
+		AAA26AA4FF526AC98850793A /* Bench.swift in Sources */ = {isa = PBXBuildFile; fileRef = A764E88D36A5B7B100C5F171 /* Bench.swift */; };
 		AF2BB620AC8F247CC4FDC91B /* TableReadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B608AAA7EB25108A2B3E3D /* TableReadView.swift */; };
 		B05EEFD98E51A3222E574FD9 /* VersionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3E1659701972CAA924A220 /* VersionsView.swift */; };
 		B34D06DFE3288A546892F9EF /* StatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A311599E7169E88946C6ABD2 /* StatsTests.swift */; };
@@ -103,7 +105,9 @@
 		9ED88417F6BFAA3AB35CC3DC /* SheetUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetUI.swift; sourceTree = "<group>"; };
 		A111263E507B472A5164F649 /* ClaudeKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ClaudeKit; path = Vendor/ClaudeKit; sourceTree = SOURCE_ROOT; };
 		A311599E7169E88946C6ABD2 /* StatsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsTests.swift; sourceTree = "<group>"; };
+		A764E88D36A5B7B100C5F171 /* Bench.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bench.swift; sourceTree = "<group>"; };
 		A8FB9223FB4D7F6D203E95E6 /* Versions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Versions.swift; sourceTree = "<group>"; };
+		A9107FC0CF0BD796A902EA30 /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		A9507CF6D90AADB70C1C5E0D /* CorpusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorpusTests.swift; sourceTree = "<group>"; };
 		B17F8610078151FC121B6AD9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		B26B2B886C6E9CBC2A0C8BB1 /* Corpus */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Corpus; sourceTree = SOURCE_ROOT; };
@@ -150,6 +154,7 @@
 				25E39FF62E4D85AF2B100A5E /* AtelierTests.swift */,
 				A9507CF6D90AADB70C1C5E0D /* CorpusTests.swift */,
 				1BC6E46EE727AAA5A2B59302 /* EditingTests.swift */,
+				A9107FC0CF0BD796A902EA30 /* ModelTests.swift */,
 				2C935361BCAA27F70D475F66 /* PlayFormatTests.swift */,
 				5ACC0882A90904B508A95F6F /* PublishTests.swift */,
 				A311599E7169E88946C6ABD2 /* StatsTests.swift */,
@@ -161,6 +166,7 @@
 		825CA54E63CE15DD17E376F9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A764E88D36A5B7B100C5F171 /* Bench.swift */,
 				85F69A8DE67A6A180CEF7A60 /* Editing.swift */,
 				BDC63563BBF37D30ACEB3373 /* Persistence.swift */,
 				6F3781D76A801FBE30D1CA53 /* PlayFormat.swift */,
@@ -378,6 +384,7 @@
 				6E4712F73FD07DCA5DA3F278 /* AtelierTests.swift in Sources */,
 				94A6B272807AD0A48C6D6FC8 /* CorpusTests.swift in Sources */,
 				DAF5CCA8AA7E9B672AC57F26 /* EditingTests.swift in Sources */,
+				0F51153FAABAEBCAA35A4C9B /* ModelTests.swift in Sources */,
 				06930CD71F319AE4EF43816E /* PlayFormatTests.swift in Sources */,
 				0400949DF365A6C63FD597D9 /* PublishTests.swift in Sources */,
 				B34D06DFE3288A546892F9EF /* StatsTests.swift in Sources */,
@@ -393,6 +400,7 @@
 				841CC3669DA9DB2D4A6F037D /* Atelier.swift in Sources */,
 				D9E5AEFB2D4D46E0FE2AAF73 /* AtelierView.swift in Sources */,
 				D6B03DA33F2E0C5EB045CBEB /* BeatBoardView.swift in Sources */,
+				AAA26AA4FF526AC98850793A /* Bench.swift in Sources */,
 				7DEFA89B4B424DDEB401BBD4 /* CastPanel.swift in Sources */,
 				23E6477FE66E2B3D4F326B48 /* Corpus.swift in Sources */,
 				9A7A9C9C2750F39ED7EE0874 /* Editing.swift in Sources */,

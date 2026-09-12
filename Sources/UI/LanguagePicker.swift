@@ -100,3 +100,40 @@ struct LanguagePicker: View {
         .pickerStyle(.segmented)
     }
 }
+
+/// The three choices as checkmarked rows — drop into any `Menu` (toolbar ••• /
+/// globe) or a macOS `CommandGroup`. The label doubles as the group header.
+struct InterfaceLanguageRows: View {
+    @ObservedObject private var loc = LocalizationManager.shared
+    /// `true` nests the three rows under a "Langue de l'interface ▸" item — for
+    /// menus where bare System/Français/English rows would lack context (the
+    /// play's ••• menu). `false` lists them inline (the globe menu, whose icon is
+    /// the context, and the macOS View-menu submenu that already carries the title).
+    var asSubmenu = false
+
+    var body: some View {
+        let picker = Picker(selection: Binding(get: { loc.language }, set: { loc.set($0) })) {
+            ForEach(InterfaceLanguage.allCases) { Text($0.label).tag($0) }
+        } label: {
+            Label("Langue de l'interface", systemImage: "globe")
+        }
+        if asSubmenu {
+            picker.pickerStyle(.menu)
+        } else {
+            picker.pickerStyle(.inline)
+        }
+    }
+}
+
+/// The globe in the toolbar — the discoverable home of the interface language,
+/// on every platform, one tap from the library. (It used to live only inside
+/// the "Clés" sheet and the Mac's Settings window, where nobody looked for it.)
+struct InterfaceLanguageMenu: View {
+    var body: some View {
+        Menu {
+            InterfaceLanguageRows()
+        } label: {
+            Label("Langue de l'interface", systemImage: "globe")
+        }
+    }
+}

@@ -127,6 +127,13 @@ widgets, Handoff, keyboard shortcuts, Quick Look.
 
 **≈ 2.5–3 focused weeks to a TestFlight-quality universal app**, web viewer included.
 
+## Post-ship fixes
+- **2026-09-12 — sluggish editor + hidden language switch.** Editor rebuilt around one view per
+  block + `LazyVStack` (keystroke: 3003 row bodies → 1; see `docs/EDITOR_PERFORMANCE.md`).
+  Interface language is now one tap away everywhere: globe menu in the library toolbar (both
+  platforms), the play's ••• menu, the macOS View menu, and the first-run screen; the "Clés"
+  sheet became "Réglages". Switching no longer drops the selected play.
+
 ## Shipping rig
 `_outillage/doctor.sh` first; `ship-ios.sh` (TestFlight) and `ship-mas.sh` (Mac App Store).
 macOS App Store builds via **Xcode Cloud on a GA macOS** (the beta-macOS ITMS-90111 trap).

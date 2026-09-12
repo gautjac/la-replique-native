@@ -1,5 +1,7 @@
 import Foundation
 import SwiftData
+import CoreTransferable
+import UniformTypeIdentifiers
 
 /// A named snapshot of a play (stored as `la-replique/1` JSON). CloudKit-safe.
 @Model
@@ -44,6 +46,47 @@ enum Exports {
     }
 
     static func aiJSONString(_ play: Play) -> String {
-        (try? PlayFormat.aiJSON(from: play)).flatMap { String(data: $0, encoding: .utf8) } ?? "{}"
+        #if DEBUG
+        RenderCounter.log.debug("export aiJSON")
+        #endif
+        return (try? PlayFormat.aiJSON(from: play)).flatMap { String(data: $0, encoding: .utf8) } ?? "{}"
+    }
+}
+
+/// A `ShareLink` payload that renders ONLY when the share actually happens.
+///
+/// The detail toolbar used to hold `ShareLink(item: Exports.aiJSONString(play))`,
+/// which serialised the whole play every time the toolbar was built — and,
+/// worse, reading every element's text there subscribed the detail view to
+/// every line, so each keystroke re-rendered the detail view, the editor and
+/// the page (measured on a 1500-element play: 3 keystrokes → 3 full exports +
+/// 3 page rebuilds). Now only the play's identifier crosses into the toolbar.
+struct PlayExport: Transferable, Sendable {
+    enum Kind: Sendable { case text, aiJSON }
+    let playID: PersistentIdentifier
+    let kind: Kind
+    let filename: String
+
+    @MainActor
+    init(_ play: Play, kind: Kind) {
+        self.playID = play.persistentModelID
+        self.kind = kind
+        let base = play.title.isEmpty ? "piece" : play.title
+        self.filename = kind == .text ? "\(base).txt" : "\(base).lareplique.json"
+    }
+
+    @MainActor
+    func render() -> String {
+        guard let play = Persistence.shared.mainContext.model(for: playID) as? Play else { return "" }
+        return kind == .text ? Exports.plainText(play) : Exports.aiJSONString(play)
+    }
+
+    static var transferRepresentation: some TransferRepresentation {
+        DataRepresentation(exportedContentType: .json) { item in Data(await item.render().utf8) }
+            .exportingCondition { $0.kind == .aiJSON }
+            .suggestedFileName { $0.filename }
+        DataRepresentation(exportedContentType: .plainText) { item in Data(await item.render().utf8) }
+            .exportingCondition { $0.kind == .text }
+            .suggestedFileName { $0.filename }
     }
 }

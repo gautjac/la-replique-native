@@ -45,10 +45,15 @@ struct PlayDetailView: View {
                               systemImage: play.publicShareID == nil ? "globe" : "globe.badge.chevron.backward")
                     }
                     Divider()
-                    ShareLink("Exporter — pour l'IA (.json)", item: Exports.aiJSONString(play))
-                    ShareLink("Exporter — texte", item: Exports.plainText(play))
+                    // Lazy payloads — see PlayExport. Never render the play here.
+                    ShareLink("Exporter — pour l'IA (.json)", item: PlayExport(play, kind: .aiJSON),
+                              preview: SharePreview(play.title.isEmpty ? String(localized: "Pièce sans titre") : play.title))
+                    ShareLink("Exporter — texte", item: PlayExport(play, kind: .text),
+                              preview: SharePreview(play.title.isEmpty ? String(localized: "Pièce sans titre") : play.title))
                     Divider()
-                    Button { showKeys = true } label: { Label("Clés (IA · voix)…", systemImage: "key") }
+                    InterfaceLanguageRows(asSubmenu: true)
+                    Divider()
+                    Button { showKeys = true } label: { Label("Réglages…", systemImage: "gearshape") }
                 } label: { Label("Plus", systemImage: "ellipsis.circle") }
             }
         }

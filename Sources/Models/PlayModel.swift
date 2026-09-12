@@ -87,7 +87,15 @@ final class Play {
         return (characters ?? []).first { $0.id.uuidString == id }
     }
 
-    func touch() { updatedAt = Date() }
+    /// Marks the play as edited. Coalesced to at most one write per second: the
+    /// editor calls this on EVERY keystroke, and each write to `updatedAt` used to
+    /// re-run the library's `@Query(sort: \.updatedAt)` — re-sorting the sidebar
+    /// and re-rendering every play row per character typed. A future timestamp
+    /// (clock skew between synced devices) is always overwritten.
+    func touch() {
+        let now = Date()
+        if updatedAt > now || now.timeIntervalSince(updatedAt) >= 1 { updatedAt = now }
+    }
 }
 
 @Model

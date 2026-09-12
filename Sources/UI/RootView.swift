@@ -6,6 +6,7 @@ struct RootView: View {
     @Environment(\.modelContext) private var context
     @Query(sort: \Play.updatedAt, order: .reverse) private var plays: [Play]
     @ObservedObject private var router = AppRouter.shared
+    @ObservedObject private var loc = LocalizationManager.shared
 
     @AppStorage("hasOnboarded") private var hasOnboarded = false
     @State private var selectedID: UUID?
@@ -41,10 +42,11 @@ struct RootView: View {
                 ToolbarItemGroup {
                     Button { newPlay() } label: { Label("Nouvelle pièce", systemImage: "plus") }
                     Button { importing = true } label: { Label("Importer", systemImage: "square.and.arrow.down") }
-                    // Keys live in Settings (⌘,) on macOS and the ••• menu on both
-                    // platforms; this button is just the iOS convenience.
+                    InterfaceLanguageMenu()
+                    // Settings live in the Settings window (⌘,) on macOS and the
+                    // ••• menu on both platforms; this button is the iOS way in.
                     #if os(iOS)
-                    Button { showKeys = true } label: { Label("Clés", systemImage: "key") }
+                    Button { showKeys = true } label: { Label("Réglages", systemImage: "gearshape") }
                     #endif
                 }
             }
@@ -58,9 +60,14 @@ struct RootView: View {
                 EmptyStateView()
             }
         }
+        // Re-render the whole tree when the interface language switches, WITHOUT
+        // losing this view's state (selection, open sheets) — the id sits on the
+        // split view, not on RootView itself.
+        .id(loc.language)
         .task {
             #if DEBUG
             Persistence.primeSchemaIfRequested(context)
+            if let bench = Bench.seedIfRequested(context) { selectedID = bench.id; return }
             #endif
             await seedIfEmpty()
         }

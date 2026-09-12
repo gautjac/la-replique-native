@@ -4,6 +4,7 @@ import SwiftUI
 /// to writing (and, optionally, to adding a Claude key for the Atelier).
 struct OnboardingView: View {
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject private var loc = LocalizationManager.shared
     /// Called when the reader taps "Ajouter ma clé Claude".
     var onAddKey: () -> Void
 
@@ -33,6 +34,17 @@ struct OnboardingView: View {
         VStack(spacing: 0) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 26) {
+                    // First thing on the first screen: pick the interface language.
+                    // Bilingual label on purpose — the reader may not read French yet.
+                    HStack(spacing: 10) {
+                        Image(systemName: "globe").foregroundStyle(Theme.gelBright)
+                        Text("Langue · Language")
+                            .font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+                        Spacer(minLength: 8)
+                        LanguagePicker().frame(maxWidth: 300)
+                    }
+                    .padding(.top, 12)
+
                     VStack(alignment: .leading, spacing: 10) {
                         Image(systemName: "text.quote")
                             .font(.system(size: 40, weight: .semibold))
@@ -43,7 +55,6 @@ struct OnboardingView: View {
                             .font(.title3)
                             .foregroundStyle(.secondary)
                     }
-                    .padding(.top, 12)
 
                     VStack(alignment: .leading, spacing: 18) {
                         ForEach(points) { p in
@@ -91,8 +102,9 @@ struct OnboardingView: View {
             .background(.ultraThinMaterial)
         }
         .background(Theme.desk)
+        .id(loc.language)   // the picker above switches the language live; redraw the sheet
         #if os(macOS)
-        .frame(width: 560, height: 620)
+        .frame(width: 560, height: 640)
         #endif
         .interactiveDismissDisabled()
     }

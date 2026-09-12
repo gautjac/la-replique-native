@@ -10,14 +10,19 @@ struct LaRepliqueApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
-                .environment(\.locale, loc.language.locale)
-                .id(loc.language)          // re-render the whole tree when the language switches
+                .environment(\.locale, loc.language.locale)   // RootView re-identifies its own tree on change
                 .tint(Theme.gel)
                 .preferredColorScheme(.dark)
         }
         .modelContainer(Persistence.shared)
         #if os(macOS)
         .defaultSize(width: 1280, height: 840)
+        .commands {
+            // View ▸ Langue de l'interface ▸ Système / Français / English
+            CommandGroup(after: .toolbar) {
+                Menu("Langue de l'interface") { InterfaceLanguageRows() }
+            }
+        }
         #endif
 
         #if os(macOS)
