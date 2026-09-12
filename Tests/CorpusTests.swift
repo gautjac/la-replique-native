@@ -7,7 +7,7 @@ import ClaudeKit
 /// uncached task prompt.
 final class CorpusTests: XCTestCase {
 
-    private let ops = ["relance", "dramaturgie", "traduire", "retoucher", "voix", "etsi"]
+    private let ops = ["relance", "dramaturgie", "traduire", "retoucher", "voix", "etsi", "dramaturge"]
 
     func testManifestCoversTheSixAtelierOps() {
         XCTAssertEqual(Corpus.ops, ops.sorted())
@@ -68,10 +68,11 @@ final class CorpusTests: XCTestCase {
         XCTAssertTrue(try Corpus.files(for: "dramaturgie").contains("sw-story-structure/SKILL.md"))
         XCTAssertTrue(try Corpus.files(for: "etsi").contains("sw-premise-theme/SKILL.md"))
         XCTAssertTrue(try Corpus.files(for: "voix").contains("sw-character-conflict/reference.md"))
+        XCTAssertTrue(try Corpus.files(for: "dramaturge").contains("sw-premise-theme/SKILL.md"))
         XCTAssertThrowsError(try Corpus.files(for: "nope")) { XCTAssertEqual($0 as? Corpus.CorpusError, .unknownOp("nope")) }
         for op in ops {
             let chars = try Corpus.system(op: op, task: "").reduce(0) { $0 + $1.text.count }
-            XCTAssertLessThan(chars, 90_000, op) // ≈ 1 token per char in this corpus
+            XCTAssertLessThan(chars, 100_000, op) // ≈ 1 token per char in this corpus
         }
     }
 }
@@ -79,7 +80,29 @@ final class CorpusTests: XCTestCase {
 /// The tool list is part of the cache prefix: fixed content, fixed order.
 final class AtelierToolsTests: XCTestCase {
     func testOneFixedToolListInStableOrder() {
-        XCTAssertEqual(Atelier.tools.map(\.name), ["proposer_replique", "notes", "voix", "et_si", "retoucher", "traduction"])
+        XCTAssertEqual(Atelier.tools.map(\.name), ["proposer_replique", "notes", "voix", "et_si", "retoucher", "traduction", "reponse"])
         for t in Atelier.tools { XCTAssertEqual(t.description, "Return the result.") }
+    }
+}
+
+final class DramaturgeTests: XCTestCase {
+    func testTrimHistoryTailStartsOnUserAndAlternates() {
+        let h = (0..<30).map { DramaturgeTurn(role: $0 % 2 == 0 ? "user" : "assistant", text: "t\($0)") }
+        let out = Atelier.trimHistory(h)
+        XCTAssertLessThanOrEqual(out.count, Atelier.dramaturgeMaxTurns)
+        XCTAssertEqual(out.first?.role, "user")
+        XCTAssertEqual(out.last?.text, "t29")
+        XCTAssertEqual(Atelier.trimHistory([DramaturgeTurn(role: "assistant", text: "a"), DramaturgeTurn(role: "user", text: "q"), DramaturgeTurn(role: "user", text: "r")]),
+                       [DramaturgeTurn(role: "user", text: "q\n\nr")])
+        XCTAssertEqual(Atelier.trimHistory([DramaturgeTurn(role: "system", text: "x"), DramaturgeTurn(role: "user", text: " ")]), [])
+    }
+    func testAnswerBlocksParagraphsAndBullets() {
+        XCTAssertEqual(AnswerText.blocks("Un.\nDeux.\n\nTrois."), [.paragraph("Un. Deux."), .paragraph("Trois.")])
+        XCTAssertEqual(AnswerText.blocks("Deux pistes :\n- couper\n- entrer\nVoilà."), [.paragraph("Deux pistes :"), .bullets(["couper", "entrer"]), .paragraph("Voilà.")])
+        XCTAssertEqual(AnswerText.blocks(""), [])
+    }
+    func testDramaturgeResDecodes() throws {
+        let r = try JSONDecoder().decode(DramaturgeRes.self, from: Data(#"{"answer":"Alice veut qu'il parte.","followups":["Et Bruno ?"]}"#.utf8))
+        XCTAssertEqual(r.followups, ["Et Bruno ?"])
     }
 }

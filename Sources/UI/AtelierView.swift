@@ -8,12 +8,13 @@ struct AtelierView: View {
     var onOpenPlay: (UUID) -> Void
 
     enum Tool: String, CaseIterable, Identifiable {
-        case relance, etsi, dramaturgie, voix, traduire
+        case relance, etsi, dramaturgie, voix, traduire, dramaturge
         var id: String { rawValue }
         var label: String {
             switch self {
             case .relance: return String(localized: "Relancer"); case .etsi: return String(localized: "Et si…")
             case .dramaturgie: return String(localized: "Dramaturgie"); case .voix: return String(localized: "Voix"); case .traduire: return String(localized: "Traduire")
+            case .dramaturge: return String(localized: "Demander")
             }
         }
     }
@@ -31,6 +32,13 @@ struct AtelierView: View {
     @State private var voixRes: VoixRes?
     @State private var etsiRes: EtSiRes?
 
+    // Dramaturge thread — kept while the sheet is open; a new play = a new sheet.
+    struct Turn: Identifiable { let id = UUID(); let role: String; let text: String; var followups: [String] = [] }
+    @State private var thread: [Turn] = []
+    @State private var question = ""
+    @State private var wholePlay = true
+    @FocusState private var questionFocused: Bool
+
     private var sceneBlocks: [Editing.Block] { Editing.decompose(play).blocks.filter { !$0.isAct } }
     private var selectedEls: [Element] {
         if let id = sceneID, let b = sceneBlocks.first(where: { $0.id == id }) { return b.els }
@@ -41,12 +49,16 @@ struct AtelierView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    if !AppKeys.hasAnthropic {
+                    if !AppKeys.hasAnthropic && !Self.uiPreview {
                         keyPrompt
                     } else {
                         toolPicker
                         contextControls
-                        runButton
+                        if tool == .dramaturge {
+                            dramaturgePane
+                        } else {
+                            runButton
+                        }
                         if busy { HStack { ProgressView(); Text(stage).foregroundStyle(.secondary) } }
                         if let error { Text(error).foregroundStyle(Theme.rose) }
                         results
@@ -64,9 +76,13 @@ struct AtelierView: View {
             .sheet(isPresented: $showKeys) { KeySetupView() }
         }
         #if os(macOS)
-        .frame(width: 500, height: 640)
+        .frame(width: 580, height: 700)
         #endif
     }
+
+    /// `ATELIER_PREVIEW=1` in the environment shows the tools without a key (UI checks
+    /// in a Debug build); every call then fails with the normal "add your key" error.
+    static let uiPreview = ProcessInfo.processInfo.environment["ATELIER_PREVIEW"] == "1"
 
     private var keyPrompt: some View {
         VStack(spacing: 12) {
@@ -83,7 +99,13 @@ struct AtelierView: View {
     }
 
     @ViewBuilder private var contextControls: some View {
-        if tool != .traduire {
+        if tool == .dramaturge {
+            Picker("Sur quoi ?", selection: $wholePlay) {
+                Text("Toute la pièce").tag(true)
+                Text("Une scène").tag(false)
+            }.pickerStyle(.segmented)
+        }
+        if tool != .traduire && (tool != .dramaturge || !wholePlay) {
             Picker("Scène", selection: $sceneID) {
                 Text("Scène courante").tag(UUID?.none)
                 ForEach(sceneBlocks) { b in Text(b.heading.label ?? "Scène").tag(Optional(b.id)) }
@@ -126,6 +148,100 @@ struct AtelierView: View {
                     }.padding(10).background(Theme.deskLight, in: RoundedRectangle(cornerRadius: 10))
                 }
             }
+        }
+    }
+
+    // MARK: Dramaturge pane
+
+    private var starters: [String] {
+        var list: [String] = []
+        if let n = play.characterList.first?.name {
+            list.append(String(format: String(localized: "Qu'est-ce que %@ veut vraiment ici, et qu'est-ce qui l'en empêche ?"), n))
+        }
+        list.append(String(localized: "Où la scène tourne-t-elle ? Où est-ce qu'elle mollit ?"))
+        list.append(String(localized: "Ma fin est-elle gagnée, ou seulement annoncée ?"))
+        list.append(String(localized: "Quel personnage est le plus faible, et pourquoi ?"))
+        return list
+    }
+
+    private func chips(_ title: LocalizedStringKey, _ items: [String]) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title).font(.caption).foregroundStyle(.secondary)
+            FlowChips(items: items, disabled: busy) { q in Task { await ask(q) } }
+        }
+    }
+
+    private var dramaturgePane: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Pose une question sur ta pièce — un personnage, une scène qui mollit, une fin. Une lecture, pas un verdict.")
+                .font(.callout).foregroundStyle(.secondary)
+            if thread.isEmpty { chips("Pour commencer", starters) }
+            ForEach(thread) { turn in
+                if turn.role == "user" {
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("Toi").font(.caption2.weight(.bold)).foregroundStyle(.secondary)
+                        Text(turn.text).font(.callout).foregroundStyle(.white)
+                    }
+                    .padding(10).frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Theme.deskLight, in: RoundedRectangle(cornerRadius: 10)).padding(.leading, 24)
+                } else {
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack { Text("Le dramaturge").font(.caption2.weight(.bold)).foregroundStyle(Theme.gelBright); Spacer(); draftBadge }
+                        ForEach(Array(AnswerText.blocks(turn.text).enumerated()), id: \.offset) { _, b in
+                            switch b {
+                            case .paragraph(let t): Text(t).font(.callout).foregroundStyle(.white)
+                            case .bullets(let items):
+                                VStack(alignment: .leading, spacing: 3) {
+                                    ForEach(Array(items.enumerated()), id: \.offset) { _, it in
+                                        HStack(alignment: .top, spacing: 6) { Text("•"); Text(it) }.font(.callout).foregroundStyle(.white)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .padding(12).frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Theme.deskLight, in: RoundedRectangle(cornerRadius: 10))
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.gel.opacity(0.4))).padding(.trailing, 24)
+                }
+            }
+            if !busy, let last = thread.last, last.role == "assistant", !last.followups.isEmpty { chips("Et ensuite…", last.followups) }
+            VStack(spacing: 6) {
+                TextField("Ta question au dramaturge…", text: $question, axis: .vertical)
+                    .lineLimit(1...4).textFieldStyle(.plain).focused($questionFocused)
+                    .onSubmit { Task { await ask(question) } }
+                HStack {
+                    if !thread.isEmpty {
+                        Button("Nouvelle conversation") { thread = []; error = nil }.font(.caption).disabled(busy)
+                    }
+                    Spacer()
+                    Button("Envoyer") { Task { await ask(question) } }
+                        .buttonStyle(.borderedProminent)
+                        .disabled(busy || question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                }
+            }
+            .padding(10).background(Theme.deskLight, in: RoundedRectangle(cornerRadius: 10))
+        }
+    }
+
+    private func ask(_ q: String) async {
+        let text = q.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !text.isEmpty, !busy else { return }
+        let history = thread.map { DramaturgeTurn(role: $0.role, text: $0.text) }
+        thread.append(Turn(role: "user", text: text))
+        question = ""; error = nil; busy = true; stage = String(localized: "je relis la pièce…")
+        defer { busy = false; questionFocused = true }
+        do {
+            let els = wholePlay ? play.elementList : selectedEls
+            let res = try await Atelier.dramaturge(lang: play.lang, question: text,
+                                                   play: Atelier.scriptText(els, play: play), title: play.title,
+                                                   cast: play.characterList.map(\.name), history: history)
+            thread.append(Turn(role: "assistant", text: res.answer, followups: res.followups))
+        } catch is AtelierError {
+            thread.removeLast(); question = text
+            error = "Ajoute d'abord ta clé Claude."
+        } catch {
+            thread.removeLast(); question = text
+            self.error = "Le service n'a pas répondu. Réessaie dans un instant."
         }
     }
 
@@ -186,6 +302,8 @@ struct AtelierView: View {
                 let name = play.character(id: cid)?.name ?? "?"
                 let lines = play.elementList.filter { $0.kind == .cue && $0.characterID == cid }.compactMap { $0.text }
                 voixRes = try await Atelier.voix(lang: play.lang, characterName: name, lines: lines)
+            case .dramaturge:
+                break // handled by ask(_:) from the pane
             case .traduire:
                 stage = String(localized: "je traduis…")
                 let to: Lang = play.lang == .fr ? .en : .fr
@@ -207,5 +325,50 @@ struct AtelierView: View {
         el.text = r.line
         el.parenthetical = (r.parenthetical?.isEmpty == false) ? r.parenthetical : nil
         relanceRes = nil
+    }
+}
+
+/// Answer text → paragraphs and "- " bullet lists (mirrors the web helper).
+enum AnswerText {
+    enum Block: Equatable { case paragraph(String), bullets([String]) }
+    static func blocks(_ answer: String) -> [Block] {
+        var out: [Block] = []
+        for chunk in answer.replacingOccurrences(of: "\r\n", with: "\n").components(separatedBy: "\n\n") {
+            var para: [String] = [], items: [String] = []
+            for raw in chunk.components(separatedBy: "\n") {
+                let l = raw.trimmingCharacters(in: .whitespaces)
+                if l.isEmpty { continue }
+                if l.hasPrefix("- ") || l.hasPrefix("• ") {
+                    if !para.isEmpty { out.append(.paragraph(para.joined(separator: " "))); para = [] }
+                    items.append(String(l.dropFirst(2)).trimmingCharacters(in: .whitespaces))
+                } else {
+                    if !items.isEmpty { out.append(.bullets(items)); items = [] }
+                    para.append(l)
+                }
+            }
+            if !para.isEmpty { out.append(.paragraph(para.joined(separator: " "))) }
+            if !items.isEmpty { out.append(.bullets(items)) }
+        }
+        return out
+    }
+}
+
+/// Wrapping row of tappable question chips.
+struct FlowChips: View {
+    let items: [String]
+    var disabled = false
+    let onTap: (String) -> Void
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            ForEach(Array(items.enumerated()), id: \.offset) { _, q in
+                Button { onTap(q) } label: {
+                    Text(q).font(.caption).multilineTextAlignment(.leading).frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 10).padding(.vertical, 7)
+                        .background(Theme.deskLight, in: Capsule())
+                        .overlay(Capsule().stroke(Theme.gel.opacity(0.35)))
+                }
+                .buttonStyle(.plain).disabled(disabled)
+            }
+        }
     }
 }

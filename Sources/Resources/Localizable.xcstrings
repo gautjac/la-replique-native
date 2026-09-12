@@ -1924,7 +1924,167 @@
         }
       }
     },
-    "＋": {}
+    "＋": {},
+    "Sur quoi ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About what?"
+          }
+        }
+      }
+    },
+    "Toute la pièce": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The whole play"
+          }
+        }
+      }
+    },
+    "Une scène": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One scene"
+          }
+        }
+      }
+    },
+    "Pose une question sur ta pièce — un personnage, une scène qui mollit, une fin. Une lecture, pas un verdict.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ask a question about your play — a character, a sagging scene, an ending. A reading, not a verdict."
+          }
+        }
+      }
+    },
+    "Pour commencer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To get started"
+          }
+        }
+      }
+    },
+    "Et ensuite…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "And next…"
+          }
+        }
+      }
+    },
+    "Toi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You"
+          }
+        }
+      }
+    },
+    "Le dramaturge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The dramaturg"
+          }
+        }
+      }
+    },
+    "Ta question au dramaturge…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your question for the dramaturg…"
+          }
+        }
+      }
+    },
+    "Nouvelle conversation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New conversation"
+          }
+        }
+      }
+    },
+    "je relis la pièce…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "re-reading the play…"
+          }
+        }
+      }
+    },
+    "Qu'est-ce que %@ veut vraiment ici, et qu'est-ce qui l'en empêche ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What does %@ really want here, and what stands in the way?"
+          }
+        }
+      }
+    },
+    "Où la scène tourne-t-elle ? Où est-ce qu'elle mollit ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Where does the scene turn? Where does it go slack?"
+          }
+        }
+      }
+    },
+    "Ma fin est-elle gagnée, ou seulement annoncée ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Is my ending earned, or only announced?"
+          }
+        }
+      }
+    },
+    "Quel personnage est le plus faible, et pourquoi ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Which character is the weakest, and why?"
+          }
+        }
+      }
+    },
+    "Envoyer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send"
+          }
+        }
+      }
+    }
   },
   "version": "1.0"
 }

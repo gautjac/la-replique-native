@@ -25,5 +25,11 @@ so the web `evals/goldens.md` applies verbatim; the essentials:
    lecture; the read is sharper (wants, tactics, on-the-nose lines, where the value turns),
    not longer. See `docs/CRAFT_CORPUS.md`.
 
+8. **Dramaturge (threaded Q&A)** — « Toute la pièce » or one scene; starter chips when empty,
+   follow-up chips after each answer; the thread survives switching tools inside the sheet and
+   is dropped when the sheet closes. Same qualities as the web §11: answers THE question about
+   THESE pages, quotes real fragments, offers readings not orders, `followups` specific to the
+   play, no invented off-page facts, no flattery, no Chinese. Console on Q2: `cache_read` ≈ 86 K.
+
 Run via the Atelier sheet with a key set, or unit-test the pure prep (`Atelier.scriptText`,
 `Translate.buildBundle/makeTranslatedPlay`, result-struct decoding) — see `Tests/AtelierTests.swift`.
