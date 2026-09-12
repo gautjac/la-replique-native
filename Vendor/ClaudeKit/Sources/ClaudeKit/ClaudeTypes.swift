@@ -161,8 +161,12 @@ public struct ClaudeRequest: Sendable, Equatable {
     public var model: ClaudeModel
     /// Upper bound on generated tokens.
     public var maxTokens: Int
-    /// Optional system prompt.
+    /// Optional system prompt (plain string form).
     public var system: String?
+    /// Optional system prompt as content blocks, each with an optional
+    /// prompt-cache marker. When set, it is sent instead of ``system`` —
+    /// use it to put a large, stable corpus ahead of a small task prompt.
+    public var systemBlocks: [ClaudeSystemBlock]?
     /// The conversation so far; must end on a `user` turn.
     public var messages: [ClaudeMessage]
     /// Sampling temperature 0...1. Leave nil for the model default (some
@@ -178,6 +182,7 @@ public struct ClaudeRequest: Sendable, Equatable {
         model: ClaudeModel = .sonnet,
         maxTokens: Int = 4096,
         system: String? = nil,
+        systemBlocks: [ClaudeSystemBlock]? = nil,
         messages: [ClaudeMessage],
         temperature: Double? = nil,
         tools: [ClaudeTool]? = nil,
@@ -186,9 +191,75 @@ public struct ClaudeRequest: Sendable, Equatable {
         self.model = model
         self.maxTokens = maxTokens
         self.system = system
+        self.systemBlocks = systemBlocks
         self.messages = messages
         self.temperature = temperature
         self.tools = tools
         self.toolChoice = toolChoice
+    }
+}
+
+// MARK: - System blocks + prompt caching
+
+/// A prompt-cache breakpoint on a system block (`cache_control`).
+/// Everything up to and including the marked block is cached as a prefix;
+/// reads cost ~0.1× input price. Minimum cacheable prefix is model-dependent
+/// (1024 tokens on Opus 4.8) — shorter prefixes silently don't cache.
+public struct ClaudeCacheControl: Sendable, Equatable, Codable {
+    public enum TTL: String, Sendable, Codable {
+        case fiveMinutes = "5m"
+        case oneHour = "1h"
+    }
+
+    /// Time-to-live; nil = the API default (5 minutes).
+    public var ttl: TTL?
+
+    public init(ttl: TTL? = nil) { self.ttl = ttl }
+
+    private enum CodingKeys: String, CodingKey { case type, ttl }
+
+    public func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode("ephemeral", forKey: .type)
+        try c.encodeIfPresent(ttl, forKey: .ttl)
+    }
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        ttl = try c.decodeIfPresent(TTL.self, forKey: .ttl)
+    }
+}
+
+/// One text block of a system prompt, optionally marked as a cache breakpoint.
+public struct ClaudeSystemBlock: Sendable, Equatable, Codable {
+    public var text: String
+    public var cacheControl: ClaudeCacheControl?
+
+    public init(text: String, cacheControl: ClaudeCacheControl? = nil) {
+        self.text = text
+        self.cacheControl = cacheControl
+    }
+
+    /// A block cached for `ttl` (default 5 minutes).
+    public static func cached(_ text: String, ttl: ClaudeCacheControl.TTL? = nil) -> ClaudeSystemBlock {
+        ClaudeSystemBlock(text: text, cacheControl: ClaudeCacheControl(ttl: ttl))
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case type, text
+        case cacheControl = "cache_control"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode("text", forKey: .type)
+        try c.encode(text, forKey: .text)
+        try c.encodeIfPresent(cacheControl, forKey: .cacheControl)
+    }
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        text = try c.decode(String.self, forKey: .text)
+        cacheControl = try c.decodeIfPresent(ClaudeCacheControl.self, forKey: .cacheControl)
     }
 }

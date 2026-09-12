@@ -149,10 +149,24 @@ public struct ClaudeClient: Sendable {
     // MARK: - Request building
 
     /// The wire shape of the request body (snake_case keys, nils omitted).
+    /// `system` is either a plain string or an array of text blocks.
+    private enum SystemField: Encodable {
+        case text(String)
+        case blocks([ClaudeSystemBlock])
+
+        func encode(to encoder: Encoder) throws {
+            var c = encoder.singleValueContainer()
+            switch self {
+            case .text(let s): try c.encode(s)
+            case .blocks(let b): try c.encode(b)
+            }
+        }
+    }
+
     private struct Body: Encodable {
         let model: String
         let maxTokens: Int
-        let system: String?
+        let system: SystemField?
         let messages: [ClaudeMessage]
         let temperature: Double?
         let tools: [ClaudeTool]?
@@ -180,7 +194,7 @@ public struct ClaudeClient: Sendable {
         let body = Body(
             model: request.model.id,
             maxTokens: request.maxTokens,
-            system: request.system,
+            system: request.systemBlocks.map(SystemField.blocks) ?? request.system.map(SystemField.text),
             messages: request.messages,
             temperature: request.temperature,
             tools: request.tools,

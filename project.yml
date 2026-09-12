@@ -43,6 +43,12 @@ targets:
       macOS: "14.0"
     sources:
       - path: Sources
+      # The Atelier's craft corpus (screenwriting skills, Chinese-bodied markdown)
+      # as a folder reference → copied verbatim into the bundle as Resources/Corpus/.
+      # Source of truth is the web app; `npm run corpus:sync` there mirrors it here.
+      - path: Corpus
+        type: folder
+        buildPhase: resources
     dependencies:
       - package: ClaudeKit
         product: ClaudeKit

@@ -13,10 +13,17 @@ public struct ClaudeResponse: Sendable, Equatable {
     public struct Usage: Sendable, Equatable, Decodable {
         public let inputTokens: Int?
         public let outputTokens: Int?
+        /// Tokens written to the prompt cache on this request (1.25× / 2× price).
+        public let cacheCreationInputTokens: Int?
+        /// Tokens served from the prompt cache (~0.1× price). Zero across
+        /// repeated identical-prefix requests means something is invalidating it.
+        public let cacheReadInputTokens: Int?
 
         private enum CodingKeys: String, CodingKey {
             case inputTokens = "input_tokens"
             case outputTokens = "output_tokens"
+            case cacheCreationInputTokens = "cache_creation_input_tokens"
+            case cacheReadInputTokens = "cache_read_input_tokens"
         }
     }
 

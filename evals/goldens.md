@@ -16,5 +16,14 @@ so the web `evals/goldens.md` applies verbatim; the essentials:
    proper nouns kept, keys unchanged.
 6. **Retoucher (tighten)** — 3 shorter variants, same intent/voice, `note` explains the cut.
 
+7. **Craft corpus present, invisible, cached** — every op sends the vendored screenwriting
+   skills (`Corpus/`, same `manifest.json` as the web app) as two cached system blocks ahead of
+   the task prompt, plus ONE fixed tool list (tools are part of the cache prefix). Run relance
+   twice, then dramaturgie: the Xcode console prints `atelier relance: … cache_read=≈57000` on
+   the second call and `atelier dramaturgie: … cache_read=≈36000` (the shared core) right
+   after. Output stays in the scene's language — no Chinese, no book or author names, no craft
+   lecture; the read is sharper (wants, tactics, on-the-nose lines, where the value turns),
+   not longer. See `docs/CRAFT_CORPUS.md`.
+
 Run via the Atelier sheet with a key set, or unit-test the pure prep (`Atelier.scriptText`,
 `Translate.buildBundle/makeTranslatedPlay`, result-struct decoding) — see `Tests/AtelierTests.swift`.

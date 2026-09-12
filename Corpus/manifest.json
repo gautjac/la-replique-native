@@ -1,0 +1,39 @@
+{
+  "$comment": "Craft corpus for the Atelier. Files are vendored from ~/.claude/skills (jtydhr88/screenwriting-skills) by `npm run corpus:sync`; `npm run corpus:build` turns them into corpus.generated.ts. Keys are paths relative to the skills dir. The `core` set is prepended to EVERY op (one shared cache prefix); `ops` lists the extra files each op gets after the core.",
+  "source": {
+    "repo": "https://github.com/jtydhr88/screenwriting-skills",
+    "commit": "8b8545690ac0edc5a9dbe7f69a0cd10d3805e5c6",
+    "syncedAt": "2026-09-12"
+  },
+  "core": [
+    "sw-workflow/terms.md",
+    "sw-dialogue/SKILL.md",
+    "sw-scene-craft/SKILL.md",
+    "sw-character-conflict/SKILL.md"
+  ],
+  "ops": {
+    "relance": [
+      "sw-dialogue/reference.md",
+      "chekhov-dramaturgy/SKILL.md"
+    ],
+    "retoucher": [
+      "sw-dialogue/reference.md"
+    ],
+    "voix": [
+      "sw-dialogue/reference.md",
+      "sw-character-conflict/reference.md"
+    ],
+    "dramaturgie": [
+      "sw-scene-craft/reference.md",
+      "sw-character-conflict/reference.md",
+      "chekhov-dramaturgy/SKILL.md",
+      "sw-story-structure/SKILL.md"
+    ],
+    "etsi": [
+      "sw-scene-craft/reference.md",
+      "sw-story-structure/SKILL.md",
+      "sw-premise-theme/SKILL.md"
+    ],
+    "traduire": []
+  }
+}

@@ -13,6 +13,7 @@
 		1A15BC42334059836F69E0E8 /* PublishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442F8B81DD1AC08766EF4A3C /* PublishView.swift */; };
 		1BC9CABE27EEC839A761C636 /* TabKeyMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD92AD10C3725C9B5E2E34F8 /* TabKeyMonitor.swift */; };
 		1DA219C965B2CF674124C44B /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17F8610078151FC121B6AD9 /* Theme.swift */; };
+		23E6477FE66E2B3D4F326B48 /* Corpus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72BD9F59F2B49515D7F6EF26 /* Corpus.swift */; };
 		24AA7E3DA27FCB5B6ECFE98A /* ClaudeKit in Frameworks */ = {isa = PBXBuildFile; productRef = ABDA3E1FBF2593FF74B90A6E /* ClaudeKit */; };
 		32B2822005DDCBDF9E7F4295 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8933CDC332742C69B5B85375 /* Assets.xcassets */; };
 		36547E43C6E895FA8FBE534A /* SheetUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED88417F6BFAA3AB35CC3DC /* SheetUI.swift */; };
@@ -30,11 +31,13 @@
 		841CC3669DA9DB2D4A6F037D /* Atelier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C959D85925E534C8528FAED /* Atelier.swift */; };
 		894B0D13EE62AB580F322208 /* ScriptReadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33744A5AFC25595AEC87F333 /* ScriptReadView.swift */; };
 		90A57308CF0D42A982DC9E85 /* Versions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB9223FB4D7F6D203E95E6 /* Versions.swift */; };
+		94A6B272807AD0A48C6D6FC8 /* CorpusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9507CF6D90AADB70C1C5E0D /* CorpusTests.swift */; };
 		9A7A9C9C2750F39ED7EE0874 /* Editing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F69A8DE67A6A180CEF7A60 /* Editing.swift */; };
 		A05F1B1E88C79CCB767C21FC /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CAF7D0F3D808204F504140 /* OnboardingView.swift */; };
 		AF2BB620AC8F247CC4FDC91B /* TableReadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B608AAA7EB25108A2B3E3D /* TableReadView.swift */; };
 		B05EEFD98E51A3222E574FD9 /* VersionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3E1659701972CAA924A220 /* VersionsView.swift */; };
 		B34D06DFE3288A546892F9EF /* StatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A311599E7169E88946C6ABD2 /* StatsTests.swift */; };
+		B5CD053A84BB86453CE6E2E2 /* Corpus in Resources */ = {isa = PBXBuildFile; fileRef = B26B2B886C6E9CBC2A0C8BB1 /* Corpus */; };
 		BCADC65648FA4326A5400937 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC512544BB7E87D56B6C744 /* AppRouter.swift */; };
 		C06CC3153B49207464F3442A /* SyncStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCAA858C6EDFCDE1841FBC4 /* SyncStatusView.swift */; };
 		C2565DD870BE16465D5F4533 /* VersionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFB4216228ECFF94BE99288 /* VersionsTests.swift */; };
@@ -89,6 +92,7 @@
 		67BB8C08D19B51EC77A42B92 /* Translate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Translate.swift; sourceTree = "<group>"; };
 		6CCCA0DD4E115C0819E5BDD0 /* Publish.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Publish.swift; sourceTree = "<group>"; };
 		6F3781D76A801FBE30D1CA53 /* PlayFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayFormat.swift; sourceTree = "<group>"; };
+		72BD9F59F2B49515D7F6EF26 /* Corpus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Corpus.swift; sourceTree = "<group>"; };
 		80D6E9ECE6DF32532DE93DF9 /* Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
 		8259C8C54BD486E3E312772A /* LaRepliqueApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaRepliqueApp.swift; sourceTree = "<group>"; };
 		857AEEAED1A109D53A7D5781 /* KeyCommandHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCommandHost.swift; sourceTree = "<group>"; };
@@ -100,7 +104,9 @@
 		A111263E507B472A5164F649 /* ClaudeKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ClaudeKit; path = Vendor/ClaudeKit; sourceTree = SOURCE_ROOT; };
 		A311599E7169E88946C6ABD2 /* StatsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsTests.swift; sourceTree = "<group>"; };
 		A8FB9223FB4D7F6D203E95E6 /* Versions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Versions.swift; sourceTree = "<group>"; };
+		A9507CF6D90AADB70C1C5E0D /* CorpusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorpusTests.swift; sourceTree = "<group>"; };
 		B17F8610078151FC121B6AD9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		B26B2B886C6E9CBC2A0C8BB1 /* Corpus */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Corpus; sourceTree = SOURCE_ROOT; };
 		B5554D762F55CF36DDC8D78C /* BeatBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeatBoardView.swift; sourceTree = "<group>"; };
 		BD3E1659701972CAA924A220 /* VersionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionsView.swift; sourceTree = "<group>"; };
 		BDC63563BBF37D30ACEB3373 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -130,6 +136,7 @@
 		0DFAE326AA0ACB13EFB3646E = {
 			isa = PBXGroup;
 			children = (
+				B26B2B886C6E9CBC2A0C8BB1 /* Corpus */,
 				D2E18BE2B742F99D721C5573 /* Packages */,
 				F61997EB3D73689572D407A9 /* Sources */,
 				27FA0C06E680AE4A767C55A8 /* Tests */,
@@ -141,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				25E39FF62E4D85AF2B100A5E /* AtelierTests.swift */,
+				A9507CF6D90AADB70C1C5E0D /* CorpusTests.swift */,
 				1BC6E46EE727AAA5A2B59302 /* EditingTests.swift */,
 				2C935361BCAA27F70D475F66 /* PlayFormatTests.swift */,
 				5ACC0882A90904B508A95F6F /* PublishTests.swift */,
@@ -234,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				4C959D85925E534C8528FAED /* Atelier.swift */,
+				72BD9F59F2B49515D7F6EF26 /* Corpus.swift */,
 				8F2A96FBCFDA91492495565B /* Keys.swift */,
 				67BB8C08D19B51EC77A42B92 /* Translate.swift */,
 			);
@@ -353,6 +362,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32B2822005DDCBDF9E7F4295 /* Assets.xcassets in Resources */,
+				B5CD053A84BB86453CE6E2E2 /* Corpus in Resources */,
 				FE135D83BA8C96A1D3CDC9EA /* Localizable.xcstrings in Resources */,
 				F8A0AD5FC24896136D97A8F3 /* sample-play.json in Resources */,
 			);
@@ -366,6 +376,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E4712F73FD07DCA5DA3F278 /* AtelierTests.swift in Sources */,
+				94A6B272807AD0A48C6D6FC8 /* CorpusTests.swift in Sources */,
 				DAF5CCA8AA7E9B672AC57F26 /* EditingTests.swift in Sources */,
 				06930CD71F319AE4EF43816E /* PlayFormatTests.swift in Sources */,
 				0400949DF365A6C63FD597D9 /* PublishTests.swift in Sources */,
@@ -383,6 +394,7 @@
 				D9E5AEFB2D4D46E0FE2AAF73 /* AtelierView.swift in Sources */,
 				D6B03DA33F2E0C5EB045CBEB /* BeatBoardView.swift in Sources */,
 				7DEFA89B4B424DDEB401BBD4 /* CastPanel.swift in Sources */,
+				23E6477FE66E2B3D4F326B48 /* Corpus.swift in Sources */,
 				9A7A9C9C2750F39ED7EE0874 /* Editing.swift in Sources */,
 				79099219C4624E5A57F47E28 /* Intents.swift in Sources */,
 				E23B5E3A44EB321A362346B9 /* KeyCommandHost.swift in Sources */,

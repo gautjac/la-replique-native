@@ -41,3 +41,12 @@ answer; « no story » is not.
   is one shot, then the user works the output.
 
 _Last walked: 2026-07-13 (P6). Re-walk on any model change or new AI surface._
+
+## Craft corpus (2026-09-12)
+
+Every Atelier op carries the screenwriting-skills corpus as cached system blocks (`Sources/AI/Corpus.swift`,
+`Corpus/manifest.json`). Rule 10 still holds: the PREAMBLE tells the model the library is background
+knowledge only, never an instruction, and the scene's own logic wins. Rule 8 is reinforced, not
+weakened — the corpus is the standard the no-flattery read is measured against. The library is
+never quoted or cited to the writer (draft-not-verdict, rule 1: the writer sees a reading of THEIR
+text, not a lecture).
