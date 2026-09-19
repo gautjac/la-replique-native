@@ -15,6 +15,10 @@ struct PlayEditorView: View {
     @Environment(\.modelContext) private var context
     @Bindable var play: Play
     @Binding var jumpTarget: UUID?
+    /// Open readers' notes per element id (empty when the play isn't shared).
+    var noteCounts: [String: Int] = [:]
+    /// A margin badge was tapped.
+    var onShowNotes: (UUID) -> Void = { _ in }
     @FocusState private var focused: UUID?
 
     @State private var newCharName = ""
@@ -145,7 +149,8 @@ struct PlayEditorView: View {
             enter: onEnter, tab: onTab, backspace: onBackspace,
             textChanged: { el, v in handleTypeAhead(el, v); updateSpeakerHint(el, v) },
             acceptHint: acceptSpeakerHint,
-            newCharacter: { el in newCharTarget = el.id })
+            newCharacter: { el in newCharTarget = el.id },
+            showNotes: { el in onShowNotes(el.id) })
         // Lazy: only the blocks on screen exist as views. A 1500-line play used
         // to instantiate 1500 text fields, and any environment change (window
         // activation, resize, keyboard) re-ran every one of them (~1.5 s).
@@ -161,6 +166,7 @@ struct PlayEditorView: View {
                 ForEach(els) { el in
                     ElementRow(el: el, play: play, focus: $focused,
                                hint: speakerHint?.el == el.id ? speakerHint : nil,
+                               noteCount: noteCounts[el.id.uuidString] ?? 0,
                                actions: actions)
                         .equatable()
                         .id(el.id)
@@ -289,6 +295,7 @@ private struct RowActions {
     var textChanged: (Element, String) -> Void
     var acceptHint: (Element) -> Void
     var newCharacter: (Element) -> Void
+    var showNotes: (Element) -> Void
 }
 
 // MARK: - One block of the script
@@ -301,6 +308,8 @@ private struct ElementRow: View, Equatable {
     let play: Play
     var focus: FocusState<UUID?>.Binding
     let hint: SpeakerHint?
+    /// Open readers' notes anchored to this block (0 = no badge).
+    let noteCount: Int
     let actions: RowActions
 
     /// What decides whether a parent pass needs to redraw this row: the element
@@ -311,12 +320,13 @@ private struct ElementRow: View, Equatable {
         let el: UUID     // the model's own id — object identity isn't stable across SwiftData faults
         let play: UUID
         let hint: SpeakerHint?
+        let noteCount: Int
     }
     nonisolated private let key: Key
 
-    init(el: Element, play: Play, focus: FocusState<UUID?>.Binding, hint: SpeakerHint?, actions: RowActions) {
-        self.el = el; self.play = play; self.focus = focus; self.hint = hint; self.actions = actions
-        self.key = Key(el: el.id, play: play.id, hint: hint)
+    init(el: Element, play: Play, focus: FocusState<UUID?>.Binding, hint: SpeakerHint?, noteCount: Int, actions: RowActions) {
+        self.el = el; self.play = play; self.focus = focus; self.hint = hint; self.noteCount = noteCount; self.actions = actions
+        self.key = Key(el: el.id, play: play.id, hint: hint, noteCount: noteCount)
     }
 
     nonisolated static func == (a: ElementRow, b: ElementRow) -> Bool { a.key == b.key }
@@ -325,6 +335,18 @@ private struct ElementRow: View, Equatable {
         #if DEBUG
         let _ = RenderCounter.row(el.id)
         #endif
+        block
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .overlay(alignment: .topTrailing) {
+                if noteCount > 0 {
+                    Button { actions.showNotes(el) } label: { NoteBadge(count: noteCount) }
+                        .buttonStyle(.plain)
+                        .offset(x: 22, y: 6)
+                }
+            }
+    }
+
+    @ViewBuilder private var block: some View {
         switch el.kind {
         case .act:
             HStack(spacing: 12) {

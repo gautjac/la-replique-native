@@ -7,6 +7,8 @@ struct RootView: View {
     @Query(sort: \Play.updatedAt, order: .reverse) private var plays: [Play]
     @ObservedObject private var router = AppRouter.shared
     @ObservedObject private var loc = LocalizationManager.shared
+    @ObservedObject private var inbox = NotesInbox.shared
+    @Environment(\.scenePhase) private var scenePhase
 
     @AppStorage("hasOnboarded") private var hasOnboarded = false
     @State private var selectedID: UUID?
@@ -22,7 +24,7 @@ struct RootView: View {
         NavigationSplitView {
             List(selection: $selectedID) {
                 ForEach(plays) { play in
-                    PlayRow(play: play).tag(play.id)
+                    PlayRow(play: play, unreadNotes: play.publicShareID.flatMap { inbox.unread[$0] } ?? 0).tag(play.id)
                         // Double-click opens the play's info card without stealing
                         // the List's single-click selection.
                         .simultaneousGesture(TapGesture(count: 2).onEnded { infoPlay = play })
@@ -73,6 +75,12 @@ struct RootView: View {
         }
         .task {
             if !hasOnboarded { showOnboarding = true }
+        }
+        // New readers' notes → a badge in the library. One light pass when the app
+        // comes forward; never while typing.
+        .task(id: scenePhase) {
+            guard scenePhase == .active else { return }
+            await inbox.refresh(shareIDs: plays.compactMap(\.publicShareID))
         }
         .sheet(isPresented: $showOnboarding, onDismiss: {
             hasOnboarded = true
@@ -137,6 +145,7 @@ struct RootView: View {
 
 private struct PlayRow: View {
     let play: Play
+    var unreadNotes = 0
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
             HStack(spacing: 8) {
@@ -147,6 +156,7 @@ private struct PlayRow: View {
                     .foregroundStyle(Theme.gelBright)
                 Text(play.title.isEmpty ? String(localized: "Pièce sans titre") : play.title)
                     .font(.headline).lineLimit(1)
+                if unreadNotes > 0 { Spacer(minLength: 4); NoteBadge(count: unreadNotes) }
             }
             if !play.subtitle.isEmpty {
                 Text(play.subtitle).font(.subheadline).foregroundStyle(.secondary).lineLimit(1)

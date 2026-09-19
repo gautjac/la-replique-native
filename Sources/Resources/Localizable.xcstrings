@@ -2,6 +2,16 @@
   "sourceLanguage": "fr",
   "strings": {
     "": {},
+    "%1$@ a laissé une note sur ta pièce.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ left a note on your play."
+          }
+        }
+      }
+    },
     "%@": {},
     "%lld": {},
     "%lld / %lld": {},
@@ -11,6 +21,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld actors · %lld roles"
+          }
+        }
+      }
+    },
+    "%lld notes ouvertes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld open notes"
+          }
+        }
+      }
+    },
+    "%lld nouvelles notes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld new notes"
           }
         }
       }
@@ -179,6 +209,16 @@
         }
       }
     },
+    "Aucune note pour l'instant. Envoie le lien de lecture — les notes paraîtront ici et dans la marge du texte.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No notes yet. Send the reading link — notes will appear here and in the margin of the script."
+          }
+        }
+      }
+    },
     "Aucune scène. Ajoute une carte pour bâtir ta structure.": {
       "localizations": {
         "en": {
@@ -209,6 +249,26 @@
         }
       }
     },
+    "C'est trop long (2000 caractères au plus).": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That's too long (2000 characters at most)."
+          }
+        }
+      }
+    },
+    "Cacher les réglées": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide resolved"
+          }
+        }
+      }
+    },
     "Ce qui se passe sur scène…": {
       "localizations": {
         "en": {
@@ -226,6 +286,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "What happens, what it changes"
+          }
+        }
+      }
+    },
+    "Cette pièce n'est pas partagée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This play isn't shared."
           }
         }
       }
@@ -336,6 +406,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sign in to iCloud to publish a reading."
+          }
+        }
+      }
+    },
+    "Connecte-toi à iCloud pour voir et laisser des notes.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in to iCloud to see and leave notes."
           }
         }
       }
@@ -564,6 +644,26 @@
         }
       }
     },
+    "Envoyer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send"
+          }
+        }
+      }
+    },
+    "Et ensuite…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "And next…"
+          }
+        }
+      }
+    },
     "Et si…": {
       "localizations": {
         "en": {
@@ -698,6 +798,16 @@
         }
       }
     },
+    "Je regarde s'il y a des notes…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Checking for notes…"
+          }
+        }
+      }
+    },
     "L'Atelier propose — rien n'entre dans ta pièce sans ton geste.": {
       "localizations": {
         "en": {
@@ -750,6 +860,16 @@
       }
     },
     "La Réplique": {},
+    "La note d'origine a été supprimée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The original note was deleted."
+          }
+        }
+      }
+    },
     "La page est vide.": {
       "localizations": {
         "en": {
@@ -833,6 +953,16 @@
         }
       }
     },
+    "Le dramaturge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The dramaturg"
+          }
+        }
+      }
+    },
     "Lecture partagée — gérer": {
       "localizations": {
         "en": {
@@ -859,6 +989,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Table read — ElevenLabs voices"
+          }
+        }
+      }
+    },
+    "Les notes se laissent sur la lecture web. Partage d'abord la pièce, puis ouvre-la aux notes.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notes are left on the web reading. Share the play first, then open it to notes."
+          }
+        }
+      }
+    },
+    "Leur ligne a été coupée ou réécrite depuis. Elles restent ici pour mémoire.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Their line has since been cut or rewritten. They stay here for the record."
           }
         }
       }
@@ -890,6 +1040,56 @@
           "stringUnit": {
             "state": "translated",
             "value": "Place, time… (optional)"
+          }
+        }
+      }
+    },
+    "Ma fin est-elle gagnée, ou seulement annoncée ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Is my ending earned, or only announced?"
+          }
+        }
+      }
+    },
+    "Marquer réglée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resolve"
+          }
+        }
+      }
+    },
+    "Masquer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide"
+          }
+        }
+      }
+    },
+    "Masquer cette note pour tout le monde ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide this note for everyone?"
+          }
+        }
+      }
+    },
+    "Masquer pour tout le monde": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide for everyone"
           }
         }
       }
@@ -997,6 +1197,36 @@
         }
       }
     },
+    "Notes des lecteurs": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Readers' notes"
+          }
+        }
+      }
+    },
+    "Notes détachées": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detached notes"
+          }
+        }
+      }
+    },
+    "Notes générales": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "General notes"
+          }
+        }
+      }
+    },
     "Nouveau personnage": {
       "localizations": {
         "en": {
@@ -1013,6 +1243,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "New character…"
+          }
+        }
+      }
+    },
+    "Nouvelle conversation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New conversation"
           }
         }
       }
@@ -1079,6 +1319,16 @@
         }
       }
     },
+    "Ouvertes : %lld · Réglées : %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open: %lld · Resolved: %lld"
+          }
+        }
+      }
+    },
     "Ouvrir": {
       "localizations": {
         "en": {
@@ -1099,6 +1349,16 @@
         }
       }
     },
+    "Ouvrir la lecture aux notes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open the reading to notes"
+          }
+        }
+      }
+    },
     "Où et quand la pièce a été créée.": {
       "extractionState": "manual",
       "localizations": {
@@ -1106,6 +1366,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Where and when the play premiered."
+          }
+        }
+      }
+    },
+    "Où la scène tourne-t-elle ? Où est-ce qu'elle mollit ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Where does the scene turn? Where does it go slack?"
           }
         }
       }
@@ -1146,6 +1416,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Share the reading (web)"
+          }
+        }
+      }
+    },
+    "Partager la lecture…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share the reading…"
           }
         }
       }
@@ -1242,12 +1522,42 @@
         }
       }
     },
+    "Pose une question sur ta pièce — un personnage, une scène qui mollit, une fin. Une lecture, pas un verdict.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ask a question about your play — a character, a sagging scene, an ending. A reading, not a verdict."
+          }
+        }
+      }
+    },
+    "Pour commencer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To get started"
+          }
+        }
+      }
+    },
     "Pour qui ?": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "For whom?"
+          }
+        }
+      }
+    },
+    "Pour recevoir des notes sur cette lecture, ouvre « Notes » dans la barre d'outils.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To receive notes on this reading, open “Notes” in the toolbar."
           }
         }
       }
@@ -1309,6 +1619,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Publish “%@” to get a web reading link."
+          }
+        }
+      }
+    },
+    "Publier": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Post"
           }
         }
       }
@@ -1384,12 +1704,32 @@
         }
       }
     },
+    "Qu'est-ce que %@ veut vraiment ici, et qu'est-ce qui l'en empêche ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What does %@ really want here, and what stands in the way?"
+          }
+        }
+      }
+    },
     "Quel personnage ?": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Which character?"
+          }
+        }
+      }
+    },
+    "Quel personnage est le plus faible, et pourquoi ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Which character is the weakest, and why?"
           }
         }
       }
@@ -1410,6 +1750,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Who speaks in which scene."
+          }
+        }
+      }
+    },
+    "Quiconque a le lien peut lire les notes. Pour en laisser une, il faut se connecter avec un identifiant Apple.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anyone with the link can read the notes. Leaving one requires signing in with an Apple ID."
           }
         }
       }
@@ -1474,6 +1824,26 @@
         }
       }
     },
+    "Rouvrir": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reopen"
+          }
+        }
+      }
+    },
+    "Réessayer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try again"
+          }
+        }
+      }
+    },
     "Réglages": {
       "localizations": {
         "en": {
@@ -1490,6 +1860,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Settings…"
+          }
+        }
+      }
+    },
+    "Réglée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resolved"
           }
         }
       }
@@ -1511,6 +1891,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Lines"
+          }
+        }
+      }
+    },
+    "Répondre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reply"
+          }
+        }
+      }
+    },
+    "Répondre…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reply…"
           }
         }
       }
@@ -1626,6 +2026,26 @@
         }
       }
     },
+    "Supprimer ta note ? C'est définitif.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete your note? This can't be undone."
+          }
+        }
+      }
+    },
+    "Sur quoi ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About what?"
+          }
+        }
+      }
+    },
     "Surtitres": {
       "extractionState": "manual",
       "localizations": {
@@ -1653,6 +2073,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "System"
+          }
+        }
+      }
+    },
+    "Ta question au dramaturge…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your question for the dramaturg…"
           }
         }
       }
@@ -1707,12 +2137,52 @@
         }
       }
     },
+    "Toi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You"
+          }
+        }
+      }
+    },
+    "Ton nom": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your name"
+          }
+        }
+      }
+    },
+    "Toute la pièce": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The whole play"
+          }
+        }
+      }
+    },
     "Traduire": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Translate"
+          }
+        }
+      }
+    },
+    "Tu signes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signing as"
           }
         }
       }
@@ -1747,6 +2217,26 @@
         }
       }
     },
+    "Une note sur cette ligne…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A note on this line…"
+          }
+        }
+      }
+    },
+    "Une note sur la pièce dans son ensemble…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A note about the play as a whole…"
+          }
+        }
+      }
+    },
     "Une phrase ou deux sur la pièce.": {
       "extractionState": "manual",
       "localizations": {
@@ -1754,6 +2244,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "A sentence or two about the play."
+          }
+        }
+      }
+    },
+    "Une scène": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One scene"
           }
         }
       }
@@ -1775,6 +2275,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Saved versions"
+          }
+        }
+      }
+    },
+    "Voir les réglées": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show resolved"
           }
         }
       }
@@ -1809,6 +2319,16 @@
         }
       }
     },
+    "auteur·rice": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "author"
+          }
+        }
+      }
+    },
     "console.anthropic.com → API keys": {},
     "elevenlabs.io → Profile → API key": {},
     "je cherche la voix…": {
@@ -1827,6 +2347,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "reading the scene…"
+          }
+        }
+      }
+    },
+    "je relis la pièce…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "re-reading the play…"
           }
         }
       }
@@ -1868,6 +2398,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "“Update” republishes the current version under the same link."
+          }
+        }
+      }
+    },
+    "« Mettre à jour » republie la version actuelle sous le même lien. Les notes des lecteurs restent sur leurs lignes.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“Update” republishes the current version under the same link. Readers' notes stay on their lines."
           }
         }
       }
@@ -1924,167 +2464,7 @@
         }
       }
     },
-    "＋": {},
-    "Sur quoi ?": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "About what?"
-          }
-        }
-      }
-    },
-    "Toute la pièce": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The whole play"
-          }
-        }
-      }
-    },
-    "Une scène": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "One scene"
-          }
-        }
-      }
-    },
-    "Pose une question sur ta pièce — un personnage, une scène qui mollit, une fin. Une lecture, pas un verdict.": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ask a question about your play — a character, a sagging scene, an ending. A reading, not a verdict."
-          }
-        }
-      }
-    },
-    "Pour commencer": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "To get started"
-          }
-        }
-      }
-    },
-    "Et ensuite…": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "And next…"
-          }
-        }
-      }
-    },
-    "Toi": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "You"
-          }
-        }
-      }
-    },
-    "Le dramaturge": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The dramaturg"
-          }
-        }
-      }
-    },
-    "Ta question au dramaturge…": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Your question for the dramaturg…"
-          }
-        }
-      }
-    },
-    "Nouvelle conversation": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New conversation"
-          }
-        }
-      }
-    },
-    "je relis la pièce…": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "re-reading the play…"
-          }
-        }
-      }
-    },
-    "Qu'est-ce que %@ veut vraiment ici, et qu'est-ce qui l'en empêche ?": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "What does %@ really want here, and what stands in the way?"
-          }
-        }
-      }
-    },
-    "Où la scène tourne-t-elle ? Où est-ce qu'elle mollit ?": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Where does the scene turn? Where does it go slack?"
-          }
-        }
-      }
-    },
-    "Ma fin est-elle gagnée, ou seulement annoncée ?": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Is my ending earned, or only announced?"
-          }
-        }
-      }
-    },
-    "Quel personnage est le plus faible, et pourquoi ?": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Which character is the weakest, and why?"
-          }
-        }
-      }
-    },
-    "Envoyer": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Send"
-          }
-        }
-      }
-    }
+    "＋": {}
   },
   "version": "1.0"
 }

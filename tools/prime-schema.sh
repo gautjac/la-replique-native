@@ -17,12 +17,17 @@ cd "$(dirname "$0")/.."
 ./gen.sh
 xcodebuild -project LaReplique.xcodeproj -scheme LaReplique \
   -destination 'platform=macOS' -configuration Debug \
-  -derivedDataPath .build build
-APP=".build/Build/Products/Debug/LaReplique.app/Contents/MacOS/LaReplique"
+  -derivedDataPath .build -allowProvisioningUpdates build
+APP=".build/Build/Products/Debug/LaReplique.app"
+LOG="$(mktemp -t lr-prime)"
 echo "→ priming (throwaway store, Development CloudKit)…"
-LR_SCHEMA_PRIME=1 LR_PRIME_TAG="$(date +%s)" "$APP" &
-PID=$!
-sleep 45   # let CloudKit export the new types
-kill $PID 2>/dev/null || true
-echo "→ done. Now: CloudKit Console → Development → Record Types → confirm CD_Version,"
-echo "  then Deploy Schema Changes to Production."
+# Through LaunchServices, NOT the bare binary: launched from a shell the app gets
+# no window (so nothing runs) and CloudKit's background scheduler refuses its tasks.
+open -n --env LR_SCHEMA_PRIME=1 --env LR_PRIME_TAG="$(date +%s)" --stderr "$LOG" --stdout "$LOG" "$APP"
+for _ in $(seq 1 30); do grep -q "cleaned up" "$LOG" 2>/dev/null && break; sleep 3; done
+sleep 20   # let the private-database export finish too
+pkill -f "Debug/LaReplique.app/Contents/MacOS/LaReplique" 2>/dev/null || true
+echo "→ done. What the run reported:"
+grep -E "SCHEMA PRIME" "$LOG" | sed 's/^.*\[LaReplique\]/  [LaReplique]/'
+echo "→ Now, in the CloudKit Console (Development): confirm the record types CD_Version AND PlayComment,"
+echo "  follow docs/NOTES.md for the PlayComment security roles, then Deploy Schema Changes to Production."

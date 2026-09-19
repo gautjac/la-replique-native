@@ -46,7 +46,7 @@ struct PublishView: View {
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Fermer") { dismiss() } } }
         }
         #if os(macOS)
-        .frame(width: 460, height: shareURL == nil ? 340 : 430)
+        .frame(width: 460, height: shareURL == nil ? 340 : 490)
         #endif
     }
 
@@ -124,8 +124,10 @@ struct PublishView: View {
             }
             .buttonStyle(.bordered)
 
-            Text("« Mettre à jour » republie la version actuelle sous le même lien.")
-                .font(.caption).foregroundStyle(Theme.inkFaint)
+            Text("« Mettre à jour » republie la version actuelle sous le même lien. Les notes des lecteurs restent sur leurs lignes.")
+                .font(.caption).foregroundStyle(Theme.inkFaint).fixedSize(horizontal: false, vertical: true)
+            Label("Pour recevoir des notes sur cette lecture, ouvre « Notes » dans la barre d'outils.", systemImage: "bubble.left.and.bubble.right")
+                .font(.caption).foregroundStyle(Theme.inkFaint).fixedSize(horizontal: false, vertical: true)
         }
     }
 

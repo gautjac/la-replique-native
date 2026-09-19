@@ -14,13 +14,18 @@ struct PlayDetailView: View {
     @State private var showTableRead = false
     @State private var showPublish = false
     @State private var showKeys = false
+    @State private var showNotes = false
+    @State private var notesFocus: String?
+    @StateObject private var notes = NotesStore()
 
     enum Mode: String, CaseIterable { case script, board }
 
     var body: some View {
         Group {
             switch mode {
-            case .script: PlayEditorView(play: play, jumpTarget: $jumpTarget)
+            case .script:
+                PlayEditorView(play: play, jumpTarget: $jumpTarget, noteCounts: notes.openCounts,
+                               onShowNotes: { id in notesFocus = id.uuidString; showNotes = true })
             case .board: BeatBoardView(play: play, onJump: { id in mode = .script; jumpTarget = id })
             }
         }
@@ -34,6 +39,10 @@ struct PlayDetailView: View {
                 .fixedSize()
             }
             ToolbarItemGroup {
+                Button { notesFocus = nil; showNotes = true } label: {
+                    Label("Notes", systemImage: notes.unread > 0 ? "bubble.left.and.exclamationmark.bubble.right.fill" : "bubble.left.and.bubble.right")
+                }
+                .help(notes.unread > 0 ? Text("\(notes.unread) nouvelles notes") : Text("Notes des lecteurs"))
                 Button { showAtelier = true } label: { Label("Atelier", systemImage: "sparkles") }
                 Button { showCast = true } label: { Label("Distribution", systemImage: "person.2") }
                 Button { showMeasures = true } label: { Label("Mesures", systemImage: "chart.bar") }
@@ -62,7 +71,31 @@ struct PlayDetailView: View {
         .sheet(isPresented: $showAtelier) { AtelierView(play: play, onOpenPlay: onOpenPlay) }
         .sheet(isPresented: $showVersions) { VersionsView(play: play) }
         .sheet(isPresented: $showTableRead) { TableReadView(play: play) }
-        .sheet(isPresented: $showPublish) { PublishView(play: play) }
+        .sheet(isPresented: $showPublish, onDismiss: attachNotes) { PublishView(play: play) }
+        .sheet(isPresented: $showNotes) {
+            NotesPanel(play: play, notes: notes, focusElementID: notesFocus,
+                       onJump: { id in mode = .script; jumpTarget = id },
+                       onPublish: { showPublish = true })
+        }
+        .task(id: play.id) { attachNotes() }
+        .onChange(of: play.elements?.count ?? 0) { _, _ in attachNotes() }
+        .onDisappear { notes.detach() }
         .sheet(isPresented: $showKeys) { KeySetupView() }
+    }
+
+    /// (Re)point the notes store at this play — after opening it, publishing or
+    /// unpublishing it, or adding/removing blocks (which changes what "detached" means).
+    private func attachNotes() {
+        let ids = Set((play.elements ?? []).map { $0.id.uuidString })
+        #if DEBUG
+        if ProcessInfo.processInfo.environment["LR_NOTES_DEMO"] == "1" {
+            let anchors = play.elementList.filter { $0.kind == .cue }.prefix(3).map { (id: $0.id.uuidString, text: $0.text ?? "") }
+            let share = "demo-" + play.id.uuidString
+            if notes.shareID != share { notes.attach(shareID: share, elementIDs: ids, backend: DemoComments(shareID: share, anchors: Array(anchors))) }
+            else { notes.attach(shareID: share, elementIDs: ids) }
+            return
+        }
+        #endif
+        notes.attach(shareID: play.publicShareID, elementIDs: ids)
     }
 }

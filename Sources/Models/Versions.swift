@@ -24,7 +24,8 @@ final class Version {
 @MainActor
 enum Versions {
     static func save(_ play: Play, name: String, context: ModelContext) {
-        guard let data = try? PlayFormat.aiJSON(from: play), let json = String(data: data, encoding: .utf8) else { return }
+        // With element ids, so a restore keeps readers' notes attached.
+        guard let data = try? PlayFormat.aiJSON(from: play, withElementIDs: true), let json = String(data: data, encoding: .utf8) else { return }
         context.insert(Version(playID: play.id, name: name.isEmpty ? "Version" : name, json: json))
     }
 

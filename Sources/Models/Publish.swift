@@ -38,7 +38,9 @@ enum Publish {
     static func publish(_ play: Play, context: ModelContext) async throws -> String {
         try await ensureSignedIn()
 
-        let data = try PlayFormat.aiJSON(from: play)
+        // Element ids ride along: readers' notes anchor to them, and they are what
+        // keeps a note on its line across « Mettre à jour ».
+        let data = try PlayFormat.aiJSON(from: play, withElementIDs: true)
         guard let jsonString = String(data: data, encoding: .utf8) else { throw PublishError.encoding }
 
         let shareID = play.publicShareID ?? newShareID()
@@ -73,6 +75,9 @@ enum Publish {
     static func unpublish(_ play: Play, context: ModelContext) async throws {
         guard let shareID = play.publicShareID else { return }
         let db = container.publicCloudDatabase
+        // Stop the new-note pushes for a reading that no longer exists. (The notes
+        // themselves belong to their authors; the owner cannot delete them.)
+        await CloudKitComments().setNotifications(shareID: shareID, on: false)
         do {
             _ = try await db.deleteRecord(withID: CKRecord.ID(recordName: shareID))
         } catch let e as CKError where e.code == .unknownItem {

@@ -1,5 +1,6 @@
 import Foundation
 import SwiftData
+import CloudKit
 
 /// One shared store, CloudKit-synced. The schema is CloudKit-compatible — all
 /// properties are defaulted/optional and there are no unique constraints — so
@@ -104,6 +105,41 @@ extension Persistence {
         } catch {
             NSLog("[LaReplique] SCHEMA PRIME failed: %@", String(describing: error))
         }
+        Task { await primePublicSchema() }
+    }
+
+    /// The PUBLIC database's types are not mirrored from SwiftData — the app writes
+    /// them by hand — so they need priming too: a `PublicPlay` carrying every
+    /// field (incl. the notes settings) and a `PlayComment` carrying every field.
+    /// Both are deleted again; the record TYPES and their indexes stay. The final
+    /// query proves `readingID` is QUERYABLE, which the notes fetch depends on.
+    static func primePublicSchema() async {
+        let db = CKContainer(identifier: Publish.containerID).publicCloudDatabase
+        let share = "schema-prime-" + String(Int(Date().timeIntervalSince1970))
+        let play = CKRecord(recordType: Publish.recordType, recordID: CKRecord.ID(recordName: share))
+        play["json"] = "{}"; play["title"] = "Schema prime"; play["updatedAt"] = Date()
+        play["commentsOpen"] = 1; play["resolvedComments"] = ["x"]; play["hiddenComments"] = ["x"]
+        let note = CKRecord(recordType: CloudKitComments.commentType, recordID: CKRecord.ID(recordName: share + "-note"))
+        note[CloudKitComments.shareField] = share; note["elementID"] = "e"; note["quote"] = "q"; note["body"] = "b"
+        note["authorName"] = "prime"; note["parentID"] = "p"; note["resolved"] = 0
+        do {
+            _ = try await db.save(play)
+            _ = try await db.save(note)
+            NSLog("[LaReplique] SCHEMA PRIME (public): saved PublicPlay + PlayComment")
+            // The public query index is eventually consistent — poll for up to ~40 s.
+            // (A field that is NOT queryable throws instead of returning 0.)
+            var found = 0
+            for _ in 0..<10 where found == 0 {
+                try? await Task.sleep(nanoseconds: 4_000_000_000)
+                found = try await CloudKitComments().list(shareID: share).count
+            }
+            NSLog("[LaReplique] SCHEMA PRIME (public): query by readingID returned %d (expect 1 → readingID is queryable)", found)
+        } catch {
+            NSLog("[LaReplique] SCHEMA PRIME (public) failed: %@", String(describing: error))
+        }
+        _ = try? await db.deleteRecord(withID: note.recordID)
+        _ = try? await db.deleteRecord(withID: play.recordID)
+        NSLog("[LaReplique] SCHEMA PRIME (public): cleaned up")
     }
 }
 #endif
