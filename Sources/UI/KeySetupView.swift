@@ -18,6 +18,7 @@ struct KeySetupView: View {
                 VStack(alignment: .leading, spacing: 22) {
                     FieldGroup("Langue de l'interface") { LanguagePicker() }
                     FieldGroup("Synchronisation") { SyncStatusRows() }
+                    if CollabBackend.isAvailable { FieldGroup("Écrire à plusieurs — ton compte") { CollabAccountRows() } }
                     FieldGroup("L'Atelier — écriture assistée") {
                         keyField(text: $claude, isSet: claudeSet, hint: "console.anthropic.com → API keys")
                     }
@@ -87,6 +88,7 @@ struct KeySettingsView: View {
         Form {
             Section("Langue de l'interface") { LanguagePicker() }
             Section("Synchronisation") { SyncStatusRows() }
+            if CollabBackend.isAvailable { Section("Écrire à plusieurs — ton compte") { CollabAccountRows() } }
             Section("L'Atelier — écriture assistée (Claude)") {
                 if claudeSet { Label("Clé enregistrée", systemImage: "checkmark.seal.fill").foregroundStyle(.green) }
                 SecureField("Clé Anthropic", text: $claude)

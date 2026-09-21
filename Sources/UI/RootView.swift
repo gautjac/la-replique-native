@@ -8,6 +8,7 @@ struct RootView: View {
     @ObservedObject private var router = AppRouter.shared
     @ObservedObject private var loc = LocalizationManager.shared
     @ObservedObject private var inbox = NotesInbox.shared
+    @ObservedObject private var collabAuth = CollabAuth.shared
     @Environment(\.scenePhase) private var scenePhase
 
     @AppStorage("hasOnboarded") private var hasOnboarded = false
@@ -98,7 +99,10 @@ struct RootView: View {
         .task(id: scenePhase) {
             guard scenePhase == .active else { return }
             await inbox.refresh(shareIDs: plays.compactMap(\.publicShareID))
+            await CollabService.syncLibrary()
         }
+        // Signing in on a new device brings the shared plays along.
+        .task(id: collabAuth.person?.uid) { await CollabService.syncLibrary() }
         .sheet(isPresented: $showOnboarding, onDismiss: {
             hasOnboarded = true
             if wantsKeysAfterOnboarding { wantsKeysAfterOnboarding = false; showKeys = true }

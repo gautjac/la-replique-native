@@ -36,12 +36,15 @@ struct OnboardingView: View {
                 VStack(alignment: .leading, spacing: 26) {
                     // First thing on the first screen: pick the interface language.
                     // Bilingual label on purpose — the reader may not read French yet.
-                    HStack(spacing: 10) {
-                        Image(systemName: "globe").foregroundStyle(Theme.gelBright)
-                        Text("Langue · Language")
-                            .font(.caption.weight(.semibold)).foregroundStyle(.secondary)
-                        Spacer(minLength: 8)
-                        LanguagePicker().frame(maxWidth: 300)
+                    // Label above, picker on its own full-width line: side by side, the
+                    // three segments truncated ("Syste…", "Franç…") on a narrow phone.
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack(spacing: 8) {
+                            Image(systemName: "globe").foregroundStyle(Theme.gelBright)
+                            Text("Langue · Language")
+                                .font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+                        }
+                        LanguagePicker()
                     }
                     .padding(.top, 12)
 

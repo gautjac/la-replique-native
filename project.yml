@@ -23,6 +23,9 @@ packages:
   Firebase:
     url: https://github.com/firebase/firebase-ios-sdk
     from: "12.0.0"
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS
+    from: "9.0.0"
 
 settings:
   base:
@@ -60,6 +63,8 @@ targets:
         product: FirebaseFirestore
       - package: Firebase
         product: FirebaseAuth
+      - package: GoogleSignIn
+        product: GoogleSignIn
     info:
       path: Sources/Resources/Info.plist
       properties:
@@ -85,6 +90,10 @@ targets:
         # The Firebase emulator on a developer Mac is plain HTTP on the loopback.
         NSAppTransportSecurity:
           NSAllowsLocalNetworking: true
+        # Google sign-in returns to the app through this scheme (REVERSED_CLIENT_ID
+        # of GoogleService-Info.plist).
+        CFBundleURLTypes:
+          - CFBundleURLSchemes: ["com.googleusercontent.apps.404912464373-9jkbcisjm27608tkfdif1hf6mkioojap"]
         # Storyboard-free launch screen (iOS 14+). Required so the app is treated
         # as supporting all iPad sizes; without it App Store delivery prep fails.
         # Charcoal "desk" background so the launch reads as intentional.

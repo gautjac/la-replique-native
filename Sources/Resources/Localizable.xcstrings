@@ -2,6 +2,16 @@
   "sourceLanguage": "fr",
   "strings": {
     "": {},
+    " (toi)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " (you)"
+          }
+        }
+      }
+    },
     "%1$@ a laissé une note sur ta pièce.": {
       "localizations": {
         "en": {
@@ -13,6 +23,16 @@
       }
     },
     "%@": {},
+    "%@ écrit ici": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ is writing here"
+          }
+        }
+      }
+    },
     "%lld": {},
     "%lld / %lld": {},
     "%lld comédien·ne·s · %lld rôles": {
@@ -187,6 +207,16 @@
         }
       }
     },
+    "Apple n'a pas renvoyé d'identité.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple didn't return an identity."
+          }
+        }
+      }
+    },
     "Atelier": {},
     "Aucun personnage pour l'instant.": {
       "localizations": {
@@ -239,6 +269,16 @@
         }
       }
     },
+    "Autour de la pièce": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Around the play"
+          }
+        }
+      }
+    },
     "Autrice / auteur": {
       "localizations": {
         "en": {
@@ -265,6 +305,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hide resolved"
+          }
+        }
+      }
+    },
+    "Ce n'est pas un lien de connexion. Copie le lien complet reçu par courriel.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That isn't a sign-in link. Copy the whole link from your email."
           }
         }
       }
@@ -430,6 +480,16 @@
         }
       }
     },
+    "Colle le lien reçu": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paste the link you received"
+          }
+        }
+      }
+    },
     "Colle ta clé…": {
       "localizations": {
         "en": {
@@ -496,6 +556,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sign in to iCloud to see and leave notes."
+          }
+        }
+      }
+    },
+    "Connecté·e": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signed in"
+          }
+        }
+      }
+    },
+    "Continuer avec Google": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue with Google"
           }
         }
       }
@@ -608,6 +688,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Move down"
+          }
+        }
+      }
+    },
+    "Dis-nous qui tu es": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tell us who you are"
           }
         }
       }
@@ -876,6 +966,16 @@
         }
       }
     },
+    "Google n'a pas renvoyé d'identité.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google didn't return an identity."
+          }
+        }
+      }
+    },
     "Hors ligne — tes changements partiront au retour du réseau": {
       "localizations": {
         "en": {
@@ -1020,6 +1120,16 @@
       }
     },
     "La Réplique": {},
+    "La connexion Google n'est pas configurée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google sign-in isn't configured."
+          }
+        }
+      }
+    },
     "La note d'origine a été supprimée.": {
       "localizations": {
         "en": {
@@ -1194,6 +1304,16 @@
         }
       }
     },
+    "Lien envoyé à %@. Ouvre-le sur cet appareil — ou copie-le et colle-le ici.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link sent to %@. Open it on this device — or copy it and paste it here."
+          }
+        }
+      }
+    },
     "Lieu, moment…": {
       "localizations": {
         "en": {
@@ -1270,6 +1390,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hide for everyone"
+          }
+        }
+      }
+    },
+    "Me connecter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign me in"
           }
         }
       }
@@ -1489,6 +1619,16 @@
         }
       }
     },
+    "Ou par courriel — sans mot de passe": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Or by email — no password"
+          }
+        }
+      }
+    },
     "Outil": {
       "localizations": {
         "en": {
@@ -1616,6 +1756,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Share the reading…"
+          }
+        }
+      }
+    },
+    "Pas connecté·e. La connexion se fait au moment de partager ou de rejoindre une pièce.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not signed in. You sign in when you share or join a play."
           }
         }
       }
@@ -1748,6 +1898,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "To receive notes on this reading, open “Notes” in the toolbar."
+          }
+        }
+      }
+    },
+    "Pour écrire à plusieurs, chacun signe ses changements et ses notes. Choisis la façon qui te convient.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To write together, everyone signs their changes and notes. Pick whichever way suits you."
           }
         }
       }
@@ -1954,6 +2114,36 @@
         }
       }
     },
+    "Quitter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leave"
+          }
+        }
+      }
+    },
+    "Quitter cette pièce": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leave this play"
+          }
+        }
+      }
+    },
+    "Quitter cette pièce ? Elle disparaîtra de cet appareil ; il te faudra une nouvelle invitation pour revenir.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leave this play? It will disappear from this device; you'll need a new invitation to come back."
+          }
+        }
+      }
+    },
     "Quota iCloud dépassé.": {
       "localizations": {
         "en": {
@@ -2030,6 +2220,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Remove from this device"
+          }
+        }
+      }
+    },
+    "Retirer de la pièce": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove from the play"
           }
         }
       }
@@ -2146,6 +2346,16 @@
         }
       }
     },
+    "Rôle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Role"
+          }
+        }
+      }
+    },
     "Rôles qui ne partagent jamais une scène.": {
       "localizations": {
         "en": {
@@ -2222,6 +2432,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Scenes"
+          }
+        }
+      }
+    },
+    "Se déconnecter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign out"
           }
         }
       }
@@ -2579,6 +2799,16 @@
         }
       }
     },
+    "a partagé la pièce": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "shared the play"
+          }
+        }
+      }
+    },
     "auteur·rice": {
       "localizations": {
         "en": {
@@ -2648,6 +2878,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "e.g. a play in two acts"
+          }
+        }
+      }
+    },
+    "toi@exemple.ca": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "you@example.com"
           }
         }
       }
@@ -2753,6 +2993,16 @@
         }
       }
     },
+    "Écrire à plusieurs — ton compte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Writing together — your account"
+          }
+        }
+      }
+    },
     "Écrire à plusieurs…": {
       "localizations": {
         "en": {
@@ -2769,6 +3019,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Write with the keyboard"
+          }
+        }
+      }
+    },
+    "Écris d'abord ton courriel, puis demande un lien.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter your email first, then ask for a link."
           }
         }
       }

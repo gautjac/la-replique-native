@@ -52,7 +52,9 @@ enum CollabBackend {
     static func ensureSignedIn() async throws -> String {
         configure()
         if let uid { return uid }
-        guard mode == .emulator else { throw CollabError.notSignedIn }
+        // Anonymous accounts exist only for the scripted two-simulator smoke test.
+        let env = ProcessInfo.processInfo.environment
+        guard mode == .emulator, env["LR_COLLAB_AUTOSHARE"] == "1" || env["LR_COLLAB_AUTOJOIN"] != nil else { throw CollabError.notSignedIn }
         return try await Auth.auth().signInAnonymously().user.uid
     }
 }

@@ -65,6 +65,9 @@ private struct SharedPlayHost: View {
 /// One quiet line under the script: are we live, and may I write?
 struct CollabStatusBar: View {
     @ObservedObject var session: CollabSession
+    @ObservedObject private var presence: PresenceChannel
+
+    init(session: CollabSession) { self.session = session; presence = session.presence }
 
     var body: some View {
         HStack(spacing: 8) {
@@ -74,6 +77,20 @@ struct CollabStatusBar: View {
                 Text("· lecture seule").font(.caption).foregroundStyle(Theme.inkFaint)
             }
             Spacer()
+            // Who else has the play open, in their colours.
+            HStack(spacing: -5) {
+                ForEach(presence.others.prefix(5)) { who in
+                    Text(String(who.name.prefix(1)).uppercased())
+                        .font(.system(size: 10, weight: .bold)).foregroundStyle(.white)
+                        .frame(width: 20, height: 20)
+                        .background(Color(hexString: who.colorHex), in: Circle())
+                        .overlay(Circle().stroke(Theme.deskLight, lineWidth: 1.5))
+                        .help(who.name)
+                }
+            }
+            if !presence.others.isEmpty {
+                Text(presence.others.map(\.name).joined(separator: ", ")).font(.caption).foregroundStyle(Theme.inkFaint).lineLimit(1)
+            }
         }
         .padding(.horizontal, 16).padding(.vertical, 7)
         .background(Theme.deskLight)
@@ -105,6 +122,7 @@ struct CollabSheet: View {
     var onShared: (UUID) -> Void
 
     @AppStorage("notes.authorName") private var name = ""
+    @ObservedObject private var auth = CollabAuth.shared
     @State private var role = "writer"
     @State private var invite: CollabService.Invite?
     @State private var busy = false
@@ -115,7 +133,14 @@ struct CollabSheet: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    if let link { inviteSection(link) } else { shareSection }
+                    if !auth.isSignedIn {
+                        CollabSignInView()
+                    } else if let link {
+                        inviteSection(link)
+                        MembersSection(link: link, onLeft: { dismiss() })
+                    } else {
+                        shareSection
+                    }
                     if let error {
                         Text(error).font(.callout).foregroundStyle(Theme.rose)
                             .padding(12).frame(maxWidth: .infinity, alignment: .leading)
@@ -132,9 +157,10 @@ struct CollabSheet: View {
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Fermer") { dismiss() } } }
         }
         #if os(macOS)
-        .frame(width: 480, height: 520)
+        .frame(width: 480, height: 600)
         #endif
-        .onAppear { if name.isEmpty { name = play.author } }
+        .onAppear { if name.isEmpty { name = auth.person?.name ?? play.author } }
+        .onChange(of: auth.person?.name ?? "") { _, n in if name.isEmpty { name = n } }
     }
 
     @ViewBuilder private var shareSection: some View {
@@ -221,6 +247,7 @@ struct JoinSheet: View {
     @Environment(\.dismiss) private var dismiss
     var onJoined: (UUID) -> Void
     @AppStorage("notes.authorName") private var name = ""
+    @ObservedObject private var auth = CollabAuth.shared
     @State private var code = ""
     @State private var busy = false
     @State private var error: String?
@@ -233,6 +260,9 @@ struct JoinSheet: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
+                  if !auth.isSignedIn {
+                    CollabSignInView()
+                  } else {
                     FieldGroup("Code ou lien d'invitation") {
                         TextField("ABCDE23456", text: $code).sheetField()
                             .font(.system(.body, design: .monospaced))
@@ -259,6 +289,7 @@ struct JoinSheet: View {
                     } label: { Label("Rejoindre", systemImage: "person.2.badge.plus").frame(maxWidth: .infinity) }
                     .buttonStyle(.borderedProminent).controlSize(.large).disabled(!ready || busy)
                     .overlay { if busy { ProgressView().controlSize(.small) } }
+                  }
                 }
                 .padding(24).frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -270,7 +301,81 @@ struct JoinSheet: View {
             .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Fermer") { dismiss() } } }
         }
         #if os(macOS)
-        .frame(width: 440, height: 380)
+        .frame(width: 440, height: 520)
         #endif
+        .onAppear { if name.isEmpty { name = auth.person?.name ?? "" } }
+    }
+}
+
+// MARK: - Members
+
+/// Who is in the play. The owner changes roles and removes people; anyone else
+/// may leave.
+private struct MembersSection: View {
+    let link: CollabLink
+    var onLeft: () -> Void
+    @StateObject private var store: MembersStore
+    @State private var error: String?
+    @State private var confirmLeave = false
+
+    init(link: CollabLink, onLeft: @escaping () -> Void) {
+        self.link = link; self.onLeft = onLeft
+        _store = StateObject(wrappedValue: MembersStore(playID: link.remoteID))
+    }
+
+    private var iOwn: Bool { link.ownerUid == CollabBackend.uid }
+
+    var body: some View {
+        FieldGroup("Autour de la pièce") {
+            ForEach(store.members) { m in
+                HStack(spacing: 10) {
+                    Text(String(m.name.prefix(1)).uppercased())
+                        .font(.system(size: 12, weight: .bold)).foregroundStyle(.white)
+                        .frame(width: 26, height: 26)
+                        .background(Color(hexString: PresenceChannel.color(for: m.id)), in: Circle())
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(m.name + (m.id == CollabBackend.uid ? String(localized: " (toi)") : "")).foregroundStyle(.white)
+                        if m.id == link.ownerUid { Text("a partagé la pièce").font(.caption).foregroundStyle(Theme.inkFaint) }
+                    }
+                    Spacer()
+                    if iOwn, m.id != link.ownerUid {
+                        Menu {
+                            Picker("Rôle", selection: Binding(get: { m.role }, set: { r in act { try await store.setRole(r, for: m.id) } })) {
+                                Text("Écrire").tag("writer"); Text("Commenter").tag("commenter"); Text("Lire").tag("reader")
+                            }
+                            Divider()
+                            Button("Retirer de la pièce", systemImage: "person.badge.minus", role: .destructive) { act { try await store.remove(m.id) } }
+                        } label: { roleLabel(m.role) }
+                        .menuStyle(.borderlessButton).fixedSize()
+                    } else {
+                        roleLabel(m.role)
+                    }
+                }
+                .padding(.vertical, 3)
+            }
+            if !iOwn {
+                Button("Quitter cette pièce", role: .destructive) { confirmLeave = true }.buttonStyle(.bordered)
+            }
+            if let error { Text(error).font(.caption).foregroundStyle(Theme.rose) }
+        }
+        .onAppear { store.start() }
+        .onDisappear { store.stop() }
+        .confirmationDialog("Quitter cette pièce ? Elle disparaîtra de cet appareil ; il te faudra une nouvelle invitation pour revenir.",
+                            isPresented: $confirmLeave, titleVisibility: .visible) {
+            Button("Quitter", role: .destructive) { act { try await CollabService.leave(link); onLeft() } }
+            Button("Annuler", role: .cancel) {}
+        }
+    }
+
+    private func roleLabel(_ role: String) -> some View {
+        Text(role == "writer" ? "Écrire" : role == "commenter" ? "Commenter" : "Lire")
+            .font(.caption.weight(.semibold)).foregroundStyle(Theme.gelBright)
+            .padding(.horizontal, 8).padding(.vertical, 3)
+            .background(Theme.gel.opacity(0.16), in: Capsule())
+    }
+
+    private func act(_ op: @escaping () async throws -> Void) {
+        error = nil
+        Task { @MainActor in do { try await op() } catch { self.error = error.localizedDescription } }
     }
 }

@@ -106,8 +106,12 @@ Sharing a solo play = copy it across (same ids), then remove the private one.
 | 1d. Two devices editing one play | ✅ two simulators on the local emulator, both directions + a server-side edit; 16/16 remote changes redrawn |
 | 1e. Security rules | ✅ web repo `firebase/firestore.rules`, 13 emulator tests (`npm run test:rules`) |
 | 1f. The real Firebase project | ✅ `la-replique-atelier` (the id `la-replique` was taken), Firestore in Montréal, rules + indexes deployed, iOS + web apps registered, `GoogleService-Info.plist` in `Sources/Resources/` |
-| 1g. Authentication switched on | ⏳ Jac, in the console: Authentication ▸ Get started, then enable Email link, Google, Apple (the API route needs a billing account) |
-| 2. Sign-in, invitations, roles, presence + soft line lock | — |
+| 1g. Authentication switched on | ✅ 2026-09-21 — Apple, Google, email; `la-replique.netlify.app` authorised |
+| 2a. Sign-in — Apple, Google, email link (`CollabAuth`, `CollabSignInView`) | ✅ built; **email link verified end to end on the Auth emulator**; Apple and Google need a real account on a real build — untested |
+| 2b. Presence + soft line lock (`PresenceChannel`) | ✅ two simulators: name + colour on the other person's line, their line can't be focused, typing into it never reaches the server; stale after 45 s |
+| 2c. Member list, roles, remove, leave (`MembersStore`) | ✅ built against the tested rules |
+| 2d. "The plays I'm in" on every device (`CollabService.syncLibrary`) | ✅ built (collection-group query on `members.uid`); runs on sign-in and on foreground |
+| 2e. Landing pages `/connexion` and `/rejoindre/<code>` | ✅ live on la-replique.netlify.app |
 | 3. Collaborative web editor (revive `src/App.tsx`) | — |
 | 4. Notes on the new backend; history "who wrote what" | — |
 

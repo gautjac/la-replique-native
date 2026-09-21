@@ -19,6 +19,10 @@ struct PlayEditorView: View {
     var noteCounts: [String: Int] = [:]
     /// A margin badge was tapped.
     var onShowNotes: (UUID) -> Void = { _ in }
+    /// Other people in this shared play, by the element their cursor is in.
+    var others: [String: [PresencePerson]] = [:]
+    /// The cursor moved to another block (nil = nowhere) — feeds presence.
+    var onFocusChange: (UUID?) -> Void = { _ in }
     @FocusState private var focused: UUID?
 
     @State private var newCharName = ""
@@ -57,6 +61,7 @@ struct PlayEditorView: View {
                 editorFocus.id = id
                 #endif
                 if let h = speakerHint, h.el != id { speakerHint = nil }
+                onFocusChange(id)
             }
             .onChange(of: jumpTarget) { _, target in
                 // The stack is lazy: bring the block into existence first, then
@@ -167,6 +172,7 @@ struct PlayEditorView: View {
                     ElementRow(el: el, play: play, focus: $focused,
                                hint: speakerHint?.el == el.id ? speakerHint : nil,
                                noteCount: noteCounts[el.id.uuidString] ?? 0,
+                               others: others[el.id.uuidString] ?? [],
                                actions: actions)
                         .id(el.id)
                 }
@@ -309,7 +315,13 @@ private struct ElementRow: View {
     let hint: SpeakerHint?
     /// Open readers' notes anchored to this block (0 = no badge).
     let noteCount: Int
+    /// Other people whose cursor is in this block right now.
+    var others: [PresencePerson] = []
     let actions: RowActions
+
+    /// Soft lock: while someone else is in this line, I can read it change but not
+    /// type in it — unless I was already in it (then last writer wins, as ever).
+    private var lockedBy: PresencePerson? { focus.wrappedValue == el.id ? nil : others.first }
 
     // No Equatable skip here any more (2026-09-21). It paid for itself when the
     // page was a plain VStack of every block; the page is lazy now, so a parent
@@ -322,7 +334,24 @@ private struct ElementRow: View {
         let _ = RenderCounter.row(el.id)
         #endif
         block
+            .disabled(lockedBy != nil)
             .frame(maxWidth: .infinity, alignment: .leading)
+            .overlay(alignment: .leading) {
+                if let who = others.first {
+                    Rectangle().fill(Color(hexString: who.colorHex)).frame(width: 3).offset(x: -14)
+                }
+            }
+            .overlay(alignment: .bottomTrailing) {
+                if !others.isEmpty {
+                    Text(others.map(\.name).joined(separator: ", "))
+                        .font(.system(size: 10, weight: .bold)).lineLimit(1)
+                        .padding(.horizontal, 6).padding(.vertical, 2)
+                        .background(Color(hexString: others[0].colorHex), in: Capsule())
+                        .foregroundStyle(.white)
+                        .offset(y: 4)
+                        .accessibilityLabel(Text("\(others.map(\.name).joined(separator: ", ")) écrit ici"))
+                }
+            }
             .overlay(alignment: .topTrailing) {
                 if noteCount > 0 {
                     Button { actions.showNotes(el) } label: { NoteBadge(count: noteCount) }

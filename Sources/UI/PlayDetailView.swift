@@ -7,6 +7,7 @@ struct PlayDetailView: View {
     var onOpenPlay: (UUID) -> Void
     /// Non-nil when this is a shared play, live.
     var collab: CollabSession?
+    @ObservedObject private var presence: PresenceChannel
     @State private var showCollab = false
     @State private var mode: Mode = .script
     @State private var jumpTarget: UUID?
@@ -23,12 +24,21 @@ struct PlayDetailView: View {
 
     enum Mode: String, CaseIterable { case script, board }
 
+    init(play: Play, onOpenPlay: @escaping (UUID) -> Void, collab: CollabSession? = nil) {
+        self.play = play
+        self.onOpenPlay = onOpenPlay
+        self.collab = collab
+        presence = collab?.presence ?? .none
+    }
+
     var body: some View {
         Group {
             switch mode {
             case .script:
                 PlayEditorView(play: play, jumpTarget: $jumpTarget, noteCounts: notes.openCounts,
-                               onShowNotes: { id in notesFocus = id.uuidString; showNotes = true })
+                               onShowNotes: { id in notesFocus = id.uuidString; showNotes = true },
+                               others: presence.byElement,
+                               onFocusChange: { presence.setFocus($0?.uuidString) })
                     // Readers and commenters see the script move; they don't type in it.
                     .disabled(collab.map { !$0.link.canWrite } ?? false)
             case .board: BeatBoardView(play: play, onJump: { id in mode = .script; jumpTarget = id })

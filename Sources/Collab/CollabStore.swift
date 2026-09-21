@@ -12,6 +12,8 @@ final class CollabLink {
     /// `CollabCore.shadowData` — the last state both sides agreed on.
     var shadow: Data = Data()
     var joinedAt: Date = Date()
+    /// The name this person gave when sharing or joining — what others see.
+    var myName: String = ""
 
     init(playID: UUID, remoteID: String, role: String, ownerUid: String) {
         self.playID = playID; self.remoteID = remoteID; self.role = role; self.ownerUid = ownerUid

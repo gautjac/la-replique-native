@@ -10,6 +10,7 @@ final class CollabSession: ObservableObject {
 
     let play: Play
     let link: CollabLink
+    let presence: PresenceChannel
     private let core: CollabCore
     private let transport: FirestoreTransport
     private var ticker: Task<Void, Never>?
@@ -25,6 +26,7 @@ final class CollabSession: ObservableObject {
         self.link = link
         core = CollabCore(play: play, context: CollabStore.context, shadowData: link.shadow.isEmpty ? nil : link.shadow)
         transport = FirestoreTransport(playID: link.remoteID, known: core.shadow)
+        presence = PresenceChannel(playID: link.remoteID)
     }
 
     func start() {
@@ -44,6 +46,7 @@ final class CollabSession: ObservableObject {
         }
         transport.onLost = { [weak self] in self?.status = .gone }
         transport.start()
+        presence.start(name: link.myName.isEmpty ? Self.displayName : link.myName)
         ticker = Task { [weak self] in
             while !Task.isCancelled {
                 try? await Task.sleep(nanoseconds: Self.tick)
@@ -55,8 +58,15 @@ final class CollabSession: ObservableObject {
     func stop() {
         ticker?.cancel(); ticker = nil
         tickOnce()
+        presence.stop()
         transport.stop()
         saveShadow()
+    }
+
+    /// The name others see: the signed-in profile's, else the one typed for notes.
+    static var displayName: String {
+        let profile = CollabAuth.shared.person?.name ?? ""
+        return profile.isEmpty ? (UserDefaults.standard.string(forKey: "notes.authorName") ?? "") : profile
     }
 
     private func tickOnce() {
@@ -97,6 +107,7 @@ enum CollabService {
 
         let copy = CollabStore.copy(of: play, versionsFrom: source)
         let link = CollabLink(playID: copy.id, remoteID: remoteID, role: "writer", ownerUid: uid)
+        link.myName = name
         CollabStore.context.insert(link)
         do {
             try await playDoc.setData(["ownerUid": uid, "createdAt": FieldValue.serverTimestamp()], merge: true)
@@ -163,10 +174,50 @@ enum CollabService {
         let core = CollabCore(play: play, context: CollabStore.context)
         core.adopt(all)
         let link = CollabLink(playID: playID, remoteID: remoteID, role: role, ownerUid: owner)
+        link.myName = name
         link.shadow = core.shadowData
         CollabStore.context.insert(link)
         try CollabStore.context.save()
         return playID
+    }
+
+    /// Bring this device's library in line with "the plays I'm in": pull the ones
+    /// missing here (a play joined on the phone appears on the Mac), refresh roles.
+    /// Returns how many plays were added.
+    @discardableResult
+    static func syncLibrary() async -> Int {
+        guard CollabBackend.isAvailable, let uid = CollabBackend.uid else { return 0 }
+        guard let seats = try? await CollabBackend.db.collectionGroup("members").whereField("uid", isEqualTo: uid).getDocuments(source: .server) else { return 0 }
+        var added = 0
+        for seat in seats.documents {
+            guard let playDoc = seat.reference.parent.parent, let playID = UUID(uuidString: playDoc.documentID) else { continue }
+            let role = seat["role"] as? String ?? "reader"
+            if let link = CollabStore.link(playID) {
+                if link.role != role { link.role = role }
+                continue
+            }
+            guard let info = try? await playDoc.getDocument(source: .server), info.exists,
+                  let all = try? await FirestoreTransport(playID: playDoc.documentID, known: [:]).fetchAll() else { continue }
+            let play = Play(title: "", lang: .fr)
+            play.id = playID
+            CollabStore.context.insert(play)
+            let core = CollabCore(play: play, context: CollabStore.context)
+            core.adopt(all)
+            let link = CollabLink(playID: playID, remoteID: playDoc.documentID, role: role, ownerUid: info["ownerUid"] as? String ?? "")
+            link.myName = seat["name"] as? String ?? ""
+            link.shadow = core.shadowData
+            CollabStore.context.insert(link)
+            added += 1
+        }
+        try? CollabStore.context.save()
+        return added
+    }
+
+    /// Give up your seat and drop the local copy. (The owner cannot leave.)
+    static func leave(_ link: CollabLink) async throws {
+        guard let uid = CollabBackend.uid, uid != link.ownerUid else { return }
+        try await CollabBackend.db.collection("plays").document(link.remoteID).collection("members").document(uid).delete()
+        CollabStore.remove(link.playID)
     }
 
     /// Ten characters, no look-alikes — short enough to read out over the phone.

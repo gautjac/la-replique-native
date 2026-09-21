@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		016030B515B62A4EE84A8895 /* CollabPresence.swift in Sources */ = {isa = PBXBuildFile; fileRef = D291496DFC430C366F8204C3 /* CollabPresence.swift */; };
 		017E8F2CD516DA78430866C5 /* LanguagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D054ECA47C669F0F6E230E68 /* LanguagePicker.swift */; };
 		0400949DF365A6C63FD597D9 /* PublishTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC0882A90904B508A95F6F /* PublishTests.swift */; };
 		06930CD71F319AE4EF43816E /* PlayFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C935361BCAA27F70D475F66 /* PlayFormatTests.swift */; };
@@ -64,8 +65,10 @@
 		D92E34A1851DC4824CCC8A41 /* NotesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D33347E637B8DAFB8FEE05 /* NotesStore.swift */; };
 		D9E5AEFB2D4D46E0FE2AAF73 /* AtelierView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4178D968B33B66F7CEC733 /* AtelierView.swift */; };
 		DAF5CCA8AA7E9B672AC57F26 /* EditingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC6E46EE727AAA5A2B59302 /* EditingTests.swift */; };
+		DB72C16CAF630AEA4BDF7E5D /* CollabAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C6A38F2A6D055C750FBF2F /* CollabAuth.swift */; };
 		DBAF8B2BA420BD2E77FE692C /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A96FBCFDA91492495565B /* Keys.swift */; };
 		DC120FCF2ACDAA225760852C /* LaRepliqueApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8259C8C54BD486E3E312772A /* LaRepliqueApp.swift */; };
+		DE0387BE0E6DC293188F7EA8 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 62804C7CACA5B564AF4ED194 /* GoogleSignIn */; };
 		E23B5E3A44EB321A362346B9 /* KeyCommandHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857AEEAED1A109D53A7D5781 /* KeyCommandHost.swift */; };
 		E5395A0EC5877045CF876C30 /* PlayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D039A8AC7CAF85248A4365A /* PlayDetailView.swift */; };
 		E7F8646C3350F431A04E0FAF /* FirestoreTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CBA9F10956ED7998127711 /* FirestoreTransport.swift */; };
@@ -113,6 +116,7 @@
 		5CCAA858C6EDFCDE1841FBC4 /* SyncStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStatusView.swift; sourceTree = "<group>"; };
 		5CD768604539DF9DA5A51CDD /* CollabBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabBackend.swift; sourceTree = "<group>"; };
 		5DC512544BB7E87D56B6C744 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		64C6A38F2A6D055C750FBF2F /* CollabAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabAuth.swift; sourceTree = "<group>"; };
 		65B608AAA7EB25108A2B3E3D /* TableReadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableReadView.swift; sourceTree = "<group>"; };
 		66CAF7D0F3D808204F504140 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		66CB3FCAB1EBE7C98F7276D3 /* CollabSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabSession.swift; sourceTree = "<group>"; };
@@ -150,6 +154,7 @@
 		C18C021EFA5B1020FB23E793 /* Comments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comments.swift; sourceTree = "<group>"; };
 		C4340471FE7CEDA2550E7EFA /* MeasuresView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasuresView.swift; sourceTree = "<group>"; };
 		D054ECA47C669F0F6E230E68 /* LanguagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePicker.swift; sourceTree = "<group>"; };
+		D291496DFC430C366F8204C3 /* CollabPresence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabPresence.swift; sourceTree = "<group>"; };
 		D4A4263EEE0211E43F038787 /* LaRepliqueTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LaRepliqueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D90D652024252A8468181983 /* KeySetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySetupView.swift; sourceTree = "<group>"; };
 		D9D33347E637B8DAFB8FEE05 /* NotesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesStore.swift; sourceTree = "<group>"; };
@@ -171,6 +176,7 @@
 				24AA7E3DA27FCB5B6ECFE98A /* ClaudeKit in Frameworks */,
 				321BB25A898418437C1F6225 /* FirebaseFirestore in Frameworks */,
 				1B4D5457325E78C110CC794B /* FirebaseAuth in Frameworks */,
+				DE0387BE0E6DC293188F7EA8 /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,10 +197,12 @@
 		131BEA97CFA02F4F71C7E43A /* Collab */ = {
 			isa = PBXGroup;
 			children = (
+				64C6A38F2A6D055C750FBF2F /* CollabAuth.swift */,
 				5CD768604539DF9DA5A51CDD /* CollabBackend.swift */,
 				E353CBE95B878078C800E6EF /* CollabCore.swift */,
 				1CCC7C9B530CB4EE4944B28E /* CollabDebug.swift */,
 				F77DE57DE4342E9E782CEB4E /* CollabModel.swift */,
+				D291496DFC430C366F8204C3 /* CollabPresence.swift */,
 				66CB3FCAB1EBE7C98F7276D3 /* CollabSession.swift */,
 				B66CD7526DDEDEDCB6D0658A /* CollabStore.swift */,
 				73CBA9F10956ED7998127711 /* FirestoreTransport.swift */,
@@ -364,6 +372,7 @@
 				ABDA3E1FBF2593FF74B90A6E /* ClaudeKit */,
 				0DB8793CA726CE1B37B28340 /* FirebaseFirestore */,
 				B50BD1E6B4F7B44C685875F5 /* FirebaseAuth */,
+				62804C7CACA5B564AF4ED194 /* GoogleSignIn */,
 			);
 			productName = LaReplique;
 			productReference = 5321F5D0B403A9B99ED98124 /* LaReplique.app */;
@@ -418,6 +427,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F48CBF89AE08DBAD7BACECFC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				E8A5C19CA726E61E2A389413 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				6C8E3E4FDA3F6F57815930BF /* XCLocalSwiftPackageReference "Vendor/ClaudeKit" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -476,10 +486,12 @@
 				D6B03DA33F2E0C5EB045CBEB /* BeatBoardView.swift in Sources */,
 				AAA26AA4FF526AC98850793A /* Bench.swift in Sources */,
 				7DEFA89B4B424DDEB401BBD4 /* CastPanel.swift in Sources */,
+				DB72C16CAF630AEA4BDF7E5D /* CollabAuth.swift in Sources */,
 				783AC1EB4EA2643A1CCCA580 /* CollabBackend.swift in Sources */,
 				782889A9A1C16DBE7E6C9183 /* CollabCore.swift in Sources */,
 				35B8E1E6E7ABB3A8D012C11F /* CollabDebug.swift in Sources */,
 				625A909D2413B9990C6D7022 /* CollabModel.swift in Sources */,
+				016030B515B62A4EE84A8895 /* CollabPresence.swift in Sources */,
 				D09C1EB481378C2B0808A111 /* CollabSession.swift in Sources */,
 				3D292B390603CD8D9D509024 /* CollabStore.swift in Sources */,
 				31364886CED62BA05A2D1DF8 /* CollabViews.swift in Sources */,
@@ -799,6 +811,14 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		E8A5C19CA726E61E2A389413 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		F48CBF89AE08DBAD7BACECFC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -814,6 +834,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F48CBF89AE08DBAD7BACECFC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		62804C7CACA5B564AF4ED194 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E8A5C19CA726E61E2A389413 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
 		};
 		ABDA3E1FBF2593FF74B90A6E /* ClaudeKit */ = {
 			isa = XCSwiftPackageProductDependency;

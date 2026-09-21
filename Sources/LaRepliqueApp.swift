@@ -13,6 +13,8 @@ struct LaRepliqueApp: App {
                 .environment(\.locale, loc.language.locale)   // RootView re-identifies its own tree on change
                 .tint(Theme.gel)
                 .preferredColorScheme(.dark)
+                // Google's redirect and emailed sign-in links come back through here.
+                .onOpenURL { CollabAuth.shared.handle($0) }
         }
         .modelContainer(Persistence.shared)
         #if os(macOS)
