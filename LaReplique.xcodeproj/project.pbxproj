@@ -74,6 +74,7 @@
 		FA436608FFC864CE39B3F2C2 /* MeasuresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4340471FE7CEDA2550E7EFA /* MeasuresView.swift */; };
 		FCE26E723AE4DA2494B844FB /* PlayInfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4060A5C8C00ADBCDBC263E /* PlayInfoSheet.swift */; };
 		FE135D83BA8C96A1D3CDC9EA /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = FF01714DC7BE8CB5BE756FCC /* Localizable.xcstrings */; };
+		FEFCA8CAAF4ED209A5F2E4D0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 80B8A20610F87BF7DB022CEE /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,6 +121,7 @@
 		6F3781D76A801FBE30D1CA53 /* PlayFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayFormat.swift; sourceTree = "<group>"; };
 		72BD9F59F2B49515D7F6EF26 /* Corpus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Corpus.swift; sourceTree = "<group>"; };
 		73CBA9F10956ED7998127711 /* FirestoreTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreTransport.swift; sourceTree = "<group>"; };
+		80B8A20610F87BF7DB022CEE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		80D6E9ECE6DF32532DE93DF9 /* Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
 		8259C8C54BD486E3E312772A /* LaRepliqueApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaRepliqueApp.swift; sourceTree = "<group>"; };
 		857AEEAED1A109D53A7D5781 /* KeyCommandHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCommandHost.swift; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				8933CDC332742C69B5B85375 /* Assets.xcassets */,
+				80B8A20610F87BF7DB022CEE /* GoogleService-Info.plist */,
 				0A126504B89F5E2BB5E87929 /* Info.plist */,
 				45F29F51346E6A8814E6BD65 /* iOS-Release.entitlements */,
 				188EBAEB89B77CB043862770 /* iOS.entitlements */,
@@ -435,6 +438,7 @@
 			files = (
 				32B2822005DDCBDF9E7F4295 /* Assets.xcassets in Resources */,
 				B5CD053A84BB86453CE6E2E2 /* Corpus in Resources */,
+				FEFCA8CAAF4ED209A5F2E4D0 /* GoogleService-Info.plist in Resources */,
 				FE135D83BA8C96A1D3CDC9EA /* Localizable.xcstrings in Resources */,
 				F8A0AD5FC24896136D97A8F3 /* sample-play.json in Resources */,
 			);

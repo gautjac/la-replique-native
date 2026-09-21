@@ -105,7 +105,8 @@ Sharing a solo play = copy it across (same ids), then remove the private one.
 | 1c. Firestore transport + session + shared-plays store | ✅ `FirestoreTransport`, `CollabSession`, `CollabStore`, `CollabService` (share / invite / join) |
 | 1d. Two devices editing one play | ✅ two simulators on the local emulator, both directions + a server-side edit; 16/16 remote changes redrawn |
 | 1e. Security rules | ✅ web repo `firebase/firestore.rules`, 13 emulator tests (`npm run test:rules`) |
-| 1f. The real Firebase project | ⏳ blocked on `firebase login --reauth` (Jac) |
+| 1f. The real Firebase project | ✅ `la-replique-atelier` (the id `la-replique` was taken), Firestore in Montréal, rules + indexes deployed, iOS + web apps registered, `GoogleService-Info.plist` in `Sources/Resources/` |
+| 1g. Authentication switched on | ⏳ Jac, in the console: Authentication ▸ Get started, then enable Email link, Google, Apple (the API route needs a billing account) |
 | 2. Sign-in, invitations, roles, presence + soft line lock | — |
 | 3. Collaborative web editor (revive `src/App.tsx`) | — |
 | 4. Notes on the new backend; history "who wrote what" | — |
