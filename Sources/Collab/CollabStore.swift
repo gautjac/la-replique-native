@@ -49,6 +49,11 @@ enum CollabStore {
         return try? context.fetch(d).first
     }
 
+    /// Ids of every play shared on this device.
+    static func sharedIDs() -> Set<UUID> {
+        Set(((try? context.fetch(FetchDescriptor<CollabLink>())) ?? []).map(\.playID))
+    }
+
     static func link(_ playID: UUID) -> CollabLink? {
         var d = FetchDescriptor<CollabLink>(predicate: #Predicate { $0.playID == playID }); d.fetchLimit = 1
         return try? context.fetch(d).first

@@ -26,6 +26,15 @@ enum CollabDebug {
             } else if let code = env["LR_COLLAB_AUTOJOIN"], !code.isEmpty {
                 let id = try await CollabService.join(code: code, as: "Simulateur B")
                 NSLog("[LaReplique] COLLAB joined %@", id.uuidString)
+                // LR_COLLAB_TWIN=1 recreates Jac's 2026-09-21 case: a second device of the
+                // same iCloud account still holding the PRIVATE copy (same id) of a play
+                // that was shared elsewhere.
+                if env["LR_COLLAB_TWIN"] == "1", let shared = CollabStore.play(id) {
+                    let twin = Play(title: shared.title + " (copie privée)", lang: shared.lang)
+                    twin.id = id
+                    context.insert(twin)
+                    try? context.save()
+                }
                 open(id)
             }
         } catch {

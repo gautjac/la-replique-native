@@ -15,7 +15,7 @@ struct SharedPlaysList: View {
         if !plays.isEmpty {
             Section("À plusieurs") {
                 ForEach(plays) { play in
-                    PlayRow(play: play, shared: true).tag(play.id)
+                    PlayRow(play: play, shared: true).tag(LibraryItem.shared(play.id))
                         .contextMenu {
                             Button(role: .destructive) { onRemove(play) } label: {
                                 Label("Retirer de cet appareil", systemImage: "minus.circle")

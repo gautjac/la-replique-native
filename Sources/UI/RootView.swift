@@ -12,7 +12,11 @@ struct RootView: View {
     @Environment(\.scenePhase) private var scenePhase
 
     @AppStorage("hasOnboarded") private var hasOnboarded = false
-    @State private var selectedID: UUID?
+    /// WHICH play is open — and from which store. A solo play and its shared twin
+    /// carry the same id (sharing keeps ids so notes stay anchored), and on a second
+    /// device of the same iCloud account both can exist for a while: keyed by id
+    /// alone, tapping the shared row silently opened the private copy (2026-09-21).
+    @State private var selection: LibraryItem?
     @State private var infoPlay: Play?
     @State private var importing = false
     @State private var showKeys = false
@@ -20,13 +24,22 @@ struct RootView: View {
     @State private var joining = false
     @State private var wantsKeysAfterOnboarding = false
 
-    var selectedPlay: Play? { plays.first { $0.id == selectedID } }
+    var selectedPlay: Play? {
+        guard case .solo(let id) = selection else { return nil }
+        return plays.first { $0.id == id }
+    }
+
+    /// Open a play by id: the shared copy when there is one, else the solo play.
+    private func open(_ id: UUID) { selection = CollabStore.link(id) != nil ? .shared(id) : .solo(id) }
 
     var body: some View {
         NavigationSplitView {
-            List(selection: $selectedID) {
-                ForEach(plays) { play in
-                    PlayRow(play: play, unreadNotes: play.publicShareID.flatMap { inbox.unread[$0] } ?? 0).tag(play.id)
+            // A private play whose id is also shared here is a leftover: it was moved to
+            // « À plusieurs » on another device and iCloud hasn't removed it here yet.
+            let twins = CollabBackend.isAvailable ? CollabStore.sharedIDs() : []
+            List(selection: $selection) {
+                ForEach(plays.filter { !twins.contains($0.id) }) { play in
+                    PlayRow(play: play, unreadNotes: play.publicShareID.flatMap { inbox.unread[$0] } ?? 0).tag(LibraryItem.solo(play.id))
                         // Double-click opens the play's info card without stealing
                         // the List's single-click selection.
                         .simultaneousGesture(TapGesture(count: 2).onEnded { infoPlay = play })
@@ -43,7 +56,7 @@ struct RootView: View {
                 // Shared plays come from their own local store (never iCloud-mirrored).
                 if CollabBackend.isAvailable {
                     SharedPlaysList(onRemove: { p in
-                        if selectedID == p.id { selectedID = nil }
+                        if selection == .shared(p.id) { selection = nil }
                         CollabStore.remove(p.id)
                     })
                     .modelContainer(CollabStore.container)
@@ -70,9 +83,9 @@ struct RootView: View {
             #endif
         } detail: {
             if let play = selectedPlay {
-                PlayDetailView(play: play, onOpenPlay: { selectedID = $0 })
-            } else if let id = selectedID, CollabBackend.isAvailable {
-                SharedPlayDetail(playID: id, onOpenPlay: { selectedID = $0 })   // falls back to the empty state
+                PlayDetailView(play: play, onOpenPlay: open)
+            } else if case .shared(let id) = selection, CollabBackend.isAvailable {
+                SharedPlayDetail(playID: id, onOpenPlay: open)   // falls back to the empty state
             } else {
                 EmptyStateView()
             }
@@ -84,11 +97,11 @@ struct RootView: View {
         .task {
             #if DEBUG
             Persistence.primeSchemaIfRequested(context)
-            if let bench = Bench.seedIfRequested(context) { selectedID = bench.id; return }
+            if let bench = Bench.seedIfRequested(context) { selection = .solo(bench.id); return }
             #endif
             await seedIfEmpty()
             #if DEBUG
-            await CollabDebug.runLaunchHooks(context) { selectedID = $0 }
+            await CollabDebug.runLaunchHooks(context) { open($0) }
             #endif
         }
         .task {
@@ -112,11 +125,11 @@ struct RootView: View {
         .onChange(of: router.openPlayID) { _, id in
             // An App Intent (Siri / Shortcuts) asked to open a play.
             guard let id else { return }
-            selectedID = id
+            open(id)
             router.openPlayID = nil
         }
         .sheet(isPresented: $showKeys) { KeySetupView() }
-        .sheet(isPresented: $joining) { JoinSheet(onJoined: { selectedID = $0 }) }
+        .sheet(isPresented: $joining) { JoinSheet(onJoined: { selection = .shared($0) }) }
         .sheet(item: $infoPlay) { PlayInfoSheet(play: $0) }
         .fileImporter(isPresented: $importing, allowedContentTypes: [.json], allowsMultipleSelection: false) { result in
             handleImport(result)
@@ -128,11 +141,11 @@ struct RootView: View {
     private func newPlay() {
         let p = Play(title: "Pièce sans titre", lang: .fr)
         context.insert(p)
-        selectedID = p.id
+        selection = .solo(p.id)
     }
 
     private func delete(_ play: Play) {
-        if selectedID == play.id { selectedID = nil }
+        if selection == .solo(play.id) { selection = nil }
         context.delete(play)
     }
 
@@ -152,7 +165,7 @@ struct RootView: View {
               let data = try? Data(contentsOf: url),
               let doc = try? PlayFormat.decode(data) else { return }
         let p = PlayFormat.makePlay(from: doc, into: context)
-        selectedID = p.id
+        selection = .solo(p.id)
     }
 
     private func handleImport(_ result: Result<[URL], Error>) {
@@ -161,8 +174,14 @@ struct RootView: View {
         defer { if scoped { url.stopAccessingSecurityScopedResource() } }
         guard let data = try? Data(contentsOf: url), let doc = try? PlayFormat.decode(data) else { return }
         let p = PlayFormat.makePlay(from: doc, into: context)
-        selectedID = p.id
+        selection = .solo(p.id)
     }
+}
+
+/// A row of the library: a play, and the store it lives in.
+enum LibraryItem: Hashable {
+    case solo(UUID)
+    case shared(UUID)
 }
 
 struct PlayRow: View {
