@@ -55,8 +55,16 @@ private struct SharedPlayHost: View {
     }
 
     var body: some View {
-        PlayDetailView(play: play, onOpenPlay: onOpenPlay, collab: session)
-            .safeAreaInset(edge: .bottom, spacing: 0) { CollabStatusBar(session: session) }
+        // The status bar is laid out BELOW the play, in a plain VStack. It used to be a
+        // `.safeAreaInset(edge: .bottom)` around the play view — and on the iPad that
+        // stopped the script from scrolling at all (the editor lives in a hosted
+        // controller there, for the hardware Tab key; the iPhone tolerated it, which is
+        // why the simulator tests passed). Found by Jac, 2026-09-21; isolated by removing
+        // the inset on an iPad simulator.
+        VStack(spacing: 0) {
+            PlayDetailView(play: play, onOpenPlay: onOpenPlay, collab: session)
+            CollabStatusBar(session: session)
+        }
             .onAppear { session.start() }
             .onDisappear { session.stop() }
     }

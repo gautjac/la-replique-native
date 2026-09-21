@@ -17,7 +17,7 @@ enum CollabDebug {
         // keychain would then be refused with opaque stream errors. Start clean.
         if env["LR_COLLAB_AUTOSHARE"] == "1" || env["LR_COLLAB_AUTOJOIN"] != nil { try? Auth.auth().signOut() }
         do {
-            if env["LR_COLLAB_AUTOSHARE"] == "1", let play = try context.fetch(FetchDescriptor<Play>()).first {
+            if env["LR_COLLAB_AUTOSHARE"] == "1", let play = try context.fetch(FetchDescriptor<Play>()).sorted(by: { ($0.elements?.count ?? 0) > ($1.elements?.count ?? 0) }).first {
                 let id = try await CollabService.share(play, from: context, as: "Simulateur A")
                 guard let link = CollabStore.link(id) else { return }
                 let invite = try await CollabService.invite(to: link, role: env["LR_COLLAB_INVITE_ROLE"] ?? "writer")

@@ -97,7 +97,11 @@ struct RootView: View {
         .task {
             #if DEBUG
             Persistence.primeSchemaIfRequested(context)
-            if let bench = Bench.seedIfRequested(context) { selection = .solo(bench.id); return }
+            if let bench = Bench.seedIfRequested(context) {
+                selection = .solo(bench.id)
+                // With the collab hooks, carry on: a LONG shared play is a test case too.
+                if ProcessInfo.processInfo.environment["LR_COLLAB_AUTOSHARE"] != "1" { return }
+            }
             #endif
             await seedIfEmpty()
             #if DEBUG
