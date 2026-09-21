@@ -4,7 +4,9 @@
 # Only per-user state is ignored:
 LaReplique.xcodeproj/xcuserdata/
 LaReplique.xcodeproj/project.xcworkspace/xcuserdata/
-LaReplique.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+# NB: xcshareddata/swiftpm/Package.resolved IS committed — Xcode Cloud refuses to
+# resolve remote packages (Firebase, GoogleSignIn) without it.
+LaReplique.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/configuration/
 
 .build
 DerivedData
