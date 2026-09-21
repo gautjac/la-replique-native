@@ -60,7 +60,7 @@ struct NotesPanel: View {
         .frame(width: 520, height: 680)
         #endif
         .task { await notes.refresh(); notes.markSeen() }
-        .onAppear { if authorName.isEmpty { authorName = play.author } }
+        .onAppear { if authorName.isEmpty { authorName = CollabAuth.shared.person?.name ?? play.author } }
     }
 
     // MARK: status
@@ -81,6 +81,19 @@ struct NotesPanel: View {
             VStack(alignment: .leading, spacing: 10) {
                 Label(message, systemImage: "exclamationmark.icloud").foregroundStyle(Theme.amber)
                 Button("Réessayer") { Task { await notes.refresh() } }.buttonStyle(.bordered)
+            }
+        case .ready where notes.isShared:
+            FieldGroup("Notes") {
+                Text(notes.canPost
+                     ? "Tout le monde autour de la pièce voit les notes, en direct. Touche une ligne du texte pour en laisser une."
+                     : "Tu vois les notes en direct. Ton rôle (Lire) ne permet pas d'en laisser.")
+                    .font(.callout).foregroundStyle(Theme.inkFaint).fixedSize(horizontal: false, vertical: true)
+                if notes.canPost {
+                    HStack(spacing: 8) {
+                        Text("Tu signes").font(.callout).foregroundStyle(Theme.inkFaint)
+                        TextField("Ton nom", text: $authorName).sheetField()
+                    }
+                }
             }
         case .ready:
             FieldGroup("Notes des lecteurs") {
@@ -133,7 +146,7 @@ struct NotesPanel: View {
                 .buttonStyle(.plain)
                 .accessibilityHint(Text("Ouvrir dans le texte"))
                 ForEach(g.threads) { ThreadCard(thread: $0, notes: notes, authorName: authorName) }
-                if g.id == focusElementID, notes.meta.commentsOpen {
+                if g.id == focusElementID, notes.meta.commentsOpen, notes.canPost {
                     NoteComposer(placeholder: "Une note sur cette ligne…", submit: "Publier") { body in
                         await notes.post(elementID: g.id, body: body, authorName: authorName)
                     }
@@ -143,7 +156,7 @@ struct NotesPanel: View {
 
         FieldGroup("Notes générales") {
             ForEach(Notes.threads(visible, for: Notes.general)) { ThreadCard(thread: $0, notes: notes, authorName: authorName) }
-            if notes.meta.commentsOpen {
+            if notes.meta.commentsOpen, notes.canPost {
                 NoteComposer(placeholder: "Une note sur la pièce dans son ensemble…", submit: "Publier") { body in
                     await notes.post(elementID: Notes.general, body: body, authorName: authorName)
                 }
@@ -199,7 +212,7 @@ private struct ThreadCard: View {
             }
             .font(.caption.weight(.semibold)).buttonStyle(.plain).foregroundStyle(Theme.gelBright)
 
-            if !thread.resolved, notes.meta.commentsOpen {
+            if !thread.resolved, notes.meta.commentsOpen, notes.canPost {
                 NoteComposer(placeholder: "Répondre…", submit: "Répondre", compact: true) { body in
                     await notes.post(elementID: thread.root.elementID, body: body,
                                      parentID: thread.rootDeleted ? thread.root.parentID : thread.root.id, authorName: authorName)

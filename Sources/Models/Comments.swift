@@ -32,8 +32,12 @@ struct NotesMeta: Equatable, Sendable {
     var commentsOpen = false
     var resolved: [String] = []
     var hidden: [String] = []
-    /// CloudKit user record name of the play's owner.
+    /// The play's owner (CloudKit user record name, or Firebase uid).
     var owner = ""
+    /// In a shared play every WRITER moderates (resolve, reopen, hide) — the
+    /// server's rules allow it directly on the note. On a CloudKit reading only
+    /// the owner does, through lists on their own record.
+    var viewerCanModerate = false
 }
 
 struct CommentDraft: Sendable {
@@ -138,8 +142,8 @@ enum Notes {
     /// What a viewer may do to a note.
     static func rights(viewer: String?, meta: NotesMeta, _ c: PlayComment) -> Rights {
         let mine = viewer != nil && viewer == c.creator
-        let owner = viewer != nil && viewer == meta.owner
-        return Rights(remove: mine, hide: owner && !mine, resolve: c.parentID == nil && (mine || owner))
+        let moderates = viewer != nil && (viewer == meta.owner || meta.viewerCanModerate)
+        return Rights(remove: mine, hide: moderates && !mine, resolve: c.parentID == nil && (mine || moderates))
     }
 
     /// Can the viewer clear every "resolved" flag currently set on this thread?
@@ -147,8 +151,8 @@ enum Notes {
         let authorFlag = !t.rootDeleted && t.root.resolved
         let ownerFlag = meta.resolved.contains(t.key)
         guard authorFlag || ownerFlag else { return false }
-        if authorFlag && viewer != t.root.creator { return false }
-        if ownerFlag && viewer != meta.owner { return false }
+        if authorFlag && viewer != t.root.creator && !meta.viewerCanModerate { return false }
+        if ownerFlag && viewer != meta.owner && !meta.viewerCanModerate { return false }
         return true
     }
 

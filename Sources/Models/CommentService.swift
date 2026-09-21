@@ -17,6 +17,15 @@ protocol CommentBackend: Sendable {
     func ownerUpdate(shareID: String, commentsOpen: Bool?, resolved: [String]?, hidden: [String]?) async throws -> NotesMeta
     /// Ask CloudKit to push a notification when someone adds a note to this play.
     func setNotifications(shareID: String, on: Bool) async
+    /// A moderator acts directly on someone's note (shared plays only).
+    func moderate(id: String, resolved: Bool?, hidden: Bool?) async throws
+    /// Live updates, when the home supports them; nil = the store polls instead.
+    @MainActor func observe(shareID: String, onChange: @escaping @MainActor ([PlayComment]) -> Void) -> (@MainActor () -> Void)?
+}
+
+extension CommentBackend {
+    func moderate(id: String, resolved: Bool?, hidden: Bool?) async throws { throw NotesError.failed("unsupported") }
+    @MainActor func observe(shareID: String, onChange: @escaping @MainActor ([PlayComment]) -> Void) -> (@MainActor () -> Void)? { nil }
 }
 
 enum NotesError: LocalizedError {

@@ -48,6 +48,7 @@
 		9A7A9C9C2750F39ED7EE0874 /* Editing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F69A8DE67A6A180CEF7A60 /* Editing.swift */; };
 		9B04B100D7962D9ADE555F05 /* CollabCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE010BBDAB2E9A4D1423ABB /* CollabCoreTests.swift */; };
 		A05F1B1E88C79CCB767C21FC /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CAF7D0F3D808204F504140 /* OnboardingView.swift */; };
+		A9DF84EFB50BBC69EDBE4B20 /* FirestoreComments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74ECAD72A9914A3A676FB5CA /* FirestoreComments.swift */; };
 		AA5A8DF82A5419C0ADF9AC8A /* NotesPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5980F7433419B49296420 /* NotesPanel.swift */; };
 		AAA26AA4FF526AC98850793A /* Bench.swift in Sources */ = {isa = PBXBuildFile; fileRef = A764E88D36A5B7B100C5F171 /* Bench.swift */; };
 		AF2BB620AC8F247CC4FDC91B /* TableReadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B608AAA7EB25108A2B3E3D /* TableReadView.swift */; };
@@ -125,6 +126,7 @@
 		6F3781D76A801FBE30D1CA53 /* PlayFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayFormat.swift; sourceTree = "<group>"; };
 		72BD9F59F2B49515D7F6EF26 /* Corpus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Corpus.swift; sourceTree = "<group>"; };
 		73CBA9F10956ED7998127711 /* FirestoreTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreTransport.swift; sourceTree = "<group>"; };
+		74ECAD72A9914A3A676FB5CA /* FirestoreComments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreComments.swift; sourceTree = "<group>"; };
 		80B8A20610F87BF7DB022CEE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		80D6E9ECE6DF32532DE93DF9 /* Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
 		8259C8C54BD486E3E312772A /* LaRepliqueApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaRepliqueApp.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				D291496DFC430C366F8204C3 /* CollabPresence.swift */,
 				66CB3FCAB1EBE7C98F7276D3 /* CollabSession.swift */,
 				B66CD7526DDEDEDCB6D0658A /* CollabStore.swift */,
+				74ECAD72A9914A3A676FB5CA /* FirestoreComments.swift */,
 				73CBA9F10956ED7998127711 /* FirestoreTransport.swift */,
 				0FC1A7593E3836E836C47BBF /* FractionalIndex.swift */,
 			);
@@ -499,6 +502,7 @@
 				78209AB2A80F82A87353733A /* Comments.swift in Sources */,
 				23E6477FE66E2B3D4F326B48 /* Corpus.swift in Sources */,
 				9A7A9C9C2750F39ED7EE0874 /* Editing.swift in Sources */,
+				A9DF84EFB50BBC69EDBE4B20 /* FirestoreComments.swift in Sources */,
 				E7F8646C3350F431A04E0FAF /* FirestoreTransport.swift in Sources */,
 				B5B7504BB362752D076E756F /* FractionalIndex.swift in Sources */,
 				79099219C4624E5A57F47E28 /* Intents.swift in Sources */,

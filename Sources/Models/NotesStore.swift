@@ -18,6 +18,11 @@ final class NotesStore: ObservableObject {
     @Published var actionError: String?
 
     private(set) var shareID: String?
+    /// A shared (collaborative) play: notes are always on, gated by role.
+    @Published private(set) var isShared = false
+    /// May this person leave notes? (A reader of a shared play may not.)
+    @Published private(set) var canPost = true
+    private var stopObserving: (@MainActor () -> Void)?
     private var comments: [PlayComment] = []
     private var elementIDs: Set<String> = []
     private var backend: CommentBackend = CloudKitComments()
@@ -27,15 +32,29 @@ final class NotesStore: ObservableObject {
 
     /// Point the store at a play. Call again whenever the share id or the set of
     /// elements changes; it only refetches when the share id did.
-    func attach(shareID: String?, elementIDs: Set<String>, backend: CommentBackend? = nil) {
+    func attach(shareID: String?, elementIDs: Set<String>, backend: CommentBackend? = nil,
+                shared: Bool = false, canPost: Bool = true) {
         if let backend { self.backend = backend }
         self.elementIDs = elementIDs
+        if self.canPost != canPost { self.canPost = canPost }
         guard shareID != self.shareID else { rebuild(); return }
         self.shareID = shareID
+        isShared = shared
         comments = []; meta = NotesMeta(); rebuild()
-        poll?.cancel()
-        guard shareID != nil else { phase = .unpublished; return }
+        poll?.cancel(); stopObserving?(); stopObserving = nil
+        guard let shareID else { phase = .unpublished; return }
         phase = .loading
+        // A live home pushes every change; otherwise fall back to polling.
+        if let stop = self.backend.observe(shareID: shareID, onChange: { [weak self] list in
+            guard let self else { return }
+            self.comments = list
+            self.phase = .ready
+            self.rebuild()
+        }) {
+            stopObserving = stop
+            Task { [weak self] in await self?.refresh() }
+            return
+        }
         poll = Task { [weak self] in
             while !Task.isCancelled {
                 await self?.refresh()
@@ -44,7 +63,7 @@ final class NotesStore: ObservableObject {
         }
     }
 
-    func detach() { poll?.cancel(); poll = nil }
+    func detach() { poll?.cancel(); poll = nil; stopObserving?(); stopObserving = nil }
 
     func refresh() async {
         guard let shareID else { return }
@@ -104,7 +123,8 @@ final class NotesStore: ObservableObject {
         return await run {
             let saved = try await self.backend.post(CommentDraft(shareID: shareID, elementID: elementID, quote: quote,
                                                                  body: text, authorName: name, parentID: parentID))
-            self.comments.append(saved)
+            // With a live listener the same note may already be here — never twice.
+            if !self.comments.contains(where: { $0.id == saved.id }) { self.comments.append(saved) }
             self.rebuild()
         }
     }
@@ -119,6 +139,14 @@ final class NotesStore: ObservableObject {
 
     func hide(_ c: PlayComment) async {
         guard let shareID else { return }
+        if meta.viewerCanModerate {
+            await run {
+                try await self.backend.moderate(id: c.id, resolved: nil, hidden: true)
+                self.comments.removeAll { $0.id == c.id || $0.parentID == c.id }
+                self.rebuild()
+            }
+            return
+        }
         await run {
             let hidden = Array(Set(self.meta.hidden + [c.id]))
             self.meta = try await self.backend.ownerUpdate(shareID: shareID, commentsOpen: nil, resolved: nil, hidden: hidden)
@@ -130,6 +158,14 @@ final class NotesStore: ObservableObject {
         guard let shareID else { return }
         await run {
             let mine = !t.rootDeleted && self.me == t.root.creator
+            if self.meta.viewerCanModerate, !t.rootDeleted {
+                // Shared play: `resolved` is a field on the note; the server lets its
+                // author and every writer set it.
+                try await self.backend.setResolvedByAuthor(id: t.root.id, resolved: resolved)
+                self.patch(t.root.id) { $0.resolved = resolved }
+                self.rebuild()
+                return
+            }
             if resolved {
                 if mine {
                     try await self.backend.setResolvedByAuthor(id: t.root.id, resolved: true)

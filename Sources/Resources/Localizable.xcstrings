@@ -1181,6 +1181,16 @@
         }
       }
     },
+    "Laisser une note sur cette ligne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leave a note on this line"
+          }
+        }
+      }
+    },
     "Langue de l'interface": {
       "localizations": {
         "en": {
@@ -2617,6 +2627,16 @@
         }
       }
     },
+    "Tout le monde autour de la pièce voit les notes, en direct. Touche une ligne du texte pour en laisser une.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Everyone around the play sees the notes, live. Tap a line of the script to leave one."
+          }
+        }
+      }
+    },
     "Toute la pièce": {
       "localizations": {
         "en": {
@@ -2643,6 +2663,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Signing as"
+          }
+        }
+      }
+    },
+    "Tu vois les notes en direct. Ton rôle (Lire) ne permet pas d'en laisser.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You see the notes live. Your role (Read) doesn't allow leaving any."
           }
         }
       }

@@ -89,6 +89,18 @@ final class NotesTests: XCTestCase {
         XCTAssertFalse(Notes.canReopen(byOwner, viewer: "_zoe", meta: meta(resolved: ["b"])))
     }
 
+    /// Shared plays: every writer moderates, directly on the note (no owner lists).
+    func testWritersModerateInASharedPlay() {
+        var m = meta(); m.viewerCanModerate = true                     // I'm a writer, not the owner
+        XCTAssertEqual(Notes.rights(viewer: "_writer2", meta: m, c("a")), .init(remove: false, hide: true, resolve: true))
+        XCTAssertEqual(Notes.rights(viewer: "_zoe", meta: m, c("a")), .init(remove: true, hide: false, resolve: true))
+        let resolvedByAuthor = Notes.threads([c("a", resolved: true)], meta: m, elementIDs: ["e1"])[0]
+        XCTAssertTrue(Notes.canReopen(resolvedByAuthor, viewer: "_writer2", meta: m), "a writer may reopen anyone's thread")
+        var commenter = meta(); commenter.viewerCanModerate = false
+        XCTAssertFalse(Notes.canReopen(resolvedByAuthor, viewer: "_luc", meta: commenter))
+        XCTAssertFalse(Notes.rights(viewer: "_luc", meta: commenter, c("a")).hide)
+    }
+
     func testUnreadCountsOthersNotesSinceLastSeen() {
         let seen = Date(timeIntervalSince1970: 100)
         let list = [c("old", at: 50), c("new", at: 150), c("mine", creator: "_me", at: 160), c("hid", at: 170)]

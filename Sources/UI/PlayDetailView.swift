@@ -24,6 +24,14 @@ struct PlayDetailView: View {
 
     enum Mode: String, CaseIterable { case script, board }
 
+    private var notesDemo: Bool {
+        #if DEBUG
+        return ProcessInfo.processInfo.environment["LR_NOTES_DEMO"] == "1"
+        #else
+        return false
+        #endif
+    }
+
     /// A shared play where I'm a commenter or a reader.
     private var readOnly: Bool { collab.map { !$0.link.canWrite } ?? false }
 
@@ -34,7 +42,9 @@ struct PlayDetailView: View {
         presence = collab?.presence ?? .none
     }
 
-    var body: some View {
+    /// The play itself and its toolbar. (Split from `body`, whose chain of sheets
+    /// grew past what the type-checker will solve in one expression.)
+    private var stage: some View {
         Group {
             switch mode {
             case .script:
@@ -43,7 +53,8 @@ struct PlayDetailView: View {
                                others: presence.byElement,
                                onFocusChange: { presence.setFocus($0?.uuidString) },
                                // Readers and commenters see the script move; they don't type in it.
-                               readOnly: readOnly)
+                               readOnly: readOnly,
+                               notesEnabled: collab != nil && notes.canPost)
             case .board: BeatBoardView(play: play, onJump: { id in mode = .script; jumpTarget = id }, readOnly: readOnly)
             }
         }
@@ -57,10 +68,15 @@ struct PlayDetailView: View {
                 .fixedSize()
             }
             ToolbarItemGroup {
-                Button { notesFocus = nil; showNotes = true } label: {
-                    Label("Notes", systemImage: notes.unread > 0 ? "bubble.left.and.exclamationmark.bubble.right.fill" : "bubble.left.and.bubble.right")
+                // Notes belong to SHARED plays (everyone around the play, any account). The
+                // earlier CloudKit notes-on-a-published-reading path is dormant, so a solo
+                // play shows no Notes button rather than one that leads nowhere.
+                if collab != nil || notesDemo {
+                    Button { notesFocus = nil; showNotes = true } label: {
+                        Label("Notes", systemImage: notes.unread > 0 ? "bubble.left.and.exclamationmark.bubble.right.fill" : "bubble.left.and.bubble.right")
+                    }
+                    .help(notes.unread > 0 ? Text("\(notes.unread) nouvelles notes") : Text("Notes"))
                 }
-                .help(notes.unread > 0 ? Text("\(notes.unread) nouvelles notes") : Text("Notes des lecteurs"))
                 // The tools that CHANGE the script are for writers. A commenter's copy must
                 // never drift from everyone else's (their edits are never sent).
                 if !readOnly {
@@ -94,6 +110,10 @@ struct PlayDetailView: View {
                 } label: { Label("Plus", systemImage: "ellipsis.circle") }
             }
         }
+    }
+
+    var body: some View {
+        stage
         .sheet(isPresented: $showCast) { CastPanel(play: play) }
         .sheet(isPresented: $showMeasures) { MeasuresView(play: play) }
         .sheet(isPresented: $showAtelier) { AtelierView(play: play, onOpenPlay: onOpenPlay) }
@@ -107,6 +127,7 @@ struct PlayDetailView: View {
         }
         .task(id: play.id) { attachNotes() }
         .onChange(of: play.elements?.count ?? 0) { _, _ in attachNotes() }
+        .onChange(of: collab?.link.role ?? "") { _, _ in attachNotes() }
         .onDisappear { notes.detach() }
         .sheet(isPresented: $showKeys) { KeySetupView() }
         .sheet(isPresented: $showCollab) { CollabSheet(play: play, link: collab?.link, onShared: onOpenPlay) }
@@ -125,6 +146,13 @@ struct PlayDetailView: View {
             return
         }
         #endif
+        if let link = collab?.link {
+            // A shared play: notes live beside the script, live, for writers and commenters.
+            notes.attach(shareID: link.remoteID, elementIDs: ids,
+                         backend: FirestoreComments(playID: link.remoteID, role: link.role, ownerUid: link.ownerUid),
+                         shared: true, canPost: link.role == "writer" || link.role == "commenter")
+            return
+        }
         notes.attach(shareID: play.publicShareID, elementIDs: ids)
     }
 }

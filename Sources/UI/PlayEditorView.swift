@@ -27,6 +27,9 @@ struct PlayEditorView: View {
     /// So this disables the page's CONTENT, never the ScrollView around it (disabling
     /// a ScrollView disables its scrolling: Jac's iPad, 2026-09-21).
     var readOnly = false
+    /// This is a shared play and I may leave notes: offer it on the line I'm in (a
+    /// writer), or on any line I tap (a commenter, who cannot place a cursor).
+    var notesEnabled = false
     @FocusState private var focused: UUID?
 
     @State private var newCharName = ""
@@ -51,10 +54,9 @@ struct PlayEditorView: View {
         ScrollViewReader { proxy in
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
-                    titleBlock
+                    titleBlock.disabled(readOnly)
                     page
                 }
-                .disabled(readOnly)
                 .frame(maxWidth: 820)
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 24).padding(.vertical, 28)
@@ -178,6 +180,7 @@ struct PlayEditorView: View {
                                hint: speakerHint?.el == el.id ? speakerHint : nil,
                                noteCount: noteCounts[el.id.uuidString] ?? 0,
                                others: others[el.id.uuidString] ?? [],
+                               readOnly: readOnly, notesEnabled: notesEnabled,
                                actions: actions)
                         .id(el.id)
                 }
@@ -197,6 +200,9 @@ struct PlayEditorView: View {
     @ToolbarContentBuilder
     private var keyboardToolbar: some ToolbarContent {
         ToolbarItemGroup(placement: .keyboard) {
+          // Only while a BLOCK of the script has the cursor: a keyboard toolbar is
+          // scene-wide, and these buttons used to show up over the notes sheet too.
+          if focused != nil {
             Button { if let el = focusedElement { onEnter(el) } } label: { Label("Réplique", systemImage: "return") }
             Button { if let el = focusedElement { onTab(el) } } label: { Label("Type", systemImage: "arrow.2.squarepath") }
             if let el = focusedElement, el.kind == .cue {
@@ -210,6 +216,7 @@ struct PlayEditorView: View {
             }
             Spacer()
             Button("OK") { focused = nil }
+          }
         }
     }
     #endif
@@ -322,6 +329,8 @@ private struct ElementRow: View {
     let noteCount: Int
     /// Other people whose cursor is in this block right now.
     var others: [PresencePerson] = []
+    var readOnly = false
+    var notesEnabled = false
     let actions: RowActions
 
     /// Soft lock: while someone else is in this line, I can read it change but not
@@ -339,8 +348,12 @@ private struct ElementRow: View {
         let _ = RenderCounter.row(el.id)
         #endif
         block
-            .disabled(lockedBy != nil)
+            // Disabled per ROW (never the ScrollView): read-only people scroll, and a tap
+            // on a line still reaches the gesture below.
+            .disabled(lockedBy != nil || readOnly)
             .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
+            .onTapGesture { if readOnly && notesEnabled { actions.showNotes(el) } }
             .overlay(alignment: .leading) {
                 if let who = others.first {
                     Rectangle().fill(Color(hexString: who.colorHex)).frame(width: 3).offset(x: -14)
@@ -362,6 +375,15 @@ private struct ElementRow: View {
                     Button { actions.showNotes(el) } label: { NoteBadge(count: noteCount) }
                         .buttonStyle(.plain)
                         .offset(x: 22, y: 6)
+                } else if notesEnabled, !readOnly, focus.wrappedValue == el.id {
+                    // The line I'm in: one tap to leave a note on it.
+                    Button { actions.showNotes(el) } label: {
+                        Image(systemName: "plus.bubble").font(.system(size: 13, weight: .semibold))
+                            .foregroundStyle(Theme.gel).padding(4)
+                    }
+                    .buttonStyle(.plain)
+                    .offset(x: 24, y: 2)
+                    .accessibilityLabel(Text("Laisser une note sur cette ligne"))
                 }
             }
     }
