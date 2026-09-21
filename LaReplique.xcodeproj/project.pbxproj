@@ -23,30 +23,36 @@
 		55B29FCF8942C8A1E3947A1B /* KeySetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D652024252A8468181983 /* KeySetupView.swift */; };
 		5D7629456C1C31710E4AA9A7 /* Translate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BB8C08D19B51EC77A42B92 /* Translate.swift */; };
 		61C46C6763EC2286672B438E /* Publish.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCCA0DD4E115C0819E5BDD0 /* Publish.swift */; };
+		625A909D2413B9990C6D7022 /* CollabModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77DE57DE4342E9E782CEB4E /* CollabModel.swift */; };
 		6BFE14DD7ED1758D42BC506A /* NotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0413E46FDCB0821C6F96F0 /* NotesTests.swift */; };
 		6E4712F73FD07DCA5DA3F278 /* AtelierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E39FF62E4D85AF2B100A5E /* AtelierTests.swift */; };
 		7070D7FF3559AD8E5C3536B0 /* PlayFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3781D76A801FBE30D1CA53 /* PlayFormat.swift */; };
 		74F62846EA100D9C6DF0B189 /* PlayEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B89EE28A54CD1EC9CD0D9 /* PlayEditorView.swift */; };
 		78209AB2A80F82A87353733A /* Comments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18C021EFA5B1020FB23E793 /* Comments.swift */; };
+		782889A9A1C16DBE7E6C9183 /* CollabCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CBE95B878078C800E6EF /* CollabCore.swift */; };
 		79099219C4624E5A57F47E28 /* Intents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5165603F4EAD5377B4FD5B /* Intents.swift */; };
 		7DEFA89B4B424DDEB401BBD4 /* CastPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34686CBA80DB13A0D1525CC /* CastPanel.swift */; };
 		7E3C02856E281B07E978E768 /* Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D6E9ECE6DF32532DE93DF9 /* Stats.swift */; };
 		841CC3669DA9DB2D4A6F037D /* Atelier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C959D85925E534C8528FAED /* Atelier.swift */; };
 		894B0D13EE62AB580F322208 /* ScriptReadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33744A5AFC25595AEC87F333 /* ScriptReadView.swift */; };
+		8BC4EC837776581EDBDDBD91 /* CollabSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71F308F6DF97B038AAAB9C2 /* CollabSupport.swift */; };
 		90A57308CF0D42A982DC9E85 /* Versions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FB9223FB4D7F6D203E95E6 /* Versions.swift */; };
 		94A6B272807AD0A48C6D6FC8 /* CorpusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9507CF6D90AADB70C1C5E0D /* CorpusTests.swift */; };
 		9A7A9C9C2750F39ED7EE0874 /* Editing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F69A8DE67A6A180CEF7A60 /* Editing.swift */; };
+		9B04B100D7962D9ADE555F05 /* CollabCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE010BBDAB2E9A4D1423ABB /* CollabCoreTests.swift */; };
 		A05F1B1E88C79CCB767C21FC /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CAF7D0F3D808204F504140 /* OnboardingView.swift */; };
 		AA5A8DF82A5419C0ADF9AC8A /* NotesPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5980F7433419B49296420 /* NotesPanel.swift */; };
 		AAA26AA4FF526AC98850793A /* Bench.swift in Sources */ = {isa = PBXBuildFile; fileRef = A764E88D36A5B7B100C5F171 /* Bench.swift */; };
 		AF2BB620AC8F247CC4FDC91B /* TableReadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B608AAA7EB25108A2B3E3D /* TableReadView.swift */; };
 		B05EEFD98E51A3222E574FD9 /* VersionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3E1659701972CAA924A220 /* VersionsView.swift */; };
 		B34D06DFE3288A546892F9EF /* StatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A311599E7169E88946C6ABD2 /* StatsTests.swift */; };
+		B5B7504BB362752D076E756F /* FractionalIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC1A7593E3836E836C47BBF /* FractionalIndex.swift */; };
 		B5CD053A84BB86453CE6E2E2 /* Corpus in Resources */ = {isa = PBXBuildFile; fileRef = B26B2B886C6E9CBC2A0C8BB1 /* Corpus */; };
 		BCADC65648FA4326A5400937 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC512544BB7E87D56B6C744 /* AppRouter.swift */; };
 		C06CC3153B49207464F3442A /* SyncStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCAA858C6EDFCDE1841FBC4 /* SyncStatusView.swift */; };
 		C2565DD870BE16465D5F4533 /* VersionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFB4216228ECFF94BE99288 /* VersionsTests.swift */; };
 		C7F8348B0ECDAF3B3D60A325 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BBE177EDFD21CC833F053E /* CommentService.swift */; };
+		D2C4E238FCB656486EAFB763 /* FractionalIndexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AB6B1498506E1370D90058 /* FractionalIndexTests.swift */; };
 		D6B03DA33F2E0C5EB045CBEB /* BeatBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5554D762F55CF36DDC8D78C /* BeatBoardView.swift */; };
 		D92E34A1851DC4824CCC8A41 /* NotesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D33347E637B8DAFB8FEE05 /* NotesStore.swift */; };
 		D9E5AEFB2D4D46E0FE2AAF73 /* AtelierView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4178D968B33B66F7CEC733 /* AtelierView.swift */; };
@@ -75,6 +81,7 @@
 /* Begin PBXFileReference section */
 		0A126504B89F5E2BB5E87929 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0D039A8AC7CAF85248A4365A /* PlayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayDetailView.swift; sourceTree = "<group>"; };
+		0FC1A7593E3836E836C47BBF /* FractionalIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FractionalIndex.swift; sourceTree = "<group>"; };
 		101AFC926F891560E1112D62 /* sample-play.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sample-play.json"; sourceTree = "<group>"; };
 		15A841C6188596192E6666CE /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		15E1DD7BAA91FEE36A5F655B /* macOS-Release.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "macOS-Release.entitlements"; sourceTree = "<group>"; };
@@ -119,6 +126,8 @@
 		B17F8610078151FC121B6AD9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		B26B2B886C6E9CBC2A0C8BB1 /* Corpus */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Corpus; sourceTree = SOURCE_ROOT; };
 		B5554D762F55CF36DDC8D78C /* BeatBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeatBoardView.swift; sourceTree = "<group>"; };
+		B6AB6B1498506E1370D90058 /* FractionalIndexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FractionalIndexTests.swift; sourceTree = "<group>"; };
+		BAE010BBDAB2E9A4D1423ABB /* CollabCoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabCoreTests.swift; sourceTree = "<group>"; };
 		BD3E1659701972CAA924A220 /* VersionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionsView.swift; sourceTree = "<group>"; };
 		BDC63563BBF37D30ACEB3373 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		C0BBE177EDFD21CC833F053E /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
@@ -129,8 +138,11 @@
 		D90D652024252A8468181983 /* KeySetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySetupView.swift; sourceTree = "<group>"; };
 		D9D33347E637B8DAFB8FEE05 /* NotesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesStore.swift; sourceTree = "<group>"; };
 		DD92AD10C3725C9B5E2E34F8 /* TabKeyMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabKeyMonitor.swift; sourceTree = "<group>"; };
+		E353CBE95B878078C800E6EF /* CollabCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabCore.swift; sourceTree = "<group>"; };
+		E71F308F6DF97B038AAAB9C2 /* CollabSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabSupport.swift; sourceTree = "<group>"; };
 		F34686CBA80DB13A0D1525CC /* CastPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastPanel.swift; sourceTree = "<group>"; };
 		F4DCB8ADC2A6062FD0B12EC8 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
+		F77DE57DE4342E9E782CEB4E /* CollabModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabModel.swift; sourceTree = "<group>"; };
 		FF01714DC7BE8CB5BE756FCC /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		FF8B89EE28A54CD1EC9CD0D9 /* PlayEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEditorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -158,12 +170,25 @@
 			);
 			sourceTree = "<group>";
 		};
+		131BEA97CFA02F4F71C7E43A /* Collab */ = {
+			isa = PBXGroup;
+			children = (
+				E353CBE95B878078C800E6EF /* CollabCore.swift */,
+				F77DE57DE4342E9E782CEB4E /* CollabModel.swift */,
+				0FC1A7593E3836E836C47BBF /* FractionalIndex.swift */,
+			);
+			path = Collab;
+			sourceTree = "<group>";
+		};
 		27FA0C06E680AE4A767C55A8 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				25E39FF62E4D85AF2B100A5E /* AtelierTests.swift */,
+				BAE010BBDAB2E9A4D1423ABB /* CollabCoreTests.swift */,
+				E71F308F6DF97B038AAAB9C2 /* CollabSupport.swift */,
 				A9507CF6D90AADB70C1C5E0D /* CorpusTests.swift */,
 				1BC6E46EE727AAA5A2B59302 /* EditingTests.swift */,
+				B6AB6B1498506E1370D90058 /* FractionalIndexTests.swift */,
 				A9107FC0CF0BD796A902EA30 /* ModelTests.swift */,
 				4B0413E46FDCB0821C6F96F0 /* NotesTests.swift */,
 				2C935361BCAA27F70D475F66 /* PlayFormatTests.swift */,
@@ -275,6 +300,7 @@
 			children = (
 				8259C8C54BD486E3E312772A /* LaRepliqueApp.swift */,
 				F0F81E6ADD68D51E886D3AAE /* AI */,
+				131BEA97CFA02F4F71C7E43A /* Collab */,
 				B84FEA536A3A0AC7586AB376 /* Design */,
 				FE713484718461EE07945FDB /* Intents */,
 				825CA54E63CE15DD17E376F9 /* Models */,
@@ -397,8 +423,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E4712F73FD07DCA5DA3F278 /* AtelierTests.swift in Sources */,
+				9B04B100D7962D9ADE555F05 /* CollabCoreTests.swift in Sources */,
+				8BC4EC837776581EDBDDBD91 /* CollabSupport.swift in Sources */,
 				94A6B272807AD0A48C6D6FC8 /* CorpusTests.swift in Sources */,
 				DAF5CCA8AA7E9B672AC57F26 /* EditingTests.swift in Sources */,
+				D2C4E238FCB656486EAFB763 /* FractionalIndexTests.swift in Sources */,
 				0F51153FAABAEBCAA35A4C9B /* ModelTests.swift in Sources */,
 				6BFE14DD7ED1758D42BC506A /* NotesTests.swift in Sources */,
 				06930CD71F319AE4EF43816E /* PlayFormatTests.swift in Sources */,
@@ -418,10 +447,13 @@
 				D6B03DA33F2E0C5EB045CBEB /* BeatBoardView.swift in Sources */,
 				AAA26AA4FF526AC98850793A /* Bench.swift in Sources */,
 				7DEFA89B4B424DDEB401BBD4 /* CastPanel.swift in Sources */,
+				782889A9A1C16DBE7E6C9183 /* CollabCore.swift in Sources */,
+				625A909D2413B9990C6D7022 /* CollabModel.swift in Sources */,
 				C7F8348B0ECDAF3B3D60A325 /* CommentService.swift in Sources */,
 				78209AB2A80F82A87353733A /* Comments.swift in Sources */,
 				23E6477FE66E2B3D4F326B48 /* Corpus.swift in Sources */,
 				9A7A9C9C2750F39ED7EE0874 /* Editing.swift in Sources */,
+				B5B7504BB362752D076E756F /* FractionalIndex.swift in Sources */,
 				79099219C4624E5A57F47E28 /* Intents.swift in Sources */,
 				E23B5E3A44EB321A362346B9 /* KeyCommandHost.swift in Sources */,
 				55B29FCF8942C8A1E3947A1B /* KeySetupView.swift in Sources */,
