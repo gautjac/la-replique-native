@@ -5,6 +5,9 @@ import SwiftUI
 struct PlayDetailView: View {
     @Bindable var play: Play
     var onOpenPlay: (UUID) -> Void
+    /// Non-nil when this is a shared play, live.
+    var collab: CollabSession?
+    @State private var showCollab = false
     @State private var mode: Mode = .script
     @State private var jumpTarget: UUID?
     @State private var showCast = false
@@ -26,6 +29,8 @@ struct PlayDetailView: View {
             case .script:
                 PlayEditorView(play: play, jumpTarget: $jumpTarget, noteCounts: notes.openCounts,
                                onShowNotes: { id in notesFocus = id.uuidString; showNotes = true })
+                    // Readers and commenters see the script move; they don't type in it.
+                    .disabled(collab.map { !$0.link.canWrite } ?? false)
             case .board: BeatBoardView(play: play, onJump: { id in mode = .script; jumpTarget = id })
             }
         }
@@ -59,6 +64,12 @@ struct PlayDetailView: View {
                               preview: SharePreview(play.title.isEmpty ? String(localized: "Pièce sans titre") : play.title))
                     ShareLink("Exporter — texte", item: PlayExport(play, kind: .text),
                               preview: SharePreview(play.title.isEmpty ? String(localized: "Pièce sans titre") : play.title))
+                    if CollabBackend.isAvailable {
+                        Divider()
+                        Button { showCollab = true } label: {
+                            Label(collab == nil ? "Écrire à plusieurs…" : "Inviter…", systemImage: "person.2.badge.plus")
+                        }
+                    }
                     Divider()
                     InterfaceLanguageRows(asSubmenu: true)
                     Divider()
@@ -81,6 +92,7 @@ struct PlayDetailView: View {
         .onChange(of: play.elements?.count ?? 0) { _, _ in attachNotes() }
         .onDisappear { notes.detach() }
         .sheet(isPresented: $showKeys) { KeySetupView() }
+        .sheet(isPresented: $showCollab) { CollabSheet(play: play, link: collab?.link, onShared: onOpenPlay) }
     }
 
     /// (Re)point the notes store at this play — after opening it, publishing or

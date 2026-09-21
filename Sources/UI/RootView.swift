@@ -16,6 +16,7 @@ struct RootView: View {
     @State private var importing = false
     @State private var showKeys = false
     @State private var showOnboarding = false
+    @State private var joining = false
     @State private var wantsKeysAfterOnboarding = false
 
     var selectedPlay: Play? { plays.first { $0.id == selectedID } }
@@ -38,12 +39,23 @@ struct RootView: View {
                             }
                         }
                 }
+                // Shared plays come from their own local store (never iCloud-mirrored).
+                if CollabBackend.isAvailable {
+                    SharedPlaysList(onRemove: { p in
+                        if selectedID == p.id { selectedID = nil }
+                        CollabStore.remove(p.id)
+                    })
+                    .modelContainer(CollabStore.container)
+                }
             }
             .navigationTitle("Mes pièces")
             .toolbar {
                 ToolbarItemGroup {
                     Button { newPlay() } label: { Label("Nouvelle pièce", systemImage: "plus") }
                     Button { importing = true } label: { Label("Importer", systemImage: "square.and.arrow.down") }
+                    if CollabBackend.isAvailable {
+                        Button { joining = true } label: { Label("Rejoindre une pièce", systemImage: "person.2.badge.plus") }
+                    }
                     InterfaceLanguageMenu()
                     // Settings live in the Settings window (⌘,) on macOS and the
                     // ••• menu on both platforms; this button is the iOS way in.
@@ -58,6 +70,8 @@ struct RootView: View {
         } detail: {
             if let play = selectedPlay {
                 PlayDetailView(play: play, onOpenPlay: { selectedID = $0 })
+            } else if let id = selectedID, CollabBackend.isAvailable {
+                SharedPlayDetail(playID: id, onOpenPlay: { selectedID = $0 })   // falls back to the empty state
             } else {
                 EmptyStateView()
             }
@@ -72,6 +86,9 @@ struct RootView: View {
             if let bench = Bench.seedIfRequested(context) { selectedID = bench.id; return }
             #endif
             await seedIfEmpty()
+            #if DEBUG
+            await CollabDebug.runLaunchHooks(context) { selectedID = $0 }
+            #endif
         }
         .task {
             if !hasOnboarded { showOnboarding = true }
@@ -95,6 +112,7 @@ struct RootView: View {
             router.openPlayID = nil
         }
         .sheet(isPresented: $showKeys) { KeySetupView() }
+        .sheet(isPresented: $joining) { JoinSheet(onJoined: { selectedID = $0 }) }
         .sheet(item: $infoPlay) { PlayInfoSheet(play: $0) }
         .fileImporter(isPresented: $importing, allowedContentTypes: [.json], allowsMultipleSelection: false) { result in
             handleImport(result)
@@ -143,9 +161,10 @@ struct RootView: View {
     }
 }
 
-private struct PlayRow: View {
+struct PlayRow: View {
     let play: Play
     var unreadNotes = 0
+    var shared = false
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
             HStack(spacing: 8) {
@@ -156,6 +175,7 @@ private struct PlayRow: View {
                     .foregroundStyle(Theme.gelBright)
                 Text(play.title.isEmpty ? String(localized: "Pièce sans titre") : play.title)
                     .font(.headline).lineLimit(1)
+                if shared { Image(systemName: "person.2.fill").font(.caption2).foregroundStyle(Theme.gelBright) }
                 if unreadNotes > 0 { Spacer(minLength: 4); NoteBadge(count: unreadNotes) }
             }
             if !play.subtitle.isEmpty {
@@ -168,7 +188,7 @@ private struct PlayRow: View {
     }
 }
 
-private struct EmptyStateView: View {
+struct EmptyStateView: View {
     var body: some View {
         VStack(spacing: 12) {
             Image(systemName: "text.quote").font(.system(size: 44)).foregroundStyle(Theme.gel)

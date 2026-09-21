@@ -78,7 +78,9 @@ struct PlayExport: Transferable, Sendable {
 
     @MainActor
     func render() -> String {
-        guard let play = Persistence.shared.mainContext.model(for: playID) as? Play else { return "" }
+        // A shared play lives in the shared-plays store, not the iCloud one.
+        guard let play = (Persistence.shared.mainContext.model(for: playID) as? Play)
+                ?? (CollabStore.context.model(for: playID) as? Play) else { return "" }
         return kind == .text ? Exports.plainText(play) : Exports.aiJSONString(play)
     }
 

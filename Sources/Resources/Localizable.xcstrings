@@ -290,12 +290,52 @@
         }
       }
     },
+    "Cette invitation a expiré. Demandes-en une nouvelle.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That invitation has expired. Ask for a new one."
+          }
+        }
+      }
+    },
+    "Cette invitation n'existe pas. Vérifie le code.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That invitation doesn't exist. Check the code."
+          }
+        }
+      }
+    },
     "Cette pièce n'est pas partagée.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "This play isn't shared."
+          }
+        }
+      }
+    },
+    "Cette pièce n'est plus partagée avec toi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This play is no longer shared with you"
+          }
+        }
+      }
+    },
+    "Cette pièce n'est plus partagée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This play is no longer shared."
           }
         }
       }
@@ -370,6 +410,26 @@
         }
       }
     },
+    "Code d'invitation — valable 14 jours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitation code — valid for 14 days"
+          }
+        }
+      }
+    },
+    "Code ou lien d'invitation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitation code or link"
+          }
+        }
+      }
+    },
     "Colle ta clé…": {
       "localizations": {
         "en": {
@@ -390,12 +450,32 @@
         }
       }
     },
+    "Commenter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comment"
+          }
+        }
+      }
+    },
     "Comédien·ne %lld": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Actor %lld"
+          }
+        }
+      }
+    },
+    "Connecte-toi pour écrire à plusieurs.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in to write together."
           }
         }
       }
@@ -426,6 +506,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Copy"
+          }
+        }
+      }
+    },
+    "Copier le code": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy the code"
           }
         }
       }
@@ -461,6 +551,16 @@
         }
       }
     },
+    "Créer une invitation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create an invitation"
+          }
+        }
+      }
+    },
     "Créée": {
       "extractionState": "manual",
       "localizations": {
@@ -478,6 +578,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "POSSIBLE DOUBLING"
+          }
+        }
+      }
+    },
+    "Dans La Réplique : Rejoindre une pièce, puis ce code.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In La Réplique: Join a play, then this code."
           }
         }
       }
@@ -654,6 +764,16 @@
         }
       }
     },
+    "Envoyer le lien": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send the link"
+          }
+        }
+      }
+    },
     "Et ensuite…": {
       "localizations": {
         "en": {
@@ -756,6 +876,16 @@
         }
       }
     },
+    "Hors ligne — tes changements partiront au retour du réseau": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offline — your changes will go out when the network returns"
+          }
+        }
+      }
+    },
     "Importer": {
       "localizations": {
         "en": {
@@ -794,6 +924,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Intentions, leads, reminders…"
+          }
+        }
+      }
+    },
+    "Inviter quelqu'un": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invite someone"
+          }
+        }
+      }
+    },
+    "Inviter…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invite…"
           }
         }
       }
@@ -845,6 +995,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "The Atelier, at hand"
+          }
+        }
+      }
+    },
+    "L'écriture à plusieurs n'est pas encore disponible dans cette version.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Writing together isn't available in this version yet."
           }
         }
       }
@@ -1003,6 +1163,16 @@
         }
       }
     },
+    "Les personnes que tu invites voient le texte changer en direct — sur iPhone, iPad, Mac, et bientôt dans un navigateur. Chacun garde sa copie hors ligne ; tout se réconcilie au retour du réseau.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The people you invite see the text change live — on iPhone, iPad, Mac, and soon in a browser. Everyone keeps an offline copy; it all reconciles when the network returns."
+          }
+        }
+      }
+    },
     "Leur ligne a été coupée ou réécrite depuis. Elles restent ici pour mémoire.": {
       "localizations": {
         "en": {
@@ -1040,6 +1210,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Place, time… (optional)"
+          }
+        }
+      }
+    },
+    "Lire": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Read"
           }
         }
       }
@@ -1396,6 +1576,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Share"
+          }
+        }
+      }
+    },
+    "Partager cette pièce": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share this play"
           }
         }
       }
@@ -1774,6 +1964,26 @@
         }
       }
     },
+    "Rejoindre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Join"
+          }
+        }
+      }
+    },
+    "Rejoindre une pièce": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Join a play"
+          }
+        }
+      }
+    },
     "Relancer": {
       "localizations": {
         "en": {
@@ -1810,6 +2020,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Restore this version?"
+          }
+        }
+      }
+    },
+    "Retirer de cet appareil": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove from this device"
           }
         }
       }
@@ -2006,6 +2226,16 @@
         }
       }
     },
+    "Seule la personne qui a partagé la pièce peut inviter.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only the person who shared the play can invite."
+          }
+        }
+      }
+    },
     "Sous-titre": {
       "localizations": {
         "en": {
@@ -2157,6 +2387,16 @@
         }
       }
     },
+    "Ton nom, pour les autres": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your name, as others see it"
+          }
+        }
+      }
+    },
     "Toute la pièce": {
       "localizations": {
         "en": {
@@ -2244,6 +2484,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "A sentence or two about the play."
+          }
+        }
+      }
+    },
+    "Une pièce partagée quitte ton iCloud privé : elle est conservée sur le serveur de La Réplique, accessible aux seules personnes invitées.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A shared play leaves your private iCloud: it is kept on La Réplique's server, accessible only to the people you invite."
+          }
+        }
+      }
+    },
+    "Une pièce, plusieurs mains": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One play, several hands"
           }
         }
       }
@@ -2412,6 +2672,46 @@
         }
       }
     },
+    "· lecture seule": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "· read-only"
+          }
+        }
+      }
+    },
+    "À plusieurs": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Together"
+          }
+        }
+      }
+    },
+    "À plusieurs · connexion…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Together · connecting…"
+          }
+        }
+      }
+    },
+    "À plusieurs · en direct": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Together · live"
+          }
+        }
+      }
+    },
     "À propos de la pièce": {
       "extractionState": "manual",
       "localizations": {
@@ -2423,12 +2723,42 @@
         }
       }
     },
+    "Écrire": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Write"
+          }
+        }
+      }
+    },
     "Écrire la première réplique": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Write the first line"
+          }
+        }
+      }
+    },
+    "Écrire à plusieurs": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Write together"
+          }
+        }
+      }
+    },
+    "Écrire à plusieurs…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Write together…"
           }
         }
       }

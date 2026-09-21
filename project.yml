@@ -19,6 +19,10 @@ knownRegions:
 packages:
   ClaudeKit:
     path: Vendor/ClaudeKit
+  # Shared (collaborative) plays sync through Firestore; sign-in through Firebase Auth.
+  Firebase:
+    url: https://github.com/firebase/firebase-ios-sdk
+    from: "12.0.0"
 
 settings:
   base:
@@ -52,6 +56,10 @@ targets:
     dependencies:
       - package: ClaudeKit
         product: ClaudeKit
+      - package: Firebase
+        product: FirebaseFirestore
+      - package: Firebase
+        product: FirebaseAuth
     info:
       path: Sources/Resources/Info.plist
       properties:
@@ -74,6 +82,9 @@ targets:
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
         ITSAppUsesNonExemptEncryption: false
+        # The Firebase emulator on a developer Mac is plain HTTP on the loopback.
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
         # Storyboard-free launch screen (iOS 14+). Required so the app is treated
         # as supporting all iPad sizes; without it App Store delivery prep fails.
         # Charcoal "desk" background so the launch reads as intentional.

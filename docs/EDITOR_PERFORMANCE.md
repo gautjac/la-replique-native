@@ -56,6 +56,15 @@ play: 1504 log lines → 12.
 5. Single-element lookups (`focusedElement`, Tab-cycle, new-character alert) no
    longer sort the whole play to find one element.
 
+## 2026-09-21 — the Equatable skip was removed
+
+Item 1's `Equatable` rows predate item 2's `LazyVStack`. With a lazy page a parent
+pass re-runs only the on-screen rows, so the skip bought nothing — and shared
+plays now receive changes from outside the view tree, where a skipped body is the
+wrong risk to carry. Keystroke cost is unchanged (Observation still scopes it to
+one row). Also: `CollabSession.status` is assigned only on change; re-publishing
+it per snapshot re-ran the page body for every remote edit.
+
 ## Gotchas learned
 
 - `Equatable` on a SwiftUI view under Swift 6: `==` is nonisolated and cannot

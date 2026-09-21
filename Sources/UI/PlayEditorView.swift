@@ -9,8 +9,8 @@ import SwiftData
 /// SwiftUI's Observation scopes a keystroke to the ONE row whose `Element`
 /// changed. Before, rows were built inline in this body — a keystroke on a
 /// 1500-element play re-sorted the play and rebuilt all 1500 rows (measured:
-/// 1.5–4 s per keystroke on the simulator). Rows are also `Equatable`, so a
-/// parent re-render (focus/hint change) skips rows whose inputs didn't change.
+/// 1.5–4 s per keystroke on the simulator). The page is a LazyVStack, so a parent
+/// re-render (focus/hint change) re-runs only the rows on screen.
 struct PlayEditorView: View {
     @Environment(\.modelContext) private var context
     @Bindable var play: Play
@@ -168,7 +168,6 @@ struct PlayEditorView: View {
                                hint: speakerHint?.el == el.id ? speakerHint : nil,
                                noteCount: noteCounts[el.id.uuidString] ?? 0,
                                actions: actions)
-                        .equatable()
                         .id(el.id)
                 }
             }
@@ -303,7 +302,7 @@ private struct RowActions {
 /// One element of the play as an editable row. Its body reads only ITS element
 /// (plus the cast, for the speaker), so Observation re-runs it — and nothing
 /// else — when that element changes.
-private struct ElementRow: View, Equatable {
+private struct ElementRow: View {
     let el: Element
     let play: Play
     var focus: FocusState<UUID?>.Binding
@@ -312,24 +311,11 @@ private struct ElementRow: View, Equatable {
     let noteCount: Int
     let actions: RowActions
 
-    /// What decides whether a parent pass needs to redraw this row: the element
-    /// and play identities plus the speaker hint. Sendable, so `==` can stay
-    /// nonisolated (Swift 6 won't let it read the main-actor view properties).
-    /// Observation still invalidates the row when the element itself mutates.
-    private struct Key: Equatable, Sendable {
-        let el: UUID     // the model's own id — object identity isn't stable across SwiftData faults
-        let play: UUID
-        let hint: SpeakerHint?
-        let noteCount: Int
-    }
-    nonisolated private let key: Key
-
-    init(el: Element, play: Play, focus: FocusState<UUID?>.Binding, hint: SpeakerHint?, noteCount: Int, actions: RowActions) {
-        self.el = el; self.play = play; self.focus = focus; self.hint = hint; self.noteCount = noteCount; self.actions = actions
-        self.key = Key(el: el.id, play: play.id, hint: hint, noteCount: noteCount)
-    }
-
-    nonisolated static func == (a: ElementRow, b: ElementRow) -> Bool { a.key == b.key }
+    // No Equatable skip here any more (2026-09-21). It paid for itself when the
+    // page was a plain VStack of every block; the page is lazy now, so a parent
+    // pass only re-runs the dozen rows on screen. And a collaborative play gets
+    // changes from OUTSIDE the view tree — a skipped body is exactly the wrong
+    // optimisation to have near those.
 
     var body: some View {
         #if DEBUG

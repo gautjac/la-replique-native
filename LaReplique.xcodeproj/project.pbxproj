@@ -12,13 +12,18 @@
 		06930CD71F319AE4EF43816E /* PlayFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C935361BCAA27F70D475F66 /* PlayFormatTests.swift */; };
 		0F51153FAABAEBCAA35A4C9B /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9107FC0CF0BD796A902EA30 /* ModelTests.swift */; };
 		1A15BC42334059836F69E0E8 /* PublishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442F8B81DD1AC08766EF4A3C /* PublishView.swift */; };
+		1B4D5457325E78C110CC794B /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B50BD1E6B4F7B44C685875F5 /* FirebaseAuth */; };
 		1BC9CABE27EEC839A761C636 /* TabKeyMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD92AD10C3725C9B5E2E34F8 /* TabKeyMonitor.swift */; };
 		1DA219C965B2CF674124C44B /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17F8610078151FC121B6AD9 /* Theme.swift */; };
 		23E6477FE66E2B3D4F326B48 /* Corpus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72BD9F59F2B49515D7F6EF26 /* Corpus.swift */; };
 		24AA7E3DA27FCB5B6ECFE98A /* ClaudeKit in Frameworks */ = {isa = PBXBuildFile; productRef = ABDA3E1FBF2593FF74B90A6E /* ClaudeKit */; };
+		31364886CED62BA05A2D1DF8 /* CollabViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F23FB538EF6DD0F5DFE795 /* CollabViews.swift */; };
+		321BB25A898418437C1F6225 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 0DB8793CA726CE1B37B28340 /* FirebaseFirestore */; };
 		32B2822005DDCBDF9E7F4295 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8933CDC332742C69B5B85375 /* Assets.xcassets */; };
+		35B8E1E6E7ABB3A8D012C11F /* CollabDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCC7C9B530CB4EE4944B28E /* CollabDebug.swift */; };
 		36547E43C6E895FA8FBE534A /* SheetUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED88417F6BFAA3AB35CC3DC /* SheetUI.swift */; };
 		3BC38D7DA6C07E651BCAE6C3 /* PlayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127FAEBB75C2CF9AFDF111B /* PlayModel.swift */; };
+		3D292B390603CD8D9D509024 /* CollabStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66CD7526DDEDEDCB6D0658A /* CollabStore.swift */; };
 		47A69D303732B92AA7EF10CA /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A841C6188596192E6666CE /* RootView.swift */; };
 		55B29FCF8942C8A1E3947A1B /* KeySetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D652024252A8468181983 /* KeySetupView.swift */; };
 		5D7629456C1C31710E4AA9A7 /* Translate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BB8C08D19B51EC77A42B92 /* Translate.swift */; };
@@ -30,6 +35,7 @@
 		74F62846EA100D9C6DF0B189 /* PlayEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B89EE28A54CD1EC9CD0D9 /* PlayEditorView.swift */; };
 		78209AB2A80F82A87353733A /* Comments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18C021EFA5B1020FB23E793 /* Comments.swift */; };
 		782889A9A1C16DBE7E6C9183 /* CollabCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CBE95B878078C800E6EF /* CollabCore.swift */; };
+		783AC1EB4EA2643A1CCCA580 /* CollabBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD768604539DF9DA5A51CDD /* CollabBackend.swift */; };
 		79099219C4624E5A57F47E28 /* Intents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5165603F4EAD5377B4FD5B /* Intents.swift */; };
 		7DEFA89B4B424DDEB401BBD4 /* CastPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34686CBA80DB13A0D1525CC /* CastPanel.swift */; };
 		7E3C02856E281B07E978E768 /* Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D6E9ECE6DF32532DE93DF9 /* Stats.swift */; };
@@ -52,6 +58,7 @@
 		C06CC3153B49207464F3442A /* SyncStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCAA858C6EDFCDE1841FBC4 /* SyncStatusView.swift */; };
 		C2565DD870BE16465D5F4533 /* VersionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFB4216228ECFF94BE99288 /* VersionsTests.swift */; };
 		C7F8348B0ECDAF3B3D60A325 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BBE177EDFD21CC833F053E /* CommentService.swift */; };
+		D09C1EB481378C2B0808A111 /* CollabSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CB3FCAB1EBE7C98F7276D3 /* CollabSession.swift */; };
 		D2C4E238FCB656486EAFB763 /* FractionalIndexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AB6B1498506E1370D90058 /* FractionalIndexTests.swift */; };
 		D6B03DA33F2E0C5EB045CBEB /* BeatBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5554D762F55CF36DDC8D78C /* BeatBoardView.swift */; };
 		D92E34A1851DC4824CCC8A41 /* NotesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D33347E637B8DAFB8FEE05 /* NotesStore.swift */; };
@@ -61,6 +68,7 @@
 		DC120FCF2ACDAA225760852C /* LaRepliqueApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8259C8C54BD486E3E312772A /* LaRepliqueApp.swift */; };
 		E23B5E3A44EB321A362346B9 /* KeyCommandHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857AEEAED1A109D53A7D5781 /* KeyCommandHost.swift */; };
 		E5395A0EC5877045CF876C30 /* PlayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D039A8AC7CAF85248A4365A /* PlayDetailView.swift */; };
+		E7F8646C3350F431A04E0FAF /* FirestoreTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CBA9F10956ED7998127711 /* FirestoreTransport.swift */; };
 		EF9F6BBF1AB6318AC94E434D /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC63563BBF37D30ACEB3373 /* Persistence.swift */; };
 		F8A0AD5FC24896136D97A8F3 /* sample-play.json in Resources */ = {isa = PBXBuildFile; fileRef = 101AFC926F891560E1112D62 /* sample-play.json */; };
 		FA436608FFC864CE39B3F2C2 /* MeasuresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4340471FE7CEDA2550E7EFA /* MeasuresView.swift */; };
@@ -87,6 +95,7 @@
 		15E1DD7BAA91FEE36A5F655B /* macOS-Release.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "macOS-Release.entitlements"; sourceTree = "<group>"; };
 		188EBAEB89B77CB043862770 /* iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iOS.entitlements; sourceTree = "<group>"; };
 		1BC6E46EE727AAA5A2B59302 /* EditingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingTests.swift; sourceTree = "<group>"; };
+		1CCC7C9B530CB4EE4944B28E /* CollabDebug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabDebug.swift; sourceTree = "<group>"; };
 		2127FAEBB75C2CF9AFDF111B /* PlayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayModel.swift; sourceTree = "<group>"; };
 		25E39FF62E4D85AF2B100A5E /* AtelierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtelierTests.swift; sourceTree = "<group>"; };
 		2C935361BCAA27F70D475F66 /* PlayFormatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayFormatTests.swift; sourceTree = "<group>"; };
@@ -101,13 +110,16 @@
 		5321F5D0B403A9B99ED98124 /* LaReplique.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = LaReplique.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ACC0882A90904B508A95F6F /* PublishTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishTests.swift; sourceTree = "<group>"; };
 		5CCAA858C6EDFCDE1841FBC4 /* SyncStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStatusView.swift; sourceTree = "<group>"; };
+		5CD768604539DF9DA5A51CDD /* CollabBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabBackend.swift; sourceTree = "<group>"; };
 		5DC512544BB7E87D56B6C744 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		65B608AAA7EB25108A2B3E3D /* TableReadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableReadView.swift; sourceTree = "<group>"; };
 		66CAF7D0F3D808204F504140 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		66CB3FCAB1EBE7C98F7276D3 /* CollabSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabSession.swift; sourceTree = "<group>"; };
 		67BB8C08D19B51EC77A42B92 /* Translate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Translate.swift; sourceTree = "<group>"; };
 		6CCCA0DD4E115C0819E5BDD0 /* Publish.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Publish.swift; sourceTree = "<group>"; };
 		6F3781D76A801FBE30D1CA53 /* PlayFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayFormat.swift; sourceTree = "<group>"; };
 		72BD9F59F2B49515D7F6EF26 /* Corpus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Corpus.swift; sourceTree = "<group>"; };
+		73CBA9F10956ED7998127711 /* FirestoreTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreTransport.swift; sourceTree = "<group>"; };
 		80D6E9ECE6DF32532DE93DF9 /* Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
 		8259C8C54BD486E3E312772A /* LaRepliqueApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaRepliqueApp.swift; sourceTree = "<group>"; };
 		857AEEAED1A109D53A7D5781 /* KeyCommandHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCommandHost.swift; sourceTree = "<group>"; };
@@ -126,11 +138,13 @@
 		B17F8610078151FC121B6AD9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		B26B2B886C6E9CBC2A0C8BB1 /* Corpus */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Corpus; sourceTree = SOURCE_ROOT; };
 		B5554D762F55CF36DDC8D78C /* BeatBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeatBoardView.swift; sourceTree = "<group>"; };
+		B66CD7526DDEDEDCB6D0658A /* CollabStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabStore.swift; sourceTree = "<group>"; };
 		B6AB6B1498506E1370D90058 /* FractionalIndexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FractionalIndexTests.swift; sourceTree = "<group>"; };
 		BAE010BBDAB2E9A4D1423ABB /* CollabCoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabCoreTests.swift; sourceTree = "<group>"; };
 		BD3E1659701972CAA924A220 /* VersionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionsView.swift; sourceTree = "<group>"; };
 		BDC63563BBF37D30ACEB3373 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		C0BBE177EDFD21CC833F053E /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
+		C0F23FB538EF6DD0F5DFE795 /* CollabViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabViews.swift; sourceTree = "<group>"; };
 		C18C021EFA5B1020FB23E793 /* Comments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comments.swift; sourceTree = "<group>"; };
 		C4340471FE7CEDA2550E7EFA /* MeasuresView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasuresView.swift; sourceTree = "<group>"; };
 		D054ECA47C669F0F6E230E68 /* LanguagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePicker.swift; sourceTree = "<group>"; };
@@ -153,6 +167,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				24AA7E3DA27FCB5B6ECFE98A /* ClaudeKit in Frameworks */,
+				321BB25A898418437C1F6225 /* FirebaseFirestore in Frameworks */,
+				1B4D5457325E78C110CC794B /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,8 +189,13 @@
 		131BEA97CFA02F4F71C7E43A /* Collab */ = {
 			isa = PBXGroup;
 			children = (
+				5CD768604539DF9DA5A51CDD /* CollabBackend.swift */,
 				E353CBE95B878078C800E6EF /* CollabCore.swift */,
+				1CCC7C9B530CB4EE4944B28E /* CollabDebug.swift */,
 				F77DE57DE4342E9E782CEB4E /* CollabModel.swift */,
+				66CB3FCAB1EBE7C98F7276D3 /* CollabSession.swift */,
+				B66CD7526DDEDEDCB6D0658A /* CollabStore.swift */,
+				73CBA9F10956ED7998127711 /* FirestoreTransport.swift */,
 				0FC1A7593E3836E836C47BBF /* FractionalIndex.swift */,
 			);
 			path = Collab;
@@ -223,6 +244,7 @@
 				8E4178D968B33B66F7CEC733 /* AtelierView.swift */,
 				B5554D762F55CF36DDC8D78C /* BeatBoardView.swift */,
 				F34686CBA80DB13A0D1525CC /* CastPanel.swift */,
+				C0F23FB538EF6DD0F5DFE795 /* CollabViews.swift */,
 				857AEEAED1A109D53A7D5781 /* KeyCommandHost.swift */,
 				D90D652024252A8468181983 /* KeySetupView.swift */,
 				D054ECA47C669F0F6E230E68 /* LanguagePicker.swift */,
@@ -337,6 +359,8 @@
 			name = LaReplique;
 			packageProductDependencies = (
 				ABDA3E1FBF2593FF74B90A6E /* ClaudeKit */,
+				0DB8793CA726CE1B37B28340 /* FirebaseFirestore */,
+				B50BD1E6B4F7B44C685875F5 /* FirebaseAuth */,
 			);
 			productName = LaReplique;
 			productReference = 5321F5D0B403A9B99ED98124 /* LaReplique.app */;
@@ -390,6 +414,7 @@
 			mainGroup = 0DFAE326AA0ACB13EFB3646E;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				F48CBF89AE08DBAD7BACECFC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				6C8E3E4FDA3F6F57815930BF /* XCLocalSwiftPackageReference "Vendor/ClaudeKit" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -447,12 +472,18 @@
 				D6B03DA33F2E0C5EB045CBEB /* BeatBoardView.swift in Sources */,
 				AAA26AA4FF526AC98850793A /* Bench.swift in Sources */,
 				7DEFA89B4B424DDEB401BBD4 /* CastPanel.swift in Sources */,
+				783AC1EB4EA2643A1CCCA580 /* CollabBackend.swift in Sources */,
 				782889A9A1C16DBE7E6C9183 /* CollabCore.swift in Sources */,
+				35B8E1E6E7ABB3A8D012C11F /* CollabDebug.swift in Sources */,
 				625A909D2413B9990C6D7022 /* CollabModel.swift in Sources */,
+				D09C1EB481378C2B0808A111 /* CollabSession.swift in Sources */,
+				3D292B390603CD8D9D509024 /* CollabStore.swift in Sources */,
+				31364886CED62BA05A2D1DF8 /* CollabViews.swift in Sources */,
 				C7F8348B0ECDAF3B3D60A325 /* CommentService.swift in Sources */,
 				78209AB2A80F82A87353733A /* Comments.swift in Sources */,
 				23E6477FE66E2B3D4F326B48 /* Corpus.swift in Sources */,
 				9A7A9C9C2750F39ED7EE0874 /* Editing.swift in Sources */,
+				E7F8646C3350F431A04E0FAF /* FirestoreTransport.swift in Sources */,
 				B5B7504BB362752D076E756F /* FractionalIndex.swift in Sources */,
 				79099219C4624E5A57F47E28 /* Intents.swift in Sources */,
 				E23B5E3A44EB321A362346B9 /* KeyCommandHost.swift in Sources */,
@@ -763,10 +794,31 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		F48CBF89AE08DBAD7BACECFC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		0DB8793CA726CE1B37B28340 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F48CBF89AE08DBAD7BACECFC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
 		ABDA3E1FBF2593FF74B90A6E /* ClaudeKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ClaudeKit;
+		};
+		B50BD1E6B4F7B44C685875F5 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F48CBF89AE08DBAD7BACECFC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -102,8 +102,10 @@ Sharing a solo play = copy it across (same ids), then remove the private one.
 |---|---|
 | 1a. Fractional ordering (Swift + TS twins) | ✅ `FractionalIndexTests`, `fractionalIndex.test.ts` |
 | 1b. `CollabCore` + convergence proof | ✅ `CollabCoreTests`: 15 scenarios + fuzz (3 writers, offline, relaunch) — 405 seeds green |
-| 1c. Firestore transport + session (tick, persistence of the shadow) | next — needs the Firebase SDK and a project |
-| 1d. Two devices editing one play | next — Firestore emulator needs Java on this Mac, or a real project |
+| 1c. Firestore transport + session + shared-plays store | ✅ `FirestoreTransport`, `CollabSession`, `CollabStore`, `CollabService` (share / invite / join) |
+| 1d. Two devices editing one play | ✅ two simulators on the local emulator, both directions + a server-side edit; 16/16 remote changes redrawn |
+| 1e. Security rules | ✅ web repo `firebase/firestore.rules`, 13 emulator tests (`npm run test:rules`) |
+| 1f. The real Firebase project | ⏳ blocked on `firebase login --reauth` (Jac) |
 | 2. Sign-in, invitations, roles, presence + soft line lock | — |
 | 3. Collaborative web editor (revive `src/App.tsx`) | — |
 | 4. Notes on the new backend; history "who wrote what" | — |
@@ -117,11 +119,36 @@ issued during a delivery (as the real SDK does) — swallowing that is what hid
 the bug at five seeds. Soak with
 `TEST_RUNNER_LR_FUZZ_SEEDS=400 xcodebuild test … -only-testing:LaRepliqueTests/CollabCoreTests`.
 
+## Two-device smoke test (no cloud project needed)
+
+```bash
+# 1. emulators (web repo) — Java is keg-only: the npm script puts it on PATH
+cd ~/Claude/apps/la-replique && npm run emulators
+# 2. a locally SIGNED simulator build (Firebase Auth needs the keychain; an
+#    unsigned CODE_SIGNING_ALLOWED=NO build fails with "error accessing the keychain")
+cd ~/Claude/apps/la-replique-native
+xcodebuild build -project LaReplique.xcodeproj -scheme LaReplique \
+  -destination 'generic/platform=iOS Simulator' -derivedDataPath .build-signed
+# 3. A shares its first play and logs `COLLAB invite <CODE>`; B joins with it
+SIMCTL_CHILD_LR_EPHEMERAL=1 SIMCTL_CHILD_LR_COLLAB_EMULATOR=1 SIMCTL_CHILD_LR_COLLAB_AUTOSHARE=1 xcrun simctl launch <A> app.atelier.lareplique
+SIMCTL_CHILD_LR_EPHEMERAL=1 SIMCTL_CHILD_LR_COLLAB_EMULATOR=1 SIMCTL_CHILD_LR_COLLAB_AUTOJOIN=<CODE> xcrun simctl launch <B> app.atelier.lareplique
+```
+
+To test redraws WITHOUT touching a simulator (taps, typing and even screenshots
+force SwiftUI passes and will fool you), PATCH a line through the emulator's REST
+API (`Authorization: Bearer owner` bypasses rules) and count `row body` lines in
+the DEBUG render log.
+
+Known and accepted: the periodic shadow save (every ~3 s while changes flow)
+re-runs the page body; with the lazy page that is a few milliseconds.
+
 ## Decisions still Jac's
 
-1. **The Firebase project** — create `la-replique` (Firestore in
-   `northamerica-northeast1`, Montréal) under which Google account?
+1. **The Firebase project** — decided 2026-09-21: `la-replique`, Firestore in Montréal, account
+   jac@jacgautreau.com. The CLI token had expired; after `firebase login --reauth`: create the
+   project + database, deploy rules/indexes, add the iOS+web apps, drop `GoogleService-Info.plist`
+   into `Sources/Resources/` (its presence is what turns the feature on in a real build).
 2. **Privacy** — shared plays leave the private iCloud store for a server we run:
    privacy policy + App Store privacy label change. Solo plays stay as they are.
-3. **Sign-in methods** — Sign in with Apple is mandatory on iOS once any other
-   provider is offered; plus Google and/or email link for the non-Apple people.
+3. **Sign-in methods** — decided 2026-09-21: Apple + Google + email link (step 2). Until then the
+   emulator uses anonymous accounts, and a real build offers no sharing at all.

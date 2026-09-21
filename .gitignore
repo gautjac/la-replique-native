@@ -13,3 +13,4 @@ dist
 *.xcuserstate
 out
 .build-ga
+.build-signed/
