@@ -24,6 +24,9 @@ struct PlayDetailView: View {
 
     enum Mode: String, CaseIterable { case script, board }
 
+    /// A shared play where I'm a commenter or a reader.
+    private var readOnly: Bool { collab.map { !$0.link.canWrite } ?? false }
+
     init(play: Play, onOpenPlay: @escaping (UUID) -> Void, collab: CollabSession? = nil) {
         self.play = play
         self.onOpenPlay = onOpenPlay
@@ -38,10 +41,10 @@ struct PlayDetailView: View {
                 PlayEditorView(play: play, jumpTarget: $jumpTarget, noteCounts: notes.openCounts,
                                onShowNotes: { id in notesFocus = id.uuidString; showNotes = true },
                                others: presence.byElement,
-                               onFocusChange: { presence.setFocus($0?.uuidString) })
-                    // Readers and commenters see the script move; they don't type in it.
-                    .disabled(collab.map { !$0.link.canWrite } ?? false)
-            case .board: BeatBoardView(play: play, onJump: { id in mode = .script; jumpTarget = id })
+                               onFocusChange: { presence.setFocus($0?.uuidString) },
+                               // Readers and commenters see the script move; they don't type in it.
+                               readOnly: readOnly)
+            case .board: BeatBoardView(play: play, onJump: { id in mode = .script; jumpTarget = id }, readOnly: readOnly)
             }
         }
         .toolbar {
@@ -58,12 +61,16 @@ struct PlayDetailView: View {
                     Label("Notes", systemImage: notes.unread > 0 ? "bubble.left.and.exclamationmark.bubble.right.fill" : "bubble.left.and.bubble.right")
                 }
                 .help(notes.unread > 0 ? Text("\(notes.unread) nouvelles notes") : Text("Notes des lecteurs"))
-                Button { showAtelier = true } label: { Label("Atelier", systemImage: "sparkles") }
-                Button { showCast = true } label: { Label("Distribution", systemImage: "person.2") }
+                // The tools that CHANGE the script are for writers. A commenter's copy must
+                // never drift from everyone else's (their edits are never sent).
+                if !readOnly {
+                    Button { showAtelier = true } label: { Label("Atelier", systemImage: "sparkles") }
+                    Button { showCast = true } label: { Label("Distribution", systemImage: "person.2") }
+                }
                 Button { showMeasures = true } label: { Label("Mesures", systemImage: "chart.bar") }
                 Menu {
                     Button { showTableRead = true } label: { Label("Lecture à voix", systemImage: "speaker.wave.2") }
-                    Button { showVersions = true } label: { Label("Versions", systemImage: "clock.arrow.circlepath") }
+                    if !readOnly { Button { showVersions = true } label: { Label("Versions", systemImage: "clock.arrow.circlepath") } }
                     Button { showPublish = true } label: {
                         Label(play.publicShareID == nil ? "Partager la lecture (web)" : "Lecture partagée — gérer",
                               systemImage: play.publicShareID == nil ? "globe" : "globe.badge.chevron.backward")

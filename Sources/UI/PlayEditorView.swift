@@ -23,6 +23,10 @@ struct PlayEditorView: View {
     var others: [String: [PresencePerson]] = [:]
     /// The cursor moved to another block (nil = nowhere) — feeds presence.
     var onFocusChange: (UUID?) -> Void = { _ in }
+    /// Readers and commenters: nothing can be typed — but the page must still SCROLL.
+    /// So this disables the page's CONTENT, never the ScrollView around it (disabling
+    /// a ScrollView disables its scrolling: Jac's iPad, 2026-09-21).
+    var readOnly = false
     @FocusState private var focused: UUID?
 
     @State private var newCharName = ""
@@ -50,6 +54,7 @@ struct PlayEditorView: View {
                     titleBlock
                     page
                 }
+                .disabled(readOnly)
                 .frame(maxWidth: 820)
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 24).padding(.vertical, 28)

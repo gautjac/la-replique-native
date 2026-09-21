@@ -37,6 +37,8 @@ struct BeatBoardView: View {
     @Environment(\.modelContext) private var context
     @Bindable var play: Play
     var onJump: (UUID) -> Void
+    /// A commenter or reader of a shared play: look, scroll, jump — change nothing.
+    var readOnly = false
 
     @State private var detailSceneID: UUID?
 
@@ -82,7 +84,7 @@ struct BeatBoardView: View {
                 Spacer()
                 Button { _ = Editing.addActAtEnd(play, context: context) } label: {
                     Label("Acte", systemImage: "plus.rectangle.on.rectangle")
-                }.buttonStyle(.bordered).controlSize(.small)
+                }.buttonStyle(.bordered).controlSize(.small).disabled(readOnly)
             }
             .padding(.horizontal, 20).padding(.vertical, 12)
 
@@ -97,6 +99,7 @@ struct BeatBoardView: View {
                         }
                     }
                     .padding(20)
+                    .disabled(readOnly)      // the content, not the ScrollView: it must still scroll
                 }
             }
         }

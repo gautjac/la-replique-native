@@ -20,7 +20,7 @@ enum CollabDebug {
             if env["LR_COLLAB_AUTOSHARE"] == "1", let play = try context.fetch(FetchDescriptor<Play>()).first {
                 let id = try await CollabService.share(play, from: context, as: "Simulateur A")
                 guard let link = CollabStore.link(id) else { return }
-                let invite = try await CollabService.invite(to: link, role: "writer")
+                let invite = try await CollabService.invite(to: link, role: env["LR_COLLAB_INVITE_ROLE"] ?? "writer")
                 NSLog("[LaReplique] COLLAB invite %@", invite.token)
                 open(id)
             } else if let code = env["LR_COLLAB_AUTOJOIN"], !code.isEmpty {
