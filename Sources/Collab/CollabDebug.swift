@@ -1,6 +1,7 @@
 #if DEBUG
 import Foundation
 import SwiftData
+import FirebaseAuth
 
 /// DEBUG launch hooks for the two-device smoke test (see docs/COLLAB.md):
 ///   LR_COLLAB_AUTOSHARE=1      share the first solo play, log `COLLAB invite <code>`
@@ -12,6 +13,9 @@ enum CollabDebug {
     static func runLaunchHooks(_ context: ModelContext, open: (UUID) -> Void) async {
         let env = ProcessInfo.processInfo.environment
         guard CollabBackend.isAvailable else { return }
+        // The emulator forgets its accounts on restart; a session left in the simulator's
+        // keychain would then be refused with opaque stream errors. Start clean.
+        if env["LR_COLLAB_AUTOSHARE"] == "1" || env["LR_COLLAB_AUTOJOIN"] != nil { try? Auth.auth().signOut() }
         do {
             if env["LR_COLLAB_AUTOSHARE"] == "1", let play = try context.fetch(FetchDescriptor<Play>()).first {
                 let id = try await CollabService.share(play, from: context, as: "Simulateur A")
