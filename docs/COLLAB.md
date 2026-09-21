@@ -113,7 +113,8 @@ Sharing a solo play = copy it across (same ids), then remove the private one.
 | 2d. "The plays I'm in" on every device (`CollabService.syncLibrary`) | ✅ built (collection-group query on `members.uid`); runs on sign-in and on foreground |
 | 2e. Landing pages `/connexion` and `/rejoindre/<code>` | ✅ live on la-replique.netlify.app |
 | 3. Collaborative web editor | ✅ LIVE at la-replique.netlify.app/ecrire — TS twin of the core (+ `rebase`), Google + email-link sign-in, join by code, presence + line lock. Verified browser ⇄ iPhone simulator on the emulators, both ways. See the web repo's `docs/COLLAB_WEB.md`. Not yet: Apple sign-in on the web, creating a shared play from the web. |
-| 4. Notes on the new backend; history "who wrote what" | — |
+| 4a. Notes on shared plays | ✅ `FirestoreComments` (app) + `collab/notesBackend.ts` (web, LIVE): live, any account; writers and commenters post, readers read; author edits/deletes own, every writer resolves/reopens/hides. Rules, thread cards and tests reused from the first notes feature (`viewerCanModerate` / `moderator` added, mirrored). Verified phone ⇄ phone ⇄ browser on the emulators. |
+| 4b. Who wrote what (attribution / history) | — not started. Needs meta fields the core must NOT treat as script fields (strip `_`-prefixed keys in the transports). |
 
 ### What the fuzz taught (keep)
 
