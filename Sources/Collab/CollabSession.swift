@@ -16,6 +16,8 @@ final class CollabSession: ObservableObject {
     let play: Play
     let link: CollabLink
     let presence: PresenceChannel
+    /// The history log this device writes to as it syncs (writers only).
+    private(set) var history: HistoryLog?
     private let core: CollabCore
     private let transport: FirestoreTransport
     private var ticker: Task<Void, Never>?
@@ -35,6 +37,9 @@ final class CollabSession: ObservableObject {
         since = link.lastSeenAt ?? link.joinedAt
     }
 
+    /// Who last touched each line, by name — stamped into a saved version.
+    var authorsByLine: [String: String] { edits.mapValues(\.name) }
+
     /// Lines other people changed since my last visit, newest first.
     var recentChanges: [(id: String, edit: LineEdit)] {
         let me = CollabBackend.uid
@@ -46,7 +51,10 @@ final class CollabSession: ObservableObject {
         guard ticker == nil else { return }
         transport.onChanges = { [weak self] changes in
             guard let self else { return }
-            self.send(self.core.applyRemote(changes))
+            let old = self.core.shadow
+            let mine = self.core.applyRemote(changes)
+            self.send(mine)
+            self.history?.record(mine, old: old)
             self.shadowDirty = true
         }
         transport.onLive = { [weak self] live in
@@ -64,7 +72,11 @@ final class CollabSession: ObservableObject {
             for (id, e) in changes { next[id] = e }
             if next != self.edits { self.edits = next }
         }
-        if let uid = CollabBackend.uid { transport.author = (uid, link.myName.isEmpty ? Self.displayName : link.myName) }
+        if let uid = CollabBackend.uid {
+            let me = (uid: uid, name: link.myName.isEmpty ? Self.displayName : link.myName)
+            transport.author = me
+            if link.canWrite { history = HistoryLog(playID: link.remoteID, author: me, play: play) }
+        }
         transport.start()
         presence.start(name: link.myName.isEmpty ? Self.displayName : link.myName)
         ticker = Task { [weak self] in
@@ -93,7 +105,12 @@ final class CollabSession: ObservableObject {
     private func tickOnce() {
         guard status != .gone else { return }
         // Readers and commenters never push the script.
-        if link.canWrite { send(core.flushLocal()) }
+        if link.canWrite {
+            let old = core.shadow
+            let ops = core.flushLocal()
+            send(ops)
+            history?.record(ops, old: old)
+        }
         ticksSinceSave += 1
         if shadowDirty, ticksSinceSave >= 8 { saveShadow() }
     }

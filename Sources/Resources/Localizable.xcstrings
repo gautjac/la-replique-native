@@ -33,6 +33,16 @@
         }
       }
     },
+    "%@ → %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ → %@"
+          }
+        }
+      }
+    },
     "%lld": {},
     "%lld / %lld": {},
     "%lld comédien·ne·s · %lld rôles": {
@@ -51,6 +61,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld lines changed since your last visit"
+          }
+        }
+      }
+    },
+    "%lld lignes touchées par d'autres depuis %@.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld lines touched by others since %@."
           }
         }
       }
@@ -111,6 +131,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld replies"
+          }
+        }
+      }
+    },
+    "+%lld · −%lld · %lld retouchées · %lld déplacées": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+%lld · −%lld · %lld edited · %lld moved"
           }
         }
       }
@@ -248,6 +278,16 @@
       }
     },
     "Atelier": {},
+    "Aucun changement enregistré pour l'instant. Tout ce qui s'écrit ici à partir de maintenant restera dans l'historique.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No changes recorded yet. Everything written here from now on stays in the history."
+          }
+        }
+      }
+    },
     "Aucun personnage pour l'instant.": {
       "localizations": {
         "en": {
@@ -269,6 +309,16 @@
         }
       }
     },
+    "Aucune différence.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No differences."
+          }
+        }
+      }
+    },
     "Aucune note pour l'instant. Envoie le lien de lecture — les notes paraîtront ici et dans la marge du texte.": {
       "localizations": {
         "en": {
@@ -285,6 +335,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "No scenes yet. Add a card to build your structure."
+          }
+        }
+      }
+    },
+    "Aucune version enregistrée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No saved versions."
           }
         }
       }
@@ -570,6 +630,36 @@
         }
       }
     },
+    "Comparaison": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comparison"
+          }
+        }
+      }
+    },
+    "Comparer à maintenant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compare to now"
+          }
+        }
+      }
+    },
+    "Comparer à…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compare to…"
+          }
+        }
+      }
+    },
     "Comédien·ne %lld": {
       "localizations": {
         "en": {
@@ -732,6 +822,16 @@
         }
       }
     },
+    "Depuis ta dernière visite": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Since your last visit"
+          }
+        }
+      }
+    },
     "Depuis ta dernière visite (%@).": {
       "localizations": {
         "en": {
@@ -860,6 +960,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Save"
+          }
+        }
+      }
+    },
+    "Enregistrer une version": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save a version"
           }
         }
       }
@@ -1032,6 +1142,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Google didn't return an identity."
+          }
+        }
+      }
+    },
+    "Historique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "History"
           }
         }
       }
@@ -1299,6 +1419,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "The dramaturg"
+          }
+        }
+      }
+    },
+    "Le texte actuel sera remplacé pour tout le monde. Enregistre d'abord une version si tu veux pouvoir y revenir.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The current text will be replaced for everyone. Save a version first if you want to be able to come back."
+          }
+        }
+      }
+    },
+    "Lecture du 3 octobre…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading of October 3…"
           }
         }
       }
@@ -2274,12 +2414,32 @@
         }
       }
     },
+    "Remettre la ligne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Put the line back"
+          }
+        }
+      }
+    },
     "Restaurer": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Restore"
+          }
+        }
+      }
+    },
+    "Restaurer ce texte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore this text"
           }
         }
       }
@@ -2858,6 +3018,26 @@
         }
       }
     },
+    "Une version est une photo de la pièce à cet instant, signée. Compare-la à la version actuelle ou à une autre ; restaure-la au besoin.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A version is a signed snapshot of the play at that moment. Compare it to the current version or to another; restore it if needed."
+          }
+        }
+      }
+    },
+    "Version": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version"
+          }
+        }
+      }
+    },
     "Versions": {
       "localizations": {
         "en": {
@@ -2919,12 +3099,92 @@
         }
       }
     },
+    "a ajouté une ligne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "added a line"
+          }
+        }
+      }
+    },
+    "a changé la distribution": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "changed the cast"
+          }
+        }
+      }
+    },
+    "a changé le titre ou l'en-tête": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "changed the title or header"
+          }
+        }
+      }
+    },
+    "a déplacé une ligne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "moved a line"
+          }
+        }
+      }
+    },
     "a partagé la pièce": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "shared the play"
+          }
+        }
+      }
+    },
+    "a retouché une ligne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "edited a line"
+          }
+        }
+      }
+    },
+    "a retouché une ligne (%lld passes)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "edited a line (%lld passes)"
+          }
+        }
+      }
+    },
+    "a supprimé une ligne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "deleted a line"
+          }
+        }
+      }
+    },
+    "ajoutée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "added"
           }
         }
       }
@@ -2940,6 +3200,16 @@
       }
     },
     "console.anthropic.com → API keys": {},
+    "déplacée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "moved"
+          }
+        }
+      }
+    },
     "elevenlabs.io → Profile → API key": {},
     "je cherche la voix…": {
       "localizations": {
@@ -2991,6 +3261,16 @@
         }
       }
     },
+    "maintenant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "now"
+          }
+        }
+      }
+    },
     "p. ex. pièce en deux actes": {
       "extractionState": "manual",
       "localizations": {
@@ -2998,6 +3278,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "e.g. a play in two acts"
+          }
+        }
+      }
+    },
+    "retouchée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "edited"
+          }
+        }
+      }
+    },
+    "supprimée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "deleted"
           }
         }
       }

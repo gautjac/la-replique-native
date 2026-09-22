@@ -4,7 +4,7 @@ import SwiftData
 // The portable `la-replique/1` document — the interchange format shared with the
 // web app. Cues may reference a speaker by NAME (`character`/`speaker`) or by id.
 
-struct PlayDoc: Codable {
+struct PlayDoc: Codable, Equatable {
     var format: String?
     var title: String?
     var subtitle: String?
@@ -16,7 +16,7 @@ struct PlayDoc: Codable {
     var elements: [ElDoc]
 }
 
-struct CharDoc: Codable {
+struct CharDoc: Codable, Equatable {
     var id: String?
     var name: String?
     var color: String?
@@ -24,7 +24,7 @@ struct CharDoc: Codable {
     var voiceId: String?
 }
 
-struct ElDoc: Codable {
+struct ElDoc: Codable, Equatable {
     var id: String?
     var type: String
     var label: String?

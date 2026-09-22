@@ -10,6 +10,7 @@ struct PlayDetailView: View {
     /// Lines other people changed since my last visit (shared plays).
     var recentChanges: [String: LineEdit] = [:]
     @State private var showChanges = false
+    @State private var showSharedVersions = false
     @ObservedObject private var presence: PresenceChannel
     @State private var showCollab = false
     @State private var mode: Mode = .script
@@ -87,7 +88,7 @@ struct PlayDetailView: View {
                 // never drift from everyone else's (their edits are never sent).
                 if collab != nil {
                     Button { showChanges = true } label: {
-                        Label("Changements", systemImage: recentChanges.isEmpty ? "clock" : "clock.badge.exclamationmark")
+                        Label("Historique", systemImage: recentChanges.isEmpty ? "clock" : "clock.badge.exclamationmark")
                     }
                     .help(Text("\(recentChanges.count) lignes changées depuis ta dernière visite"))
                 }
@@ -98,7 +99,11 @@ struct PlayDetailView: View {
                 Button { showMeasures = true } label: { Label("Mesures", systemImage: "chart.bar") }
                 Menu {
                     Button { showTableRead = true } label: { Label("Lecture à voix", systemImage: "speaker.wave.2") }
-                    if !readOnly { Button { showVersions = true } label: { Label("Versions", systemImage: "clock.arrow.circlepath") } }
+                    if collab != nil {
+                        Button { showSharedVersions = true } label: { Label("Versions", systemImage: "clock.arrow.circlepath") }
+                    } else if !readOnly {
+                        Button { showVersions = true } label: { Label("Versions", systemImage: "clock.arrow.circlepath") }
+                    }
                     Button { showPublish = true } label: {
                         Label(play.publicShareID == nil ? "Partager la lecture (web)" : "Lecture partagée — gérer",
                               systemImage: play.publicShareID == nil ? "globe" : "globe.badge.chevron.backward")
@@ -143,7 +148,12 @@ struct PlayDetailView: View {
         .onDisappear { notes.detach() }
         .sheet(isPresented: $showKeys) { KeySetupView() }
         .sheet(isPresented: $showChanges) {
-            ChangesSheet(play: play, changes: recentChanges, since: collab?.since ?? Date(), onJump: { id in mode = .script; jumpTarget = id })
+            if let collab {
+                HistoryView(play: play, session: collab, onJump: { id in mode = .script; jumpTarget = id })
+            }
+        }
+        .sheet(isPresented: $showSharedVersions) {
+            if let collab { SharedVersionsView(play: play, session: collab) }
         }
         .sheet(isPresented: $showCollab) { CollabSheet(play: play, link: collab?.link, onShared: onOpenPlay) }
     }
