@@ -53,6 +53,7 @@ struct PlayDetailView: View {
             switch mode {
             case .script:
                 PlayEditorView(play: play, jumpTarget: $jumpTarget, noteCounts: notes.openCounts,
+                               noteThreads: Dictionary(grouping: notes.threads.filter { !$0.resolved && !$0.detached }, by: \.root.elementID),
                                onShowNotes: { id in notesFocus = id.uuidString; showNotes = true },
                                others: presence.byElement,
                                onFocusChange: { presence.setFocus($0?.uuidString) },

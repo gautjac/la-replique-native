@@ -105,6 +105,26 @@
         }
       }
     },
+    "%lld réponses": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld replies"
+          }
+        }
+      }
+    },
+    "1 réponse": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 reply"
+          }
+        }
+      }
+    },
     "ACTE": {
       "localizations": {
         "en": {
@@ -1729,6 +1749,16 @@
         }
       }
     },
+    "Ouvrir · répondre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open · reply"
+          }
+        }
+      }
+    },
     "Où et quand la pièce a été créée.": {
       "extractionState": "manual",
       "localizations": {
@@ -2677,6 +2707,16 @@
         }
       }
     },
+    "Touche deux fois pour ouvrir les notes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Double-tap to open the notes"
+          }
+        }
+      }
+    },
     "Tout le monde autour de la pièce voit les notes, en direct. Touche une ligne du texte pour en laisser une.": {
       "localizations": {
         "en": {
@@ -3130,6 +3170,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "•••••••• (replace)"
+          }
+        }
+      }
+    },
+    "… et %lld de plus": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "… and %lld more"
           }
         }
       }

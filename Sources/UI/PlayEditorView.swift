@@ -17,6 +17,8 @@ struct PlayEditorView: View {
     @Binding var jumpTarget: UUID?
     /// Open readers' notes per element id (empty when the play isn't shared).
     var noteCounts: [String: Int] = [:]
+    /// The open threads themselves, for the badge's hover preview.
+    var noteThreads: [String: [NoteThread]] = [:]
     /// A margin badge was tapped.
     var onShowNotes: (UUID) -> Void = { _ in }
     /// Other people in this shared play, by the element their cursor is in.
@@ -181,6 +183,7 @@ struct PlayEditorView: View {
                     ElementRow(el: el, play: play, focus: $focused,
                                hint: speakerHint?.el == el.id ? speakerHint : nil,
                                noteCount: noteCounts[el.id.uuidString] ?? 0,
+                               noteThreads: noteThreads[el.id.uuidString] ?? [],
                                others: others[el.id.uuidString] ?? [],
                                readOnly: readOnly, notesEnabled: notesEnabled,
                                changedBy: changed[el.id.uuidString],
@@ -330,6 +333,7 @@ private struct ElementRow: View {
     let hint: SpeakerHint?
     /// Open readers' notes anchored to this block (0 = no badge).
     let noteCount: Int
+    var noteThreads: [NoteThread] = []
     /// Other people whose cursor is in this block right now.
     var others: [PresencePerson] = []
     var readOnly = false
@@ -384,8 +388,7 @@ private struct ElementRow: View {
             }
             .overlay(alignment: .topTrailing) {
                 if noteCount > 0 {
-                    Button { actions.showNotes(el) } label: { NoteBadge(count: noteCount) }
-                        .buttonStyle(.plain)
+                    NoteBadgeHover(count: noteCount, threads: noteThreads, open: { actions.showNotes(el) })
                         .offset(x: 22, y: 6)
                 } else if notesEnabled, !readOnly, focus.wrappedValue == el.id {
                     // The line I'm in: one tap to leave a note on it.

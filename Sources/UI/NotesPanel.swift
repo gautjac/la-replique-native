@@ -320,3 +320,86 @@ struct NoteBadge: View {
         .accessibilityLabel(Text("\(count) notes ouvertes"))
     }
 }
+
+/// The margin badge with a preview: HOVER shows the thread(s) in a popover (Mac,
+/// iPad with a pointer); a single tap pins the same preview (that is how it works
+/// on an iPhone); a DOUBLE tap opens the full Notes screen to reply or edit.
+struct NoteBadgeHover: View {
+    let count: Int
+    let threads: [NoteThread]
+    var open: () -> Void
+
+    @State private var hovering = false
+    @State private var pinned = false
+    @State private var hoverTask: Task<Void, Never>?
+
+    private var shown: Binding<Bool> {
+        Binding(get: { pinned || hovering }, set: { if !$0 { pinned = false; hovering = false } })
+    }
+
+    var body: some View {
+        NoteBadge(count: count)
+            .contentShape(Capsule())
+            .onTapGesture(count: 2) { dismiss(); open() }
+            .onTapGesture { pinned.toggle() }
+            .onHover { hover(entered: $0, delay: 350) }
+            .popover(isPresented: shown, arrowEdge: .leading) {
+                NotePreview(threads: threads, onOpen: { dismiss(); open() })
+                    // Keep it while the pointer travels from the badge into the popover.
+                    .onHover { hover(entered: $0, delay: 0) }
+                    .presentationCompactAdaptation(.popover)
+            }
+            .accessibilityHint(Text("Touche deux fois pour ouvrir les notes"))
+    }
+
+    /// A short delay before showing (a pointer just passing by shouldn't pop
+    /// anything) and a grace period before hiding (so the popover can be reached).
+    private func hover(entered: Bool, delay ms: Int) {
+        hoverTask?.cancel()
+        hoverTask = Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(entered ? ms : 300))
+            if !Task.isCancelled { hovering = entered }
+        }
+    }
+
+    private func dismiss() { hoverTask?.cancel(); pinned = false; hovering = false }
+}
+
+/// What a badge shows before you open it: each open thread's first note, how
+/// many replies it has, and one button to the full screen.
+struct NotePreview: View {
+    let threads: [NoteThread]
+    var onOpen: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            ForEach(threads.prefix(3)) { t in
+                VStack(alignment: .leading, spacing: 3) {
+                    HStack(spacing: 6) {
+                        Text(t.root.authorName).font(.caption.weight(.semibold)).foregroundStyle(.white)
+                        Text(t.root.createdAt, format: .relative(presentation: .named)).font(.caption2).foregroundStyle(Theme.inkFaint)
+                    }
+                    if let q = t.root.quote, !q.isEmpty {
+                        Text("« \(q) »").font(.caption).foregroundStyle(Theme.inkFaint).lineLimit(1)
+                    }
+                    Text(t.root.body).font(.callout).foregroundStyle(.white.opacity(0.92)).lineLimit(4)
+                        .fixedSize(horizontal: false, vertical: true)
+                    if !t.replies.isEmpty {
+                        Text(t.replies.count == 1 ? "1 réponse" : "\(t.replies.count) réponses")
+                            .font(.caption2).foregroundStyle(Theme.gelBright)
+                    }
+                }
+            }
+            if threads.count > 3 {
+                Text("… et \(threads.count - 3) de plus").font(.caption2).foregroundStyle(Theme.inkFaint)
+            }
+            Button(action: onOpen) {
+                Label("Ouvrir · répondre", systemImage: "arrowshape.turn.up.left").frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent).controlSize(.small)
+        }
+        .padding(14)
+        .frame(width: 300, alignment: .leading)
+        .background(Theme.deskLight)
+    }
+}
