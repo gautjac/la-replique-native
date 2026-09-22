@@ -373,11 +373,23 @@ struct NotePreview: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            ForEach(threads.prefix(3)) { t in
+            ForEach(Array(threads.prefix(3).enumerated()), id: \.element.id) { i, t in
                 VStack(alignment: .leading, spacing: 3) {
-                    HStack(spacing: 6) {
+                    HStack(alignment: .firstTextBaseline, spacing: 6) {
                         Text(t.root.authorName).font(.caption.weight(.semibold)).foregroundStyle(.white)
                         Text(t.root.createdAt, format: .relative(presentation: .named)).font(.caption2).foregroundStyle(Theme.inkFaint)
+                        Spacer(minLength: 8)
+                        if i == 0 {
+                            // One icon, top right — a full-width text button looked stretched
+                            // and misaligned in the popover on the iPad (Jac, 2026-09-22).
+                            Button(action: onOpen) {
+                                Image(systemName: "arrowshape.turn.up.left.circle.fill")
+                                    .font(.system(size: 20)).foregroundStyle(Theme.gelBright)
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel(Text("Ouvrir · répondre"))
+                            .help(Text("Ouvrir · répondre"))
+                        }
                     }
                     if let q = t.root.quote, !q.isEmpty {
                         Text("« \(q) »").font(.caption).foregroundStyle(Theme.inkFaint).lineLimit(1)
@@ -393,10 +405,6 @@ struct NotePreview: View {
             if threads.count > 3 {
                 Text("… et \(threads.count - 3) de plus").font(.caption2).foregroundStyle(Theme.inkFaint)
             }
-            Button(action: onOpen) {
-                Label("Ouvrir · répondre", systemImage: "arrowshape.turn.up.left").frame(maxWidth: .infinity)
-            }
-            .buttonStyle(.borderedProminent).controlSize(.small)
         }
         .padding(14)
         .frame(width: 300, alignment: .leading)
