@@ -46,6 +46,15 @@ struct PlayEditorView: View {
     @StateObject private var editorFocus = EditorFocus()
     #endif
 
+    /// How wide the page may grow. 820 reads well on an iPad; on a Mac's wide window
+    /// that left the script marooned between dark margins (Jac, 2026-09-22), and a
+    /// script's lines are short, so a wider page costs nothing in readability.
+    #if os(macOS)
+    static let pageMaxWidth: CGFloat = 1100
+    #else
+    static let pageMaxWidth: CGFloat = 820
+    #endif
+
     /// Find one element WITHOUT sorting the play. `elementList` sorts on every
     /// access — fine once per render, wasteful for a single lookup.
     private func element(_ id: UUID?) -> Element? {
@@ -61,7 +70,7 @@ struct PlayEditorView: View {
                     titleBlock.disabled(readOnly)
                     page
                 }
-                .frame(maxWidth: 820)
+                .frame(maxWidth: Self.pageMaxWidth)
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 24).padding(.vertical, 28)
             }

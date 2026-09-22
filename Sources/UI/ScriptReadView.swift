@@ -12,7 +12,7 @@ struct ScriptReadView: View {
                 header
                 page
             }
-            .frame(maxWidth: 820)
+            .frame(maxWidth: PlayEditorView.pageMaxWidth)
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 24)
             .padding(.vertical, 28)
