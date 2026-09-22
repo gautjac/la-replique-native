@@ -321,48 +321,49 @@ struct NoteBadge: View {
     }
 }
 
-/// The margin badge with a preview: HOVER shows the thread(s) in a popover (Mac,
-/// iPad with a pointer); a single tap pins the same preview (that is how it works
-/// on an iPhone); a DOUBLE tap opens the full Notes screen to reply or edit.
+/// Hover / tap / double-tap state for one line's note badge, shared by the badge
+/// and the preview it opens. (Not a system popover: macOS placed that to the
+/// left of the badge, iOS to the right — off the screen. The preview is drawn by
+/// the row itself, anchored to the line's right edge, the same everywhere.)
+@MainActor
+final class NoteHover: ObservableObject {
+    @Published private(set) var shown = false
+    private var pinned = false
+    private var hovering = false
+    private var task: Task<Void, Never>?
+
+    /// A short delay before showing (a pointer just passing by shouldn't pop
+    /// anything) and a grace period before hiding (so the pointer can reach the preview).
+    func hover(_ entered: Bool) {
+        task?.cancel()
+        task = Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(entered ? 350 : 300))
+            guard !Task.isCancelled else { return }
+            hovering = entered
+            update()
+        }
+    }
+    func togglePin() { pinned.toggle(); update() }
+    func dismiss() { task?.cancel(); pinned = false; hovering = false; update() }
+    private func update() { let next = pinned || hovering; if next != shown { shown = next } }
+}
+
+/// The margin badge: HOVER shows the thread(s) (Mac, iPad with a pointer); a single
+/// tap pins the same preview (that is how it works on an iPhone); a DOUBLE tap
+/// opens the full Notes screen to reply or edit.
 struct NoteBadgeHover: View {
     let count: Int
-    let threads: [NoteThread]
+    @ObservedObject var hover: NoteHover
     var open: () -> Void
-
-    @State private var hovering = false
-    @State private var pinned = false
-    @State private var hoverTask: Task<Void, Never>?
-
-    private var shown: Binding<Bool> {
-        Binding(get: { pinned || hovering }, set: { if !$0 { pinned = false; hovering = false } })
-    }
 
     var body: some View {
         NoteBadge(count: count)
             .contentShape(Capsule())
-            .onTapGesture(count: 2) { dismiss(); open() }
-            .onTapGesture { pinned.toggle() }
-            .onHover { hover(entered: $0, delay: 350) }
-            .popover(isPresented: shown, arrowEdge: .leading) {
-                NotePreview(threads: threads, onOpen: { dismiss(); open() })
-                    // Keep it while the pointer travels from the badge into the popover.
-                    .onHover { hover(entered: $0, delay: 0) }
-                    .presentationCompactAdaptation(.popover)
-            }
+            .onTapGesture(count: 2) { hover.dismiss(); open() }
+            .onTapGesture { hover.togglePin() }
+            .onHover { hover.hover($0) }
             .accessibilityHint(Text("Touche deux fois pour ouvrir les notes"))
     }
-
-    /// A short delay before showing (a pointer just passing by shouldn't pop
-    /// anything) and a grace period before hiding (so the popover can be reached).
-    private func hover(entered: Bool, delay ms: Int) {
-        hoverTask?.cancel()
-        hoverTask = Task { @MainActor in
-            try? await Task.sleep(for: .milliseconds(entered ? ms : 300))
-            if !Task.isCancelled { hovering = entered }
-        }
-    }
-
-    private func dismiss() { hoverTask?.cancel(); pinned = false; hovering = false }
 }
 
 /// What a badge shows before you open it: each open thread's first note, how
@@ -407,7 +408,22 @@ struct NotePreview: View {
             }
         }
         .padding(14)
-        .frame(width: 300, alignment: .leading)
-        .background(Theme.deskLight)
+        .frame(width: 290, alignment: .leading)
+        .background(Theme.deskLight, in: RoundedRectangle(cornerRadius: 12))
+        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Theme.rule))
+        .shadow(color: .black.opacity(0.35), radius: 14, y: 6)
     }
+}
+
+/// A row asking the PAGE to draw its note preview: the page draws it above every
+/// row (a row's own overlay sits under the rows that follow it in a lazy stack).
+struct NotePreviewRequest: Equatable {
+    let id: UUID
+    let bounds: Anchor<CGRect>
+    let hover: NoteHover
+    static func == (a: NotePreviewRequest, b: NotePreviewRequest) -> Bool { a.id == b.id && a.hover === b.hover && a.bounds == b.bounds }
+}
+struct NotePreviewKey: PreferenceKey {
+    static let defaultValue: NotePreviewRequest? = nil
+    static func reduce(value: inout NotePreviewRequest?, nextValue: () -> NotePreviewRequest?) { value = nextValue() ?? value }
 }

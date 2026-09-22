@@ -198,6 +198,18 @@ struct PlayEditorView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(28)
         .background(Theme.paper, in: RoundedRectangle(cornerRadius: 18))
+        // One line's note preview: anchored to that line's right edge, extending
+        // LEFT over the page — identical on Mac, iPad and iPhone, above every row.
+        .overlayPreferenceValue(NotePreviewKey.self) { req in
+            GeometryReader { geo in
+                if let req {
+                    let b = geo[req.bounds]
+                    NotePreview(threads: noteThreads[req.id.uuidString] ?? [], onOpen: { req.hover.dismiss(); onShowNotes(req.id) })
+                        .onHover { req.hover.hover($0) }
+                        .offset(x: max(0, b.maxX + 24 - 290), y: b.minY + 34)   // +24: over the badge column too
+                }
+            }
+        }
     }
 
     // MARK: Keyboard toolbar (iPhone / iPad on-screen)
@@ -341,6 +353,7 @@ private struct ElementRow: View {
     /// Someone else changed this line since my last visit.
     var changedBy: LineEdit?
     let actions: RowActions
+    @StateObject private var noteHover = NoteHover()
 
     /// Soft lock: while someone else is in this line, I can read it change but not
     /// type in it — unless I was already in it (then last writer wins, as ever).
@@ -386,9 +399,14 @@ private struct ElementRow: View {
                         .accessibilityLabel(Text("\(others.map(\.name).joined(separator: ", ")) écrit ici"))
                 }
             }
+            // The note preview is drawn by the PAGE (above every row), from this row's frame.
+            .anchorPreference(key: NotePreviewKey.self, value: .bounds) {
+                noteHover.shown && noteCount > 0 ? NotePreviewRequest(id: el.id, bounds: $0, hover: noteHover) : nil
+            }
+            .onChange(of: noteCount) { _, n in if n == 0 { noteHover.dismiss() } }
             .overlay(alignment: .topTrailing) {
                 if noteCount > 0 {
-                    NoteBadgeHover(count: noteCount, threads: noteThreads, open: { actions.showNotes(el) })
+                    NoteBadgeHover(count: noteCount, hover: noteHover, open: { actions.showNotes(el) })
                         .offset(x: 22, y: 6)
                 } else if notesEnabled, !readOnly, focus.wrappedValue == el.id {
                     // The line I'm in: one tap to leave a note on it.
