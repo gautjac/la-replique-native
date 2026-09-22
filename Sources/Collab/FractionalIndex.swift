@@ -17,7 +17,7 @@ import Foundation
 enum FractionalIndex {
     static let digits: [Swift.Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
     private static let base = 62
-    nonisolated(unsafe) private static let value: [Swift.Character: Int] = Dictionary(uniqueKeysWithValues: digits.enumerated().map { ($1, $0) })
+    private static let value: [Swift.Character: Int] = Dictionary(uniqueKeysWithValues: digits.enumerated().map { ($1, $0) })
 
     /// Appending/prepending works on a fixed-width head so keys grow by a constant
     /// step instead of bisecting what's left (which would add a character every

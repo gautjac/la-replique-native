@@ -12,6 +12,10 @@ final class FirestoreTransport {
     /// true once every listener has heard from the SERVER (not just the cache).
     var onLive: (Bool) -> Void = { _ in }
     var onLost: () -> Void = {}
+    /// Attribution of lines, as it changes: element id → who last touched it (nil = line gone).
+    var onEdits: ([String: LineEdit?]) -> Void = { _ in }
+    /// Who I am, for the lines I write.
+    var author: (uid: String, name: String)?
 
     private let db = CollabBackend.db
     private var listeners: [ListenerRegistration] = []
@@ -38,8 +42,16 @@ final class FirestoreTransport {
 
     private static func fields(_ data: [String: Any], only keys: Set<String>? = nil) -> Fields {
         var out: Fields = [:]
-        for (k, v) in data { if let s = v as? String, keys?.contains(k) ?? true { out[k] = s } }
+        // `_`-prefixed keys are META (attribution), never script content.
+        for (k, v) in data where !k.hasPrefix("_") { if let s = v as? String, keys?.contains(k) ?? true { out[k] = s } }
         return out
+    }
+
+    private func stamped(_ data: [String: Any], _ ref: EntityRef) -> [String: Any] {
+        guard ref.kind == .element, let author else { return data }
+        var d = data
+        d["_by"] = author.uid; d["_byName"] = author.name; d["_at"] = FieldValue.serverTimestamp()
+        return d
     }
 
     // MARK: listening
@@ -73,6 +85,17 @@ final class FirestoreTransport {
                         changes += mine.subtracting(alive).map { .removed(EntityRef(kind: kind, id: $0)) }
                     }
                     if !changes.isEmpty { self.onChanges(changes) }
+                    if kind == .element {
+                        var edits: [String: LineEdit?] = [:]
+                        for ch in snap.documentChanges {
+                            let d = ch.document
+                            if ch.type == .removed { edits[d.documentID] = .some(nil); continue }
+                            guard let uid = d["_by"] as? String else { continue }
+                            let at = (d.get("_at", serverTimestampBehavior: .estimate) as? Timestamp)?.dateValue() ?? Date()
+                            edits[d.documentID] = LineEdit(uid: uid, name: d["_byName"] as? String ?? "?", at: at)
+                        }
+                        if !edits.isEmpty { self.onEdits(edits) }
+                    }
                     self.heard(kind, fromCache: snap.metadata.isFromCache)
                 }
             })
@@ -107,13 +130,13 @@ final class FirestoreTransport {
             switch op {
             case .put(let ref, let f):
                 // The play document also carries ownerUid — merge, never replace.
-                batch.setData(f, forDocument: doc(ref), merge: ref.kind == .info)
+                batch.setData(stamped(f, ref), forDocument: doc(ref), merge: ref.kind == .info)
                 count += 1
             case .delete(let ref):
                 batch.deleteDocument(doc(ref)); count += 1
             case .patch(let ref, let set, let unset):
                 commitIfFull(force: true)             // keep the writes in order
-                var data: [String: Any] = set
+                var data: [String: Any] = stamped(set, ref)
                 for k in unset { data[k] = FieldValue.delete() }
                 doc(ref).updateData(data) { error in
                     // NOT_FOUND = the line is gone; the listener will tell the core.

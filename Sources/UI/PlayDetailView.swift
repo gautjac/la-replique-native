@@ -7,6 +7,9 @@ struct PlayDetailView: View {
     var onOpenPlay: (UUID) -> Void
     /// Non-nil when this is a shared play, live.
     var collab: CollabSession?
+    /// Lines other people changed since my last visit (shared plays).
+    var recentChanges: [String: LineEdit] = [:]
+    @State private var showChanges = false
     @ObservedObject private var presence: PresenceChannel
     @State private var showCollab = false
     @State private var mode: Mode = .script
@@ -35,10 +38,11 @@ struct PlayDetailView: View {
     /// A shared play where I'm a commenter or a reader.
     private var readOnly: Bool { collab.map { !$0.link.canWrite } ?? false }
 
-    init(play: Play, onOpenPlay: @escaping (UUID) -> Void, collab: CollabSession? = nil) {
+    init(play: Play, onOpenPlay: @escaping (UUID) -> Void, collab: CollabSession? = nil, recentChanges: [String: LineEdit] = [:]) {
         self.play = play
         self.onOpenPlay = onOpenPlay
         self.collab = collab
+        self.recentChanges = recentChanges
         presence = collab?.presence ?? .none
     }
 
@@ -54,7 +58,8 @@ struct PlayDetailView: View {
                                onFocusChange: { presence.setFocus($0?.uuidString) },
                                // Readers and commenters see the script move; they don't type in it.
                                readOnly: readOnly,
-                               notesEnabled: collab != nil && notes.canPost)
+                               notesEnabled: collab != nil && notes.canPost,
+                               changed: recentChanges)
             case .board: BeatBoardView(play: play, onJump: { id in mode = .script; jumpTarget = id }, readOnly: readOnly)
             }
         }
@@ -79,6 +84,12 @@ struct PlayDetailView: View {
                 }
                 // The tools that CHANGE the script are for writers. A commenter's copy must
                 // never drift from everyone else's (their edits are never sent).
+                if collab != nil {
+                    Button { showChanges = true } label: {
+                        Label("Changements", systemImage: recentChanges.isEmpty ? "clock" : "clock.badge.exclamationmark")
+                    }
+                    .help(Text("\(recentChanges.count) lignes changées depuis ta dernière visite"))
+                }
                 if !readOnly {
                     Button { showAtelier = true } label: { Label("Atelier", systemImage: "sparkles") }
                     Button { showCast = true } label: { Label("Distribution", systemImage: "person.2") }
@@ -130,6 +141,9 @@ struct PlayDetailView: View {
         .onChange(of: collab?.link.role ?? "") { _, _ in attachNotes() }
         .onDisappear { notes.detach() }
         .sheet(isPresented: $showKeys) { KeySetupView() }
+        .sheet(isPresented: $showChanges) {
+            ChangesSheet(play: play, changes: recentChanges, since: collab?.since ?? Date(), onJump: { id in mode = .script; jumpTarget = id })
+        }
         .sheet(isPresented: $showCollab) { CollabSheet(play: play, link: collab?.link, onShared: onOpenPlay) }
     }
 

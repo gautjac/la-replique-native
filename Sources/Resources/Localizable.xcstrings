@@ -45,6 +45,16 @@
         }
       }
     },
+    "%lld lignes changées depuis ta dernière visite": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld lines changed since your last visit"
+          }
+        }
+      }
+    },
     "%lld notes ouvertes": {
       "localizations": {
         "en": {
@@ -390,6 +400,26 @@
         }
       }
     },
+    "Changements": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Changes"
+          }
+        }
+      }
+    },
+    "Changée par %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Changed by %@"
+          }
+        }
+      }
+    },
     "Chaque rôle partage une scène avec un autre.": {
       "localizations": {
         "en": {
@@ -678,6 +708,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ask"
+          }
+        }
+      }
+    },
+    "Depuis ta dernière visite (%@).": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Since your last visit (%@)."
           }
         }
       }
@@ -2250,6 +2290,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Remove the heading (keep the lines)"
+          }
+        }
+      }
+    },
+    "Rien de neuf. Personne d'autre n'a touché au texte depuis.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing new. Nobody else has touched the script since."
           }
         }
       }

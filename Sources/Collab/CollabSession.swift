@@ -7,6 +7,11 @@ import FirebaseFirestore
 final class CollabSession: ObservableObject {
     enum Status: Equatable { case connecting, live, offline, gone }
     @Published private(set) var status: Status = .connecting
+    /// Who last touched each line (element id → edit).
+    @Published private(set) var edits: [String: LineEdit] = [:]
+    /// The previous visit's end — "what changed since" is measured from here, and
+    /// stays put for this whole session.
+    let since: Date
 
     let play: Play
     let link: CollabLink
@@ -27,6 +32,14 @@ final class CollabSession: ObservableObject {
         core = CollabCore(play: play, context: CollabStore.context, shadowData: link.shadow.isEmpty ? nil : link.shadow)
         transport = FirestoreTransport(playID: link.remoteID, known: core.shadow)
         presence = PresenceChannel(playID: link.remoteID)
+        since = link.lastSeenAt ?? link.joinedAt
+    }
+
+    /// Lines other people changed since my last visit, newest first.
+    var recentChanges: [(id: String, edit: LineEdit)] {
+        let me = CollabBackend.uid
+        return edits.filter { $0.value.uid != me && $0.value.at > since }
+            .map { (id: $0.key, edit: $0.value) }.sorted { $0.edit.at > $1.edit.at }
     }
 
     func start() {
@@ -45,6 +58,13 @@ final class CollabSession: ObservableObject {
             if self.status != next { self.status = next }
         }
         transport.onLost = { [weak self] in self?.status = .gone }
+        transport.onEdits = { [weak self] changes in
+            guard let self else { return }
+            var next = self.edits
+            for (id, e) in changes { next[id] = e }
+            if next != self.edits { self.edits = next }
+        }
+        if let uid = CollabBackend.uid { transport.author = (uid, link.myName.isEmpty ? Self.displayName : link.myName) }
         transport.start()
         presence.start(name: link.myName.isEmpty ? Self.displayName : link.myName)
         ticker = Task { [weak self] in
@@ -60,6 +80,7 @@ final class CollabSession: ObservableObject {
         tickOnce()
         presence.stop()
         transport.stop()
+        link.lastSeenAt = Date()
         saveShadow()
     }
 

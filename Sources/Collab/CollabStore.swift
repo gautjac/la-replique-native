@@ -14,6 +14,8 @@ final class CollabLink {
     var joinedAt: Date = Date()
     /// The name this person gave when sharing or joining — what others see.
     var myName: String = ""
+    /// When this play was last open here — "what changed since" counts from it.
+    var lastSeenAt: Date?
 
     init(playID: UUID, remoteID: String, role: String, ownerUid: String) {
         self.playID = playID; self.remoteID = remoteID; self.role = role; self.ownerUid = ownerUid

@@ -30,6 +30,8 @@ struct PlayEditorView: View {
     /// This is a shared play and I may leave notes: offer it on the line I'm in (a
     /// writer), or on any line I tap (a commenter, who cannot place a cursor).
     var notesEnabled = false
+    /// Lines other people changed since my last visit: a dot in their colour.
+    var changed: [String: LineEdit] = [:]
     @FocusState private var focused: UUID?
 
     @State private var newCharName = ""
@@ -181,6 +183,7 @@ struct PlayEditorView: View {
                                noteCount: noteCounts[el.id.uuidString] ?? 0,
                                others: others[el.id.uuidString] ?? [],
                                readOnly: readOnly, notesEnabled: notesEnabled,
+                               changedBy: changed[el.id.uuidString],
                                actions: actions)
                         .id(el.id)
                 }
@@ -331,6 +334,8 @@ private struct ElementRow: View {
     var others: [PresencePerson] = []
     var readOnly = false
     var notesEnabled = false
+    /// Someone else changed this line since my last visit.
+    var changedBy: LineEdit?
     let actions: RowActions
 
     /// Soft lock: while someone else is in this line, I can read it change but not
@@ -354,6 +359,13 @@ private struct ElementRow: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())
             .onTapGesture { if readOnly && notesEnabled { actions.showNotes(el) } }
+            .overlay(alignment: .topLeading) {
+                if let e = changedBy, others.isEmpty {
+                    Circle().fill(Color(hexString: PresenceChannel.color(for: e.uid))).frame(width: 7, height: 7)
+                        .offset(x: -16, y: 12)
+                        .accessibilityLabel(Text("Changée par \(e.name)"))
+                }
+            }
             .overlay(alignment: .leading) {
                 if let who = others.first {
                     Rectangle().fill(Color(hexString: who.colorHex)).frame(width: 3).offset(x: -14)

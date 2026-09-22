@@ -62,7 +62,8 @@ private struct SharedPlayHost: View {
         // why the simulator tests passed). Found by Jac, 2026-09-21; isolated by removing
         // the inset on an iPad simulator.
         VStack(spacing: 0) {
-            PlayDetailView(play: play, onOpenPlay: onOpenPlay, collab: session)
+            PlayDetailView(play: play, onOpenPlay: onOpenPlay, collab: session,
+                           recentChanges: Dictionary(uniqueKeysWithValues: session.recentChanges.map { ($0.id, $0.edit) }))
             CollabStatusBar(session: session)
         }
             .onAppear { session.start() }
@@ -385,5 +386,76 @@ private struct MembersSection: View {
     private func act(_ op: @escaping () async throws -> Void) {
         error = nil
         Task { @MainActor in do { try await op() } catch { self.error = error.localizedDescription } }
+    }
+}
+
+// MARK: - What changed since my last visit
+
+/// « Changements » — the lines other people touched since this play was last open
+/// here, newest first, grouped by person. Tap one to go to it.
+struct ChangesSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    let play: Play
+    let changes: [String: LineEdit]
+    let since: Date
+    var onJump: (UUID) -> Void
+
+    private struct Row: Identifiable { let id: String; let element: Element; let edit: LineEdit }
+
+    private var rows: [Row] {
+        let byID = Dictionary(uniqueKeysWithValues: (play.elements ?? []).map { ($0.id.uuidString, $0) })
+        return changes.compactMap { id, e in byID[id].map { Row(id: id, element: $0, edit: e) } }.sorted { $0.edit.at > $1.edit.at }
+    }
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 18) {
+                    Text("Depuis ta dernière visite (\(since.formatted(.relative(presentation: .named)))).")
+                        .font(.callout).foregroundStyle(Theme.inkFaint)
+                    if rows.isEmpty {
+                        Text("Rien de neuf. Personne d'autre n'a touché au texte depuis.")
+                            .foregroundStyle(Theme.inkFaint).fixedSize(horizontal: false, vertical: true)
+                    }
+                    ForEach(Dictionary(grouping: rows, by: \.edit.uid).sorted { ($0.value.first?.edit.at ?? .distantPast) > ($1.value.first?.edit.at ?? .distantPast) }, id: \.key) { uid, lines in
+                        FieldGroup(LocalizedStringKey(lines.first?.edit.name ?? "?")) {
+                            ForEach(lines) { r in
+                                Button { dismiss(); onJump(r.element.id) } label: {
+                                    HStack(alignment: .top, spacing: 10) {
+                                        Circle().fill(Color(hexString: PresenceChannel.color(for: uid))).frame(width: 8, height: 8).padding(.top, 6)
+                                        VStack(alignment: .leading, spacing: 2) {
+                                            Text(excerpt(r.element)).foregroundStyle(.white).lineLimit(2).multilineTextAlignment(.leading)
+                                            Text(r.edit.at, format: .relative(presentation: .named)).font(.caption).foregroundStyle(Theme.inkFaint)
+                                        }
+                                        Spacer(minLength: 4)
+                                        Image(systemName: "arrow.up.forward.square").foregroundStyle(Theme.gelBright)
+                                    }
+                                    .padding(12)
+                                    .background(Theme.desk, in: RoundedRectangle(cornerRadius: 10))
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                    }
+                }
+                .padding(24).frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .background(Theme.deskLight)
+            .navigationTitle("Changements")
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Fermer") { dismiss() } } }
+        }
+        #if os(macOS)
+        .frame(width: 480, height: 560)
+        #endif
+    }
+
+    private func excerpt(_ el: Element) -> String {
+        let text = (el.text ?? el.label ?? "").replacingOccurrences(of: "\n", with: " ")
+        let short = text.count > 90 ? String(text.prefix(90)) + "…" : text
+        if el.kind == .cue, let who = play.character(id: el.characterID)?.name { return "\(who) — \(short)" }
+        return short.isEmpty ? el.kind.rawValue.uppercased() : short
     }
 }

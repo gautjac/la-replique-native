@@ -58,3 +58,13 @@ enum CollabField {
     static let setting = "setting", synopsis = "synopsis", beat = "beat"
     static let parenthetical = "parenthetical", alt = "alt", orderKey = "orderKey"
 }
+
+/// Who last changed a line, and when. Travels beside the script as `_by`,
+/// `_byName`, `_at` on the element's document — META fields: the transports strip
+/// every `_`-prefixed key before the core sees a document, so attribution can
+/// never be mistaken for script content (or echo, or conflict).
+struct LineEdit: Equatable, Sendable {
+    var uid: String
+    var name: String
+    var at: Date
+}
