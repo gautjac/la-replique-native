@@ -74,18 +74,27 @@ private struct HistoryRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 8) {
-                Circle().fill(Color(hexString: PresenceChannel.color(for: entry.uid))).frame(width: 8, height: 8)
+                Circle().fill(authorColor).frame(width: 8, height: 8)
                 Text(entry.name).font(.callout.weight(.semibold)).foregroundStyle(.white)
                 Text(verb).font(.callout).foregroundStyle(Theme.inkFaint)
                 Spacer()
-                Text(entry.at, format: .dateTime.hour().minute()).font(.caption).foregroundStyle(Theme.inkFaint)
+                Text(when).font(.caption).foregroundStyle(Theme.inkFaint)
             }
             if let who = entry.speaker { Text(who).font(.caption.weight(.bold)).kerning(1).foregroundStyle(Theme.gelBright) }
-            if entry.kind == .edit || entry.kind == .delete, let b = entry.textBefore, !b.isEmpty {
-                Text(b).font(.callout).foregroundStyle(Theme.rose.opacity(0.9)).strikethrough(entry.kind == .edit).lineLimit(3)
-            }
-            if entry.kind == .edit || entry.kind == .add, let a = entry.textAfter, !a.isEmpty {
-                Text(a).font(.callout).foregroundStyle(.white.opacity(0.92)).lineLimit(3)
+            switch entry.kind {
+            case .edit:
+                // One run: the words that went, struck through; the words that came, in the author's colour.
+                Text(WordDiff.attributed(entry.textBefore ?? "", entry.textAfter ?? "", author: authorColor))
+                    .font(.callout).fixedSize(horizontal: false, vertical: true)
+            case .delete:
+                if let b = entry.textBefore, !b.isEmpty {
+                    Text(b).font(.callout).foregroundStyle(Theme.rose.opacity(0.9)).strikethrough().fixedSize(horizontal: false, vertical: true)
+                }
+            case .add:
+                if let a = entry.textAfter, !a.isEmpty {
+                    Text(a).font(.callout).foregroundStyle(authorColor).fixedSize(horizontal: false, vertical: true)
+                }
+            default: EmptyView()
             }
             HStack(spacing: 14) {
                 if element != nil {
@@ -102,9 +111,18 @@ private struct HistoryRow: View {
         .background(Theme.desk, in: RoundedRectangle(cornerRadius: 10))
     }
 
+    private var authorColor: Color { Color(hexString: PresenceChannel.color(for: entry.uid)) }
+
+    /// A burst of typing shows as a span: « 20:32 – 20:35 ».
+    private var when: String {
+        let f = Date.FormatStyle.dateTime.hour().minute()
+        let a = entry.from.formatted(f), b = entry.at.formatted(f)
+        return a == b ? b : "\(a) – \(b)"
+    }
+
     private var verb: LocalizedStringKey {
         switch entry.kind {
-        case .edit: return entry.count > 1 ? "a retouché une ligne (\(entry.count) passes)" : "a retouché une ligne"
+        case .edit: return "a retouché une ligne"
         case .add: return "a ajouté une ligne"
         case .delete: return "a supprimé une ligne"
         case .move: return "a déplacé une ligne"
@@ -307,8 +325,7 @@ private struct DiffRowView: View {
             case .removed(let d): Text(text(d)).strikethrough().foregroundStyle(Theme.rose.opacity(0.9))
             case .added(let d), .moved(let d), .same(let d): Text(text(d)).foregroundStyle(.white.opacity(0.92))
             case .changed(let a, let b):
-                Text(text(a)).strikethrough().foregroundStyle(Theme.rose.opacity(0.9))
-                Text(text(b)).foregroundStyle(.white.opacity(0.92))
+                Text(WordDiff.attributed(text(a), text(b), author: Theme.gelBright)).fixedSize(horizontal: false, vertical: true)
             }
         }
         .font(.callout)

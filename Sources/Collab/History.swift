@@ -19,6 +19,8 @@ struct HistoryEntry: Identifiable, Equatable, Sendable {
     var speaker: String?
     var before: Fields?
     var after: Fields?
+    /// When the entry was opened; `at` keeps moving while a burst of typing extends it.
+    var from: Date
     var at: Date
     var count: Int
 
@@ -80,7 +82,7 @@ final class HistoryLog {
         }
         let id = UUID().uuidString
         var data: [String: Any] = ["uid": author.uid, "name": author.name, "kind": kind.rawValue, "elementID": key,
-                                   "at": FieldValue.serverTimestamp(), "count": 1]
+                                   "from": FieldValue.serverTimestamp(), "at": FieldValue.serverTimestamp(), "count": 1]
         if let before { data["before"] = before }
         if let after { data["after"] = after }
         if ref.kind == .element {
@@ -113,9 +115,10 @@ final class HistoryStore: ObservableObject {
                         guard let kind = HistoryEntry.Kind(rawValue: d["kind"] as? String ?? "") else { return nil }
                         let f = { (k: String) -> Fields? in (d[k] as? [String: Any])?.compactMapValues { $0 as? String } }
                         let at = (d.get("at", serverTimestampBehavior: .estimate) as? Timestamp)?.dateValue() ?? Date()
+                        let from = (d.get("from", serverTimestampBehavior: .estimate) as? Timestamp)?.dateValue() ?? at
                         return HistoryEntry(id: d.documentID, uid: d["uid"] as? String ?? "", name: d["name"] as? String ?? "?",
                                             kind: kind, elementID: d["elementID"] as? String ?? "", speaker: d["speaker"] as? String,
-                                            before: f("before"), after: f("after"), at: at, count: d["count"] as? Int ?? 1)
+                                            before: f("before"), after: f("after"), from: from, at: at, count: d["count"] as? Int ?? 1)
                     }
                 }
             }
