@@ -14,6 +14,7 @@ struct PlayDetailView: View {
     @ObservedObject private var presence: PresenceChannel
     @State private var showCollab = false
     @State private var showCollabHelp = false
+    @State private var findRequest = 0
     @AppStorage("collab.onboarded") private var collabOnboarded = false
     @State private var mode: Mode = .script
     @State private var jumpTarget: UUID?
@@ -63,7 +64,8 @@ struct PlayDetailView: View {
                                // Readers and commenters see the script move; they don't type in it.
                                readOnly: readOnly,
                                notesEnabled: collab != nil && notes.canPost,
-                               changed: recentChanges)
+                               changed: recentChanges,
+                               findRequest: findRequest)
             case .board: BeatBoardView(play: play, onJump: { id in mode = .script; jumpTarget = id }, readOnly: readOnly)
             }
         }
@@ -77,6 +79,11 @@ struct PlayDetailView: View {
                 .fixedSize()
             }
             ToolbarItemGroup {
+                if mode == .script {
+                    Button { findRequest += 1 } label: { Label("Chercher", systemImage: "magnifyingglass") }
+                        .keyboardShortcut("f", modifiers: .command)
+                        .help("Chercher dans la pièce (⌘F)")
+                }
                 // Notes belong to SHARED plays (everyone around the play, any account). The
                 // earlier CloudKit notes-on-a-published-reading path is dormant, so a solo
                 // play shows no Notes button rather than one that leads nowhere.

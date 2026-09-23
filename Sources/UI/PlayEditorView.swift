@@ -34,6 +34,11 @@ struct PlayEditorView: View {
     var notesEnabled = false
     /// Lines other people changed since my last visit: a dot in their colour.
     var changed: [String: LineEdit] = [:]
+    /// Bumped by ⌘F / the toolbar button: open the find bar (or refocus it).
+    var findRequest: Int = 0
+    @StateObject private var find = FindState()
+    /// The current find result, handed to the rows (ring + selection).
+    @State private var findHit: FindHit?
     @FocusState private var focused: UUID?
     /// Set by the code paths that MOVE focus (Return, ⌫, jump…) so the block is
     /// brought into view. A click into a line must not scroll: on the Mac the
@@ -94,6 +99,12 @@ struct PlayEditorView: View {
                 if let h = speakerHint, h.el != id { speakerHint = nil }
                 onFocusChange(id)
             }
+            .onChange(of: find.hit) { _, hit in
+                findHit = hit
+                guard let hit else { return }
+                if hit.select { moveFocus(to: hit.id) }
+                else { withAnimation(.easeOut(duration: 0.2)) { proxy.scrollTo(hit.id, anchor: .center) } }
+            }
             .onChange(of: jumpTarget) { _, target in
                 // The stack is lazy: bring the block into existence first, then
                 // focus it once its field is there.
@@ -123,7 +134,13 @@ struct PlayEditorView: View {
     }
 
     var body: some View {
-        editorBody
+        VStack(spacing: 0) {
+            if find.isPresented { FindBar(find: find, play: play, focusRequest: findRequest) }
+            editorBody
+        }
+        .onChange(of: findRequest) { _, _ in find.open() }
+        .onChange(of: find.query) { _, _ in find.rebuild(play, jump: true) }
+        .onChange(of: find.isPresented) { _, shown in if !shown { findHit = nil } }
         .navigationTitle(play.title.isEmpty ? String(localized: "Pièce sans titre") : play.title)
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
@@ -207,6 +224,7 @@ struct PlayEditorView: View {
                                others: others[el.id.uuidString] ?? [],
                                readOnly: readOnly, notesEnabled: notesEnabled,
                                changedBy: changed[el.id.uuidString],
+                               findHit: findHit?.id == el.id ? findHit : nil,
                                actions: actions)
                         .id(el.id)
                 }
@@ -378,6 +396,8 @@ private struct ElementRow: View {
     var notesEnabled = false
     /// Someone else changed this line since my last visit.
     var changedBy: LineEdit?
+    /// The current find result, when it is in this block.
+    var findHit: FindHit?
     let actions: RowActions
     @StateObject private var noteHover = NoteHover()
 
@@ -402,6 +422,12 @@ private struct ElementRow: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())
             .onTapGesture { if readOnly && notesEnabled { actions.showNotes(el) } }
+            .overlay {
+                if findHit != nil {
+                    RoundedRectangle(cornerRadius: 8).stroke(Theme.gel, lineWidth: 1.5).padding(-6)
+                        .allowsHitTesting(false)
+                }
+            }
             .overlay(alignment: .topLeading) {
                 if let e = changedBy, others.isEmpty {
                     Circle().fill(Color(hexString: PresenceChannel.color(for: e.uid))).frame(width: 7, height: 7)
@@ -452,7 +478,7 @@ private struct ElementRow: View {
         case .act:
             HStack(spacing: 12) {
                 Rectangle().fill(Theme.paperShade).frame(height: 1)
-                TextField("", text: text(\.label))
+                mainField("", \.label)
                     .font(.system(size: 16, weight: .bold)).kerning(3).foregroundStyle(Theme.ink)
                     .textFieldStyle(.plain).multilineTextAlignment(.center).fixedSize()
                     .focused(focus, equals: el.id)
@@ -462,7 +488,7 @@ private struct ElementRow: View {
 
         case .scene:
             VStack(alignment: .leading, spacing: 3) {
-                TextField("SCÈNE", text: text(\.label))
+                mainField("SCÈNE", \.label)
                     .font(.system(size: 15, weight: .bold)).kerning(2).foregroundStyle(Theme.ink)
                     .textFieldStyle(.plain)
                     .focused(focus, equals: el.id)
@@ -472,7 +498,7 @@ private struct ElementRow: View {
             }.padding(.top, 16).padding(.bottom, 8)
 
         case .stage:
-            TextField("Ce qui se passe sur scène…", text: text(\.text), axis: .vertical)
+            mainField("Ce qui se passe sur scène…", \.text, axis: .vertical)
                 .font(.system(size: 16)).foregroundStyle(Theme.inkSoft).textFieldStyle(.plain)
                 .padding(.leading, 14)
                 .overlay(alignment: .leading) { Rectangle().fill(Theme.gel.opacity(0.55)).frame(width: 2) }
@@ -481,7 +507,7 @@ private struct ElementRow: View {
                 .modifier(keys(isEmpty: (el.text ?? "").isEmpty))
 
         case .action:
-            TextField("Action…", text: text(\.text), axis: .vertical)
+            mainField("Action…", \.text, axis: .vertical)
                 .font(.system(size: 16)).foregroundStyle(Theme.ink).textFieldStyle(.plain)
                 .padding(.vertical, 6)
                 .focused(focus, equals: el.id)
@@ -509,7 +535,7 @@ private struct ElementRow: View {
                     TextField("jeu", text: text(\.parenthetical))
                         .font(.subheadline).foregroundStyle(Theme.inkFaint).textFieldStyle(.plain)
                 }
-                TextField("Sa réplique…", text: text(\.text), axis: .vertical)
+                mainField("Sa réplique…", \.text, axis: .vertical)
                     .font(.system(size: 18)).foregroundStyle(Theme.ink).textFieldStyle(.plain)
                     .focused(focus, equals: el.id)
                     .modifier(keys(isEmpty: (el.text ?? "").isEmpty))
@@ -538,6 +564,16 @@ private struct ElementRow: View {
                    onEnter: { actions.enter(el) },
                    onTab: { actions.tab(el) },
                    onBackspace: { actions.backspace(el) })
+    }
+
+    /// The block's principal field — the one find results are selected in.
+    @ViewBuilder private func mainField(_ placeholder: LocalizedStringKey, _ key: ReferenceWritableKeyPath<Element, String?>, axis: Axis = .horizontal) -> some View {
+        let field: FindHit.Field = key == \.label ? .label : .text
+        if #available(iOS 18, macOS 15, *) {
+            FindableTextField(placeholder: placeholder, text: text(key), axis: axis, hit: findHit?.field == field ? findHit : nil)
+        } else {
+            TextField(placeholder, text: text(key), axis: axis)
+        }
     }
 
     // A Binding<String> onto an optional String? model field.

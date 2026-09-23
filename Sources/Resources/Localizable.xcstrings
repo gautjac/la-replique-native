@@ -298,6 +298,16 @@
         }
       }
     },
+    "Aucun résultat": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No results"
+          }
+        }
+      }
+    },
     "Aucune": {
       "extractionState": "manual",
       "localizations": {
@@ -556,6 +566,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Every role shares a scene with another."
+          }
+        }
+      }
+    },
+    "Chercher": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Find"
+          }
+        }
+      }
+    },
+    "Chercher dans la pièce": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Find in the play"
+          }
+        }
+      }
+    },
+    "Chercher dans la pièce (⌘F)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Find in the play (⌘F)"
           }
         }
       }
@@ -1151,6 +1191,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Close"
+          }
+        }
+      }
+    },
+    "Fermer la recherche": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close find"
           }
         }
       }
@@ -2273,6 +2323,16 @@
         }
       }
     },
+    "Précédent (⇧⌘G)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous (⇧⌘G)"
+          }
+        }
+      }
+    },
     "Publie une pièce en lecture seule et envoie un simple lien web.": {
       "localizations": {
         "en": {
@@ -2695,6 +2755,26 @@
         }
       }
     },
+    "Résultat précédent": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous result"
+          }
+        }
+      }
+    },
+    "Résultat suivant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next result"
+          }
+        }
+      }
+    },
     "Résumé": {
       "extractionState": "manual",
       "localizations": {
@@ -2832,6 +2912,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Subtitle"
+          }
+        }
+      }
+    },
+    "Suivant (⌘G)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next (⌘G)"
           }
         }
       }

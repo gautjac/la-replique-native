@@ -55,6 +55,7 @@
 		A05F1B1E88C79CCB767C21FC /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CAF7D0F3D808204F504140 /* OnboardingView.swift */; };
 		A9DF84EFB50BBC69EDBE4B20 /* FirestoreComments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74ECAD72A9914A3A676FB5CA /* FirestoreComments.swift */; };
 		AA5A8DF82A5419C0ADF9AC8A /* NotesPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5980F7433419B49296420 /* NotesPanel.swift */; };
+		AA981B2BE964510F436AC992 /* FindTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CA8592EFB9A2353769B035 /* FindTests.swift */; };
 		AAA26AA4FF526AC98850793A /* Bench.swift in Sources */ = {isa = PBXBuildFile; fileRef = A764E88D36A5B7B100C5F171 /* Bench.swift */; };
 		AF2BB620AC8F247CC4FDC91B /* TableReadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B608AAA7EB25108A2B3E3D /* TableReadView.swift */; };
 		B05EEFD98E51A3222E574FD9 /* VersionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3E1659701972CAA924A220 /* VersionsView.swift */; };
@@ -80,6 +81,7 @@
 		E7F8646C3350F431A04E0FAF /* FirestoreTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CBA9F10956ED7998127711 /* FirestoreTransport.swift */; };
 		E8205092CF73B0DA78B0A2BA /* WordDiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E900425C88E66974578436F /* WordDiffTests.swift */; };
 		EF9F6BBF1AB6318AC94E434D /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC63563BBF37D30ACEB3373 /* Persistence.swift */; };
+		F1DA3DF189F9B3BE1EE7EB59 /* FindBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDD84B5616BE321A62A352F /* FindBar.swift */; };
 		F8A0AD5FC24896136D97A8F3 /* sample-play.json in Resources */ = {isa = PBXBuildFile; fileRef = 101AFC926F891560E1112D62 /* sample-play.json */; };
 		FA436608FFC864CE39B3F2C2 /* MeasuresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4340471FE7CEDA2550E7EFA /* MeasuresView.swift */; };
 		FCE26E723AE4DA2494B844FB /* PlayInfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4060A5C8C00ADBCDBC263E /* PlayInfoSheet.swift */; };
@@ -156,10 +158,12 @@
 		AFD5980F7433419B49296420 /* NotesPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesPanel.swift; sourceTree = "<group>"; };
 		B17F8610078151FC121B6AD9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		B26B2B886C6E9CBC2A0C8BB1 /* Corpus */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Corpus; sourceTree = SOURCE_ROOT; };
+		B4CA8592EFB9A2353769B035 /* FindTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindTests.swift; sourceTree = "<group>"; };
 		B5554D762F55CF36DDC8D78C /* BeatBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeatBoardView.swift; sourceTree = "<group>"; };
 		B66CD7526DDEDEDCB6D0658A /* CollabStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabStore.swift; sourceTree = "<group>"; };
 		B6AB6B1498506E1370D90058 /* FractionalIndexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FractionalIndexTests.swift; sourceTree = "<group>"; };
 		BAE010BBDAB2E9A4D1423ABB /* CollabCoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabCoreTests.swift; sourceTree = "<group>"; };
+		BCDD84B5616BE321A62A352F /* FindBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindBar.swift; sourceTree = "<group>"; };
 		BD3E1659701972CAA924A220 /* VersionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionsView.swift; sourceTree = "<group>"; };
 		BDC63563BBF37D30ACEB3373 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		BF5397281E5096C0E5BAECAA /* PlayDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayDiff.swift; sourceTree = "<group>"; };
@@ -239,6 +243,7 @@
 				E71F308F6DF97B038AAAB9C2 /* CollabSupport.swift */,
 				A9507CF6D90AADB70C1C5E0D /* CorpusTests.swift */,
 				1BC6E46EE727AAA5A2B59302 /* EditingTests.swift */,
+				B4CA8592EFB9A2353769B035 /* FindTests.swift */,
 				B6AB6B1498506E1370D90058 /* FractionalIndexTests.swift */,
 				A9107FC0CF0BD796A902EA30 /* ModelTests.swift */,
 				4B0413E46FDCB0821C6F96F0 /* NotesTests.swift */,
@@ -278,6 +283,7 @@
 				F34686CBA80DB13A0D1525CC /* CastPanel.swift */,
 				CDA11C683EC62328B559DDED /* CollabOnboardingView.swift */,
 				C0F23FB538EF6DD0F5DFE795 /* CollabViews.swift */,
+				BCDD84B5616BE321A62A352F /* FindBar.swift */,
 				69C3C821978B6672DE8775CE /* HistoryViews.swift */,
 				857AEEAED1A109D53A7D5781 /* KeyCommandHost.swift */,
 				D90D652024252A8468181983 /* KeySetupView.swift */,
@@ -490,6 +496,7 @@
 				8BC4EC837776581EDBDDBD91 /* CollabSupport.swift in Sources */,
 				94A6B272807AD0A48C6D6FC8 /* CorpusTests.swift in Sources */,
 				DAF5CCA8AA7E9B672AC57F26 /* EditingTests.swift in Sources */,
+				AA981B2BE964510F436AC992 /* FindTests.swift in Sources */,
 				D2C4E238FCB656486EAFB763 /* FractionalIndexTests.swift in Sources */,
 				0F51153FAABAEBCAA35A4C9B /* ModelTests.swift in Sources */,
 				6BFE14DD7ED1758D42BC506A /* NotesTests.swift in Sources */,
@@ -526,6 +533,7 @@
 				78209AB2A80F82A87353733A /* Comments.swift in Sources */,
 				23E6477FE66E2B3D4F326B48 /* Corpus.swift in Sources */,
 				9A7A9C9C2750F39ED7EE0874 /* Editing.swift in Sources */,
+				F1DA3DF189F9B3BE1EE7EB59 /* FindBar.swift in Sources */,
 				A9DF84EFB50BBC69EDBE4B20 /* FirestoreComments.swift in Sources */,
 				E7F8646C3350F431A04E0FAF /* FirestoreTransport.swift in Sources */,
 				B5B7504BB362752D076E756F /* FractionalIndex.swift in Sources */,
