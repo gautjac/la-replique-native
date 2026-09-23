@@ -33,6 +33,7 @@
 		6BFE14DD7ED1758D42BC506A /* NotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0413E46FDCB0821C6F96F0 /* NotesTests.swift */; };
 		6E4712F73FD07DCA5DA3F278 /* AtelierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E39FF62E4D85AF2B100A5E /* AtelierTests.swift */; };
 		7070D7FF3559AD8E5C3536B0 /* PlayFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3781D76A801FBE30D1CA53 /* PlayFormat.swift */; };
+		735A69D6A1CEC053E5DDF61A /* FindMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5349618A985A08A09D2AC8 /* FindMenu.swift */; };
 		74F62846EA100D9C6DF0B189 /* PlayEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B89EE28A54CD1EC9CD0D9 /* PlayEditorView.swift */; };
 		76E0993604414F636CCAFC3D /* HistoryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C3C821978B6672DE8775CE /* HistoryViews.swift */; };
 		78209AB2A80F82A87353733A /* Comments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18C021EFA5B1020FB23E793 /* Comments.swift */; };
@@ -145,6 +146,7 @@
 		857AEEAED1A109D53A7D5781 /* KeyCommandHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCommandHost.swift; sourceTree = "<group>"; };
 		85F69A8DE67A6A180CEF7A60 /* Editing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editing.swift; sourceTree = "<group>"; };
 		8933CDC332742C69B5B85375 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8C5349618A985A08A09D2AC8 /* FindMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMenu.swift; sourceTree = "<group>"; };
 		8E4178D968B33B66F7CEC733 /* AtelierView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtelierView.swift; sourceTree = "<group>"; };
 		8F2A96FBCFDA91492495565B /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		900CB40530FC485E1C5D7E3E /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 				CDA11C683EC62328B559DDED /* CollabOnboardingView.swift */,
 				C0F23FB538EF6DD0F5DFE795 /* CollabViews.swift */,
 				BCDD84B5616BE321A62A352F /* FindBar.swift */,
+				8C5349618A985A08A09D2AC8 /* FindMenu.swift */,
 				69C3C821978B6672DE8775CE /* HistoryViews.swift */,
 				857AEEAED1A109D53A7D5781 /* KeyCommandHost.swift */,
 				D90D652024252A8468181983 /* KeySetupView.swift */,
@@ -534,6 +537,7 @@
 				23E6477FE66E2B3D4F326B48 /* Corpus.swift in Sources */,
 				9A7A9C9C2750F39ED7EE0874 /* Editing.swift in Sources */,
 				F1DA3DF189F9B3BE1EE7EB59 /* FindBar.swift in Sources */,
+				735A69D6A1CEC053E5DDF61A /* FindMenu.swift in Sources */,
 				A9DF84EFB50BBC69EDBE4B20 /* FirestoreComments.swift in Sources */,
 				E7F8646C3350F431A04E0FAF /* FirestoreTransport.swift in Sources */,
 				B5B7504BB362752D076E756F /* FractionalIndex.swift in Sources */,

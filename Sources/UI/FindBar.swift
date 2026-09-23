@@ -144,7 +144,12 @@ struct FindBar: View {
         .padding(.horizontal, 14).padding(.vertical, 8)
         .background(Theme.deskLight)
         .overlay(alignment: .bottom) { Rectangle().fill(Theme.rule).frame(height: 1) }
-        .onAppear { focused = true }
+        .onAppear {
+            focused = true
+            #if os(macOS)
+            FindMenuBridge.shared.arm()   // the menu may have been rebuilt since the editor appeared
+            #endif
+        }
         .onChange(of: focusRequest) { _, _ in focused = true }
     }
 

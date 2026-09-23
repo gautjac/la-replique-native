@@ -37,6 +37,8 @@ struct PlayEditorView: View {
     /// Bumped by ⌘F / the toolbar button: open the find bar (or refocus it).
     var findRequest: Int = 0
     @StateObject private var find = FindState()
+    /// Our own bumps (menu ⌘F), added to the parent's, to refocus the bar.
+    @State private var findFocusBump = 0
     /// The current find result, handed to the rows (ring + selection).
     @State private var findHit: FindHit?
     @FocusState private var focused: UUID?
@@ -135,10 +137,22 @@ struct PlayEditorView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            if find.isPresented { FindBar(find: find, play: play, focusRequest: findRequest) }
+            if find.isPresented { FindBar(find: find, play: play, focusRequest: findRequest + findFocusBump) }
             editorBody
         }
         .onChange(of: findRequest) { _, _ in find.open() }
+        // Edit ▸ Find (⌘F / ⌘G / ⇧⌘G) on the Mac — see FindMenuBridge.
+        .onReceive(NotificationCenter.default.publisher(for: .findOpen)) { _ in find.open(); findFocusBump += 1 }
+        .onReceive(NotificationCenter.default.publisher(for: .findNext)) { _ in
+            if find.isPresented { find.next(play) } else { find.open(); findFocusBump += 1 }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .findPrevious)) { _ in
+            if find.isPresented { find.previous(play) } else { find.open(); findFocusBump += 1 }
+        }
+        #if os(macOS)
+        .onAppear { FindMenuBridge.shared.arm() }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in FindMenuBridge.shared.arm() }
+        #endif
         .onChange(of: find.query) { _, _ in find.rebuild(play, jump: true) }
         .onChange(of: find.isPresented) { _, shown in if !shown { findHit = nil } }
         .navigationTitle(play.title.isEmpty ? String(localized: "Pièce sans titre") : play.title)
