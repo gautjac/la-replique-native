@@ -359,6 +359,16 @@
         }
       }
     },
+    "Aussi dans un navigateur": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In a browser too"
+          }
+        }
+      }
+    },
     "Autour de la pièce": {
       "localizations": {
         "en": {
@@ -375,6 +385,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Author"
+          }
+        }
+      }
+    },
+    "Avant une lecture, enregistre une version nommée depuis le menu •••. Compare-la à maintenant ou à une autre, et restaure-la au besoin.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Before a reading, save a named version from the ••• menu. Compare it to now or to another one, and restore it if needed."
           }
         }
       }
@@ -450,6 +470,16 @@
         }
       }
     },
+    "Cette pièce est partagée : ce que tu écris apparaît chez les autres en direct, signé de ton nom.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This play is shared: what you write shows up for the others live, signed with your name."
+          }
+        }
+      }
+    },
     "Cette pièce n'est pas partagée.": {
       "localizations": {
         "en": {
@@ -480,6 +510,16 @@
         }
       }
     },
+    "Chacun garde sa copie ; tout se réconcilie au retour du réseau. Une ligne que quelqu'un d'autre est en train d'écrire se verrouille un instant, avec son nom dessus.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Everyone keeps a copy; everything reconciles when the network returns. A line someone else is writing locks for a moment, with their name on it."
+          }
+        }
+      }
+    },
     "Changements": {
       "localizations": {
         "en": {
@@ -496,6 +536,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Changed by %@"
+          }
+        }
+      }
+    },
+    "Chaque changement est signé : qui, quand, quels mots. Le bouton de l'horloge en haut les liste ; « Restaurer ce texte » ramène la version d'avant en un geste.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Every change is signed: who, when, which words. The clock button at the top lists them; \"Restore this text\" brings back the earlier version in one tap."
           }
         }
       }
@@ -660,6 +710,16 @@
         }
       }
     },
+    "Compris": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Got it"
+          }
+        }
+      }
+    },
     "Comédien·ne %lld": {
       "localizations": {
         "en": {
@@ -802,12 +862,12 @@
         }
       }
     },
-    "Dans La Réplique : Rejoindre une pièce, puis ce code.": {
+    "Dans l'app : Rejoindre une pièce, puis ce code. Sans appareil Apple : la-replique.netlify.app/ecrire, même code.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "In La Réplique: Join a play, then this code."
+            "value": "In the app: Join a play, then this code. Without an Apple device: la-replique.netlify.app/ecrire, same code."
           }
         }
       }
@@ -1166,6 +1226,16 @@
         }
       }
     },
+    "Hors ligne, sans souci": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offline, no worries"
+          }
+        }
+      }
+    },
     "Importer": {
       "localizations": {
         "en": {
@@ -1275,6 +1345,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "The Atelier, at hand"
+          }
+        }
+      }
+    },
+    "L'historique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "History"
           }
         }
       }
@@ -1433,6 +1513,16 @@
         }
       }
     },
+    "Le texte est revenu au même.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The text ended up the same."
+          }
+        }
+      }
+    },
     "Lecture du 3 octobre…": {
       "localizations": {
         "en": {
@@ -1483,12 +1573,22 @@
         }
       }
     },
-    "Les personnes que tu invites voient le texte changer en direct — sur iPhone, iPad, Mac, et bientôt dans un navigateur. Chacun garde sa copie hors ligne ; tout se réconcilie au retour du réseau.": {
+    "Les personnes que tu invites voient le texte changer en direct — sur iPhone, iPad, Mac, ou dans un navigateur. Chacun garde sa copie hors ligne ; tout se réconcilie au retour du réseau.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The people you invite see the text change live — on iPhone, iPad, Mac, and soon in a browser. Everyone keeps an offline copy; it all reconciles when the network returns."
+            "value": "The people you invite see the text change live — on iPhone, iPad, Mac, or in a browser. Everyone keeps an offline copy; everything reconciles when the network returns."
+          }
+        }
+      }
+    },
+    "Les versions": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versions"
           }
         }
       }
@@ -2006,6 +2106,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Not shared yet"
+          }
+        }
+      }
+    },
+    "Passe sur une réplique et touche la bulle à sa droite. Le survol montre l'aperçu des notes ; un double-clic ouvre le fil pour répondre ou régler.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hover or tap a line and hit the bubble on its right. Hovering shows a preview of the notes; a double-click opens the thread to reply or resolve."
           }
         }
       }
@@ -2646,6 +2756,16 @@
         }
       }
     },
+    "Sans appareil Apple, on écrit avec le même code sur la-replique.netlify.app/ecrire — mêmes notes, même historique, mêmes versions.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Without an Apple device, write with the same code at la-replique.netlify.app/ecrire — same notes, same history, same versions."
+          }
+        }
+      }
+    },
     "Sans nom": {
       "localizations": {
         "en": {
@@ -2907,6 +3027,26 @@
         }
       }
     },
+    "Trois rôles": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Three roles"
+          }
+        }
+      }
+    },
+    "Tu retrouves cette page dans le menu ••• : « À plusieurs : comment ça marche ».": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can find this page again in the ••• menu: \"Together: how it works\"."
+          }
+        }
+      }
+    },
     "Tu signes": {
       "localizations": {
         "en": {
@@ -2973,6 +3113,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "A note about the play as a whole…"
+          }
+        }
+      }
+    },
+    "Une note, sur une ligne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A note, on a line"
           }
         }
       }
@@ -3155,16 +3305,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "edited a line"
-          }
-        }
-      }
-    },
-    "a retouché une ligne (%lld passes)": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "edited a line (%lld passes)"
           }
         }
       }
@@ -3352,6 +3492,16 @@
         }
       }
     },
+    "À plusieurs : comment ça marche": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Together: how it works"
+          }
+        }
+      }
+    },
     "À plusieurs · connexion…": {
       "localizations": {
         "en": {
@@ -3389,6 +3539,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Write"
+          }
+        }
+      }
+    },
+    "Écrire change le texte. Commenter laisse des notes sans toucher au texte. Lire regarde. La personne qui a partagé la pièce choisit le rôle de chaque invitation, et peut le changer après.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Write changes the text. Comment leaves notes without touching the text. Read just reads. Whoever shared the play picks each invitation's role, and can change it later."
           }
         }
       }

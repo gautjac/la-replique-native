@@ -38,6 +38,7 @@
 		78209AB2A80F82A87353733A /* Comments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18C021EFA5B1020FB23E793 /* Comments.swift */; };
 		782889A9A1C16DBE7E6C9183 /* CollabCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CBE95B878078C800E6EF /* CollabCore.swift */; };
 		783AC1EB4EA2643A1CCCA580 /* CollabBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD768604539DF9DA5A51CDD /* CollabBackend.swift */; };
+		78CDED52DAF708A4319F6BE3 /* CollabOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA11C683EC62328B559DDED /* CollabOnboardingView.swift */; };
 		79099219C4624E5A57F47E28 /* Intents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5165603F4EAD5377B4FD5B /* Intents.swift */; };
 		7DEFA89B4B424DDEB401BBD4 /* CastPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34686CBA80DB13A0D1525CC /* CastPanel.swift */; };
 		7E3C02856E281B07E978E768 /* Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D6E9ECE6DF32532DE93DF9 /* Stats.swift */; };
@@ -166,6 +167,7 @@
 		C0F23FB538EF6DD0F5DFE795 /* CollabViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabViews.swift; sourceTree = "<group>"; };
 		C18C021EFA5B1020FB23E793 /* Comments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comments.swift; sourceTree = "<group>"; };
 		C4340471FE7CEDA2550E7EFA /* MeasuresView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasuresView.swift; sourceTree = "<group>"; };
+		CDA11C683EC62328B559DDED /* CollabOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabOnboardingView.swift; sourceTree = "<group>"; };
 		D054ECA47C669F0F6E230E68 /* LanguagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePicker.swift; sourceTree = "<group>"; };
 		D291496DFC430C366F8204C3 /* CollabPresence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabPresence.swift; sourceTree = "<group>"; };
 		D4A4263EEE0211E43F038787 /* LaRepliqueTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LaRepliqueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -274,6 +276,7 @@
 				8E4178D968B33B66F7CEC733 /* AtelierView.swift */,
 				B5554D762F55CF36DDC8D78C /* BeatBoardView.swift */,
 				F34686CBA80DB13A0D1525CC /* CastPanel.swift */,
+				CDA11C683EC62328B559DDED /* CollabOnboardingView.swift */,
 				C0F23FB538EF6DD0F5DFE795 /* CollabViews.swift */,
 				69C3C821978B6672DE8775CE /* HistoryViews.swift */,
 				857AEEAED1A109D53A7D5781 /* KeyCommandHost.swift */,
@@ -514,6 +517,7 @@
 				782889A9A1C16DBE7E6C9183 /* CollabCore.swift in Sources */,
 				35B8E1E6E7ABB3A8D012C11F /* CollabDebug.swift in Sources */,
 				625A909D2413B9990C6D7022 /* CollabModel.swift in Sources */,
+				78CDED52DAF708A4319F6BE3 /* CollabOnboardingView.swift in Sources */,
 				016030B515B62A4EE84A8895 /* CollabPresence.swift in Sources */,
 				D09C1EB481378C2B0808A111 /* CollabSession.swift in Sources */,
 				3D292B390603CD8D9D509024 /* CollabStore.swift in Sources */,

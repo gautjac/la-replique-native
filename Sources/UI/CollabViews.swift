@@ -175,7 +175,7 @@ struct CollabSheet: View {
     @ViewBuilder private var shareSection: some View {
         VStack(alignment: .leading, spacing: 14) {
             Label("Une pièce, plusieurs mains", systemImage: "person.2").font(.headline).foregroundStyle(.white)
-            Text("Les personnes que tu invites voient le texte changer en direct — sur iPhone, iPad, Mac, et bientôt dans un navigateur. Chacun garde sa copie hors ligne ; tout se réconcilie au retour du réseau.")
+            Text("Les personnes que tu invites voient le texte changer en direct — sur iPhone, iPad, Mac, ou dans un navigateur. Chacun garde sa copie hors ligne ; tout se réconcilie au retour du réseau.")
                 .foregroundStyle(Theme.inkFaint).fixedSize(horizontal: false, vertical: true)
             Text("Une pièce partagée quitte ton iCloud privé : elle est conservée sur le serveur de La Réplique, accessible aux seules personnes invitées.")
                 .font(.footnote).foregroundStyle(Theme.inkFaint).fixedSize(horizontal: false, vertical: true)
@@ -217,7 +217,7 @@ struct CollabSheet: View {
                         ShareLink(item: invite.url) { Label("Envoyer le lien", systemImage: "square.and.arrow.up").frame(maxWidth: .infinity) }
                     }
                     .buttonStyle(.bordered)
-                    Text("Dans La Réplique : Rejoindre une pièce, puis ce code.")
+                    Text("Dans l'app : Rejoindre une pièce, puis ce code. Sans appareil Apple : la-replique.netlify.app/ecrire, même code.")
                         .font(.caption).foregroundStyle(Theme.inkFaint)
                 }
             }

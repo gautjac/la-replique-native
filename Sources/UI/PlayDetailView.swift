@@ -13,6 +13,8 @@ struct PlayDetailView: View {
     @State private var showSharedVersions = false
     @ObservedObject private var presence: PresenceChannel
     @State private var showCollab = false
+    @State private var showCollabHelp = false
+    @AppStorage("collab.onboarded") private var collabOnboarded = false
     @State private var mode: Mode = .script
     @State private var jumpTarget: UUID?
     @State private var showCast = false
@@ -119,6 +121,7 @@ struct PlayDetailView: View {
                         Button { showCollab = true } label: {
                             Label(collab == nil ? "Écrire à plusieurs…" : "Inviter…", systemImage: "person.2.badge.plus")
                         }
+                        Button { showCollabHelp = true } label: { Label("À plusieurs : comment ça marche", systemImage: "questionmark.circle") }
                     }
                     Divider()
                     InterfaceLanguageRows(asSubmenu: true)
@@ -152,6 +155,9 @@ struct PlayDetailView: View {
                 HistoryView(play: play, session: collab, onJump: { id in mode = .script; jumpTarget = id })
             }
         }
+        .sheet(isPresented: $showCollabHelp, onDismiss: { collabOnboarded = true }) { CollabOnboardingView() }
+        // The first shared play to open on this device explains itself.
+        .task { if collab != nil, !collabOnboarded { showCollabHelp = true } }
         .sheet(isPresented: $showSharedVersions) {
             if let collab { SharedVersionsView(play: play, session: collab) }
         }
