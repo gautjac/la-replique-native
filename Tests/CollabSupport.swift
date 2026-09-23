@@ -38,6 +38,9 @@ final class Peer {
     private(set) var core: CollabCore
     let server: FakeServer
     var online = true
+    /// Called after every batch the engine applies — to catch a value the user
+    /// would have SEEN for an instant, even if a later batch put it right.
+    var observe: (() -> Void)?
 
     private var queued: [CollabOp] = []                       // written locally, not yet sent
     private var sent: [(op: CollabOp, version: Int)] = []     // sent, awaiting our listener catching up
@@ -87,8 +90,11 @@ final class Peer {
             }
         }
         seen = upTo
+        // A write the server just confirmed comes back once more as a data change
+        // (its server timestamp resolves) even though the overlay already showed it.
+        let acked = Set(sent.filter { $0.version <= seen }.map(\.op.ref))
         sent.removeAll { $0.version <= seen }
-        deliver()
+        deliver(again: acked)
     }
 
     private func composed() -> [EntityRef: Fields] {
@@ -107,14 +113,15 @@ final class Peer {
         return view
     }
 
-    private func deliver() {
+    private func deliver(again: Set<EntityRef> = []) {
         let view = composed()
         var changes: [RemoteChange] = []
-        for (r, f) in view where lastView[r] != f { changes.append(.upsert(r, f)) }
+        for (r, f) in view where lastView[r] != f || again.contains(r) { changes.append(.upsert(r, f)) }
         for r in lastView.keys where view[r] == nil { changes.append(.removed(r)) }
         lastView = view
         guard !changes.isEmpty else { return }
         let mine = core.applyRemote(changes)
+        observe?()
         queued += mine
         // Writes issued during a callback change what the listener sees, and a real
         // SDK then reports THAT (e.g. `removed` for a line we just deleted). Swallowing

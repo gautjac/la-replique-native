@@ -83,9 +83,15 @@ private struct HistoryRow: View {
             if let who = entry.speaker { Text(who).font(.caption.weight(.bold)).kerning(1).foregroundStyle(Theme.gelBright) }
             switch entry.kind {
             case .edit:
-                // One run: the words that went, struck through; the words that came, in the author's colour.
-                Text(WordDiff.attributed(entry.textBefore ?? "", entry.textAfter ?? "", author: authorColor))
-                    .font(.callout).fixedSize(horizontal: false, vertical: true)
+                // Only the verses that changed: the words that went, struck through;
+                // the words that came, in the author's colour.
+                let before = entry.textBefore ?? "", after = entry.textAfter ?? ""
+                if WordDiff.hasChange(before, after) {
+                    Text(WordDiff.attributed(before, after, author: authorColor))
+                        .font(.callout).fixedSize(horizontal: false, vertical: true)
+                } else {
+                    Text("Le texte est revenu au même.").font(.callout).foregroundStyle(Theme.inkFaint)
+                }
             case .delete:
                 if let b = entry.textBefore, !b.isEmpty {
                     Text(b).font(.callout).foregroundStyle(Theme.rose.opacity(0.9)).strikethrough().fixedSize(horizontal: false, vertical: true)

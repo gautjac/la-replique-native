@@ -134,6 +134,27 @@ final class CollabCoreTests: XCTestCase {
         XCTAssertEqual(b.line("Un autre.")?.id, l.id)
     }
 
+    /// Jac's cursor jumped while typing (2026-09-22): the server's confirmation
+    /// of the last tick's text arrived as a data change (its timestamp resolved),
+    /// and the engine — having just flushed the newer text — took the older
+    /// value for news and wrote it back over what was typed since.
+    func testTypingBetweenTicksSurvivesTheEchoOfTheLastTick() throws {
+        let (_, a, o) = try table(); let b = o[0]
+        let l = a.line("Un.")!
+        l.text = "Un a"; a.tick(); a.upload()                 // sent
+        l.text = "Un au"                                      // typed since, not yet ticked
+        var seen: [String] = []
+        a.observe = { seen.append(l.text ?? "") }
+        a.receive()                                           // the confirmation of "Un a" lands now
+        XCTAssertEqual(l.text, "Un au")
+        XCTAssertEqual(Set(seen), ["Un au"], "an echo of my own write must never undo what I typed since, not even for an instant: \(seen)")
+        a.tick(); a.upload(); a.receive()
+        XCTAssertEqual(l.text, "Un au")
+        settle([a, b])
+        XCTAssertEqual(b.line("Un au")?.id, l.id)
+        XCTAssertEqual(a.fingerprint, b.fingerprint)
+    }
+
     func testOfflineEditsMergeOnReconnect_EvenAcrossARelaunch() throws {
         let (_, a, o) = try table(); let b = o[0]
         b.online = false

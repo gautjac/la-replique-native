@@ -118,6 +118,10 @@ final class CollabCore {
     /// are returned for the caller to send.
     @discardableResult
     func applyRemote(_ changes: [RemoteChange]) -> [CollabOp] {
+        // What both sides agreed on BEFORE this flush: an incoming value equal to
+        // it is our own echo (the server confirming what we sent, or its timestamp
+        // resolving), not news — and must not undo what was typed since.
+        let agreed = shadow
         let mine = flushLocal()
         // A line I deleted a moment ago (not yet flushed when this batch was
         // composed) may still arrive as "edited by someone else". Delete wins:
@@ -129,7 +133,7 @@ final class CollabCore {
             case .upsert(let ref, let theirs):
                 if justDeleted.contains(ref) { continue }
                 let was = shadow[ref]
-                if was == theirs { continue }                         // our own echo, or nothing new
+                if was == theirs || agreed[ref] == theirs { continue }   // our own echo, or nothing new
                 shadow[ref] = theirs
                 if ref.kind == .element, was?[CollabField.orderKey] != theirs[CollabField.orderKey] { orderTouched = true }
                 write(ref, theirs, changed: Self.changedKeys(from: was, to: theirs))

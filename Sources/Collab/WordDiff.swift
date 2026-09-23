@@ -2,13 +2,17 @@ import SwiftUI
 
 /// A word-level comparison of two texts — what the history and the version
 /// comparison show instead of the whole line twice. Tokens are runs of
-/// non-blanks and runs of blanks; the diff is a plain LCS (deterministic, no
-/// heuristics) so the web twin `src/collab/wordDiff.ts` produces the same
-/// segments on the same input (shared test vectors).
+/// non-blanks, runs of blanks, and single newlines; the diff is a plain LCS
+/// (deterministic, no heuristics) so the web twin `src/collab/wordDiff.ts`
+/// produces the same segments on the same input (shared test vectors).
+///
+/// A long cue is then *focused*: only the verses that changed, with one verse
+/// of context on each side, and « ⋯ » where verses were skipped.
 enum WordDiff {
     enum Segment: Equatable {
         case same(String), removed(String), inserted(String)
         var text: String { switch self { case .same(let s), .removed(let s), .inserted(let s): return s } }
+        var isSame: Bool { if case .same = self { return true }; return false }
     }
 
     static func tokens(_ s: String) -> [String] {
@@ -16,7 +20,12 @@ enum WordDiff {
         var cur = ""
         var blank: Bool?
         for ch in s {
-            let b = ch.isWhitespace || ch.isNewline
+            if ch == "\n" {
+                if !cur.isEmpty { out.append(cur); cur = "" }
+                out.append("\n"); blank = nil
+                continue
+            }
+            let b = ch.isWhitespace
             if let blank, blank != b { out.append(cur); cur = "" }
             cur.append(ch); blank = b
         }
@@ -73,18 +82,87 @@ enum WordDiff {
         return out
     }
 
-    /// The diff as one attributed run: removed words struck through in rose,
-    /// inserted words in the author's colour, the rest as is.
-    static func attributed(_ old: String, _ new: String, author: Color, base: Color = .white.opacity(0.92)) -> AttributedString {
-        var result = AttributedString()
-        for seg in compute(old, new) {
-            var s = AttributedString(seg.text)
-            switch seg {
-            case .same: s.foregroundColor = base
-            case .removed: s.foregroundColor = Theme.rose.opacity(0.9); s.strikethroughStyle = .single
-            case .inserted: s.foregroundColor = author; s.font = .callout.weight(.semibold)
+    // MARK: lines and focus
+
+    /// The merged diff, verse by verse.
+    struct Line: Equatable {
+        var segments: [Segment] = []
+        var changed = false
+    }
+    enum Focused: Equatable { case line(Line), gap }
+
+    /// A newline that came or went shows as « ↵ » in the change's colour: an
+    /// inserted break ends the verse there; a removed one joins two verses.
+    static let newlineMark = "↵"
+
+    static func lines(_ segs: [Segment]) -> [Line] {
+        var out: [Line] = []
+        var cur = Line()
+        func push(_ s: Segment) { cur.segments.append(s); if !s.isSame { cur.changed = true } }
+        for seg in segs {
+            let parts = seg.text.split(separator: "\n", omittingEmptySubsequences: false)
+            for (i, part) in parts.enumerated() {
+                if i > 0 {
+                    switch seg {
+                    case .same: out.append(cur); cur = Line()
+                    case .inserted: push(.inserted(newlineMark)); out.append(cur); cur = Line()
+                    case .removed: push(.removed(newlineMark))
+                    }
+                }
+                if !part.isEmpty {
+                    let t = String(part)
+                    switch seg { case .same: push(.same(t)); case .inserted: push(.inserted(t)); case .removed: push(.removed(t)) }
+                }
             }
-            result.append(s)
+        }
+        out.append(cur)
+        return out
+    }
+
+    /// Only the verses that changed, `context` verses around each, « ⋯ » between.
+    /// A short text (up to `showAllUpTo` verses) is shown whole.
+    static func focus(_ lines: [Line], context: Int = 1, showAllUpTo: Int = 4) -> [Focused] {
+        if lines.count <= showAllUpTo || !lines.contains(where: \.changed) { return lines.map { .line($0) } }
+        var keep = Set<Int>()
+        for (i, l) in lines.enumerated() where l.changed {
+            for k in max(0, i - context)...min(lines.count - 1, i + context) { keep.insert(k) }
+        }
+        var out: [Focused] = []
+        for (i, l) in lines.enumerated() {
+            if keep.contains(i) { out.append(.line(l)) }
+            else if out.last != .gap { out.append(.gap) }
+        }
+        return out
+    }
+
+    static func hasChange(_ old: String, _ new: String) -> Bool { !compute(old, new).allSatisfy(\.isSame) }
+
+    // MARK: rendering
+
+    /// The diff as one attributed run: removed words struck through in rose,
+    /// inserted words in the author's colour, the rest as is; focused on the
+    /// verses that changed unless `focused` is false.
+    static func attributed(_ old: String, _ new: String, author: Color, base: Color = .white.opacity(0.92), focused: Bool = true) -> AttributedString {
+        let ls = lines(compute(old, new))
+        let items = focused ? focus(ls) : ls.map { .line($0) }
+        var result = AttributedString()
+        for (i, item) in items.enumerated() {
+            if i > 0 { result.append(AttributedString("\n")) }
+            switch item {
+            case .gap:
+                var g = AttributedString("⋯"); g.foregroundColor = Theme.inkFaint
+                result.append(g)
+            case .line(let line):
+                for seg in line.segments {
+                    var s = AttributedString(seg.text)
+                    switch seg {
+                    case .same: s.foregroundColor = base
+                    case .removed: s.foregroundColor = Theme.rose.opacity(0.9); s.strikethroughStyle = .single
+                    case .inserted: s.foregroundColor = author; s.font = .callout.weight(.semibold)
+                    }
+                    result.append(s)
+                }
+            }
         }
         return result
     }
