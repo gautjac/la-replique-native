@@ -35,6 +35,11 @@ struct PlayEditorView: View {
     /// Lines other people changed since my last visit: a dot in their colour.
     var changed: [String: LineEdit] = [:]
     @FocusState private var focused: UUID?
+    /// Set by the code paths that MOVE focus (Return, ⌫, jump…) so the block is
+    /// brought into view. A click into a line must not scroll: on the Mac the
+    /// text would slide under the pressed mouse and the release would read as a
+    /// drag — selecting a run of verses instead of placing the cursor.
+    @State private var scrollOnFocus = false
 
     @State private var newCharName = ""
     @State private var newCharTarget: UUID?
@@ -76,7 +81,13 @@ struct PlayEditorView: View {
             }
             .background(Theme.desk)
             .onChange(of: focused) { _, id in
-                if let id { withAnimation(.easeOut(duration: 0.2)) { proxy.scrollTo(id, anchor: .center) } }
+                #if os(macOS)
+                let bring = scrollOnFocus
+                #else
+                let bring = true
+                #endif
+                scrollOnFocus = false
+                if let id, bring { withAnimation(.easeOut(duration: 0.2)) { proxy.scrollTo(id, anchor: .center) } }
                 #if os(iOS)
                 editorFocus.id = id
                 #endif
@@ -250,9 +261,15 @@ struct PlayEditorView: View {
 
     // MARK: Ops
 
+    /// Focus a block and bring it into view (keyboard-driven moves only).
+    private func moveFocus(to id: UUID?) {
+        scrollOnFocus = true
+        focused = id
+    }
+
     private func startWriting() {
         let el = Editing.insert(.cue, after: nil, play: play, context: context)
-        focused = el.id
+        moveFocus(to: el.id)
     }
     private func onEnter(_ el: Element) {
         // If a speaker suggestion is showing for this cue, Return picks it
@@ -263,7 +280,7 @@ struct PlayEditorView: View {
         }
         let other = Editing.alternateSpeaker(play, after: el)
         let new = Editing.insert(.cue, after: el, play: play, context: context, speaker: other)
-        focused = new.id
+        moveFocus(to: new.id)
     }
 
     /// Show/refresh the speaker suggestion while the cue's line is a single
@@ -304,7 +321,7 @@ struct PlayEditorView: View {
     }
     private func onBackspace(_ el: Element) {
         let prev = Editing.remove(el, play: play, context: context)
-        focused = prev?.id
+        moveFocus(to: prev?.id)
     }
     private func handleTypeAhead(_ el: Element, _ value: String) {
         guard el.kind == .cue, let last = value.last, last == " " || last == ":" else { return }
