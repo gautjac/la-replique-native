@@ -109,6 +109,33 @@ public struct ClaudeClient: Sendable {
     /// }
     /// ```
     public func stream(_ request: ClaudeRequest) -> AsyncThrowingStream<ClaudeStreamEvent, Error> {
+        makeStream(request, onUsage: nil)
+    }
+
+    /// Same as ``stream(_:)``, plus the call's token usage — the only way to
+    /// see prompt-cache hits (`cacheReadInputTokens`) on a streamed call.
+    ///
+    /// `onUsage` fires once, before the `.stop` event is yielded: the counts
+    /// from `message_start` (input + cache) merged with the cumulative ones
+    /// from `message_delta` (output). A stream that ends without
+    /// `message_delta` reports what it saw at the end.
+    ///
+    /// ```swift
+    /// for try await event in client.stream(request, onUsage: { u in
+    ///     print("cache_read=\(u.cacheReadInputTokens ?? 0) cache_write=\(u.cacheCreationInputTokens ?? 0)")
+    /// }) { … }
+    /// ```
+    public func stream(
+        _ request: ClaudeRequest,
+        onUsage: @escaping @Sendable (ClaudeResponse.Usage) -> Void
+    ) -> AsyncThrowingStream<ClaudeStreamEvent, Error> {
+        makeStream(request, onUsage: onUsage)
+    }
+
+    private func makeStream(
+        _ request: ClaudeRequest,
+        onUsage: (@Sendable (ClaudeResponse.Usage) -> Void)?
+    ) -> AsyncThrowingStream<ClaudeStreamEvent, Error> {
         AsyncThrowingStream { continuation in
             let task = Task {
                 do {
@@ -132,10 +159,19 @@ public struct ClaudeClient: Sendable {
                     }
 
                     var parser = SSEParser()
+                    var usageReported = false
                     for try await line in bytes.lines {
-                        for event in try parser.consume(line: line) {
+                        let events = try parser.consume(line: line)
+                        if let onUsage, !usageReported, parser.usageIsFinal, let usage = parser.usage {
+                            onUsage(usage)
+                            usageReported = true
+                        }
+                        for event in events {
                             continuation.yield(event)
                         }
+                    }
+                    if let onUsage, !usageReported, let usage = parser.usage {
+                        onUsage(usage)
                     }
                     continuation.finish()
                 } catch {
@@ -171,12 +207,14 @@ public struct ClaudeClient: Sendable {
         let temperature: Double?
         let tools: [ClaudeTool]?
         let toolChoice: ClaudeToolChoice?
+        let cacheControl: ClaudeCacheControl?
         let stream: Bool?
 
         private enum CodingKeys: String, CodingKey {
             case model, system, messages, temperature, tools, stream
             case maxTokens = "max_tokens"
             case toolChoice = "tool_choice"
+            case cacheControl = "cache_control"
         }
     }
 
@@ -199,9 +237,17 @@ public struct ClaudeClient: Sendable {
             temperature: request.temperature,
             tools: request.tools,
             toolChoice: request.toolChoice,
+            cacheControl: request.cacheControl,
             stream: stream ? true : nil
         )
-        urlRequest.httpBody = try JSONEncoder().encode(body)
+        // Sorted keys = the same request always encodes to the same bytes.
+        // A Swift dictionary (every `JSONValue.object`, i.e. every tool schema)
+        // iterates in a per-instance, per-process order, so plain JSONEncoder
+        // reshuffles schema keys between builds and launches — and since tools
+        // render first in the prompt, one reshuffle invalidates the whole cache.
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]
+        urlRequest.httpBody = try encoder.encode(body)
         return urlRequest
     }
 
@@ -256,6 +302,28 @@ struct SSEParser {
         let contentBlock: BlockSpec?
         let delta: Delta?
         let error: ErrorSpec?
+        /// `message_start` only: the message shell, whose usage carries the
+        /// input and prompt-cache counts.
+        let message: MessageSpec?
+        /// `message_delta` only: cumulative usage at the end of the message.
+        let usage: LenientUsage?
+
+        // Usage can never cost us an event: both wrappers decode a shape they
+        // can't read to nil instead of failing the whole payload.
+        struct MessageSpec: Decodable {
+            let usage: ClaudeResponse.Usage?
+            private enum CodingKeys: String, CodingKey { case usage }
+            init(from decoder: Decoder) throws {
+                usage = try? decoder.container(keyedBy: CodingKeys.self)
+                    .decodeIfPresent(ClaudeResponse.Usage.self, forKey: .usage)
+            }
+        }
+        struct LenientUsage: Decodable {
+            let value: ClaudeResponse.Usage?
+            init(from decoder: Decoder) throws {
+                value = try? ClaudeResponse.Usage(from: decoder)
+            }
+        }
 
         struct BlockSpec: Decodable {
             let type: String
@@ -280,12 +348,23 @@ struct SSEParser {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type, index, delta, error
+            case type, index, delta, error, message, usage
             case contentBlock = "content_block"
         }
     }
 
     private var pending: [Int: PendingBlock] = [:]
+
+    /// Token usage seen so far (nil until the stream reports any).
+    private(set) var usage: ClaudeResponse.Usage?
+    /// True once `message_delta` has delivered the final counts.
+    private(set) var usageIsFinal = false
+
+    private mutating func record(_ newer: ClaudeResponse.Usage?, final: Bool) {
+        guard let newer else { return }
+        usage = usage.map { $0.overlaid(by: newer) } ?? newer
+        if final { usageIsFinal = true }
+    }
 
     /// Consume one line of the SSE stream.
     mutating func consume(line: String) throws -> [ClaudeStreamEvent] {
@@ -298,6 +377,10 @@ struct SSEParser {
         else { return [] }
 
         switch payload.type {
+        case "message_start":
+            record(payload.message?.usage, final: false)
+            return []
+
         case "content_block_start":
             if let index = payload.index, let block = payload.contentBlock {
                 switch block.type {
@@ -341,6 +424,7 @@ struct SSEParser {
             return [.toolUse(id: id, name: name, input: input)]
 
         case "message_delta":
+            record(payload.usage?.value, final: true)
             if let stop = payload.delta?.stopReason {
                 return [.stop(reason: stop)]
             }
@@ -352,8 +436,21 @@ struct SSEParser {
             if type == "overloaded_error" { throw ClaudeError.overloaded }
             throw ClaudeError.server(type: type, message: message)
 
-        default: // message_start, message_stop, ping...
+        default: // message_stop, ping...
             return []
         }
+    }
+}
+
+extension ClaudeResponse.Usage {
+    /// `newer`'s counts where it has them, ours otherwise — `message_delta`
+    /// usage is cumulative but may omit what `message_start` already said.
+    func overlaid(by newer: Self) -> Self {
+        Self(
+            inputTokens: newer.inputTokens ?? inputTokens,
+            outputTokens: newer.outputTokens ?? outputTokens,
+            cacheCreationInputTokens: newer.cacheCreationInputTokens ?? cacheCreationInputTokens,
+            cacheReadInputTokens: newer.cacheReadInputTokens ?? cacheReadInputTokens
+        )
     }
 }

@@ -101,6 +101,33 @@ final class DramaturgeTests: XCTestCase {
         XCTAssertEqual(AnswerText.blocks("Deux pistes :\n- couper\n- entrer\nVoilà."), [.paragraph("Deux pistes :"), .bullets(["couper", "entrer"]), .paragraph("Voilà.")])
         XCTAssertEqual(AnswerText.blocks(""), [])
     }
+    /// The play rides in the cached prefix, after the 1h corpus: a follow-up
+    /// question reads it from cache instead of paying for it again.
+    func testDramaturgePlayIsTheLastCachedSystemBlock() throws {
+        let r = try Atelier.dramaturgeRequest(lang: .fr, question: "Que veut Alice ?", play: "ALICE\nNon.", title: "La Marée",
+                                              cast: ["ALICE", "BRUNO"], history: [])
+        let blocks = try XCTUnwrap(r.systemBlocks)
+        XCTAssertEqual(blocks.count, 4)
+        XCTAssertEqual(blocks[0].cacheControl, ClaudeCacheControl(ttl: .oneHour))  // core
+        XCTAssertEqual(blocks[1].cacheControl, ClaudeCacheControl(ttl: .oneHour))  // dramaturge extras
+        XCTAssertNil(blocks[2].cacheControl)                                        // task prompt
+        XCTAssertEqual(blocks[3].cacheControl, ClaudeCacheControl())                // the play, 5 min, after the 1h blocks
+        XCTAssertEqual(blocks[3].text, "<piece langue=\"fr\">\nTitre : La Marée\nDistribution : ALICE, BRUNO\n\nALICE\nNon.\n</piece>")
+        XCTAssertLessThanOrEqual(blocks.filter { $0.cacheControl != nil }.count, 4)
+        XCTAssertEqual(r.messages, [.user("Que veut Alice ?")])
+        XCTAssertEqual(r.toolChoice, .tool("reponse"))
+    }
+
+    func testDramaturgeFollowUpKeepsTheWholeCachedPrefix() throws {
+        let play = "ALICE\nNon.\n\nBRUNO\nOuvre."
+        let q1 = try Atelier.dramaturgeRequest(lang: .fr, question: "Q1", play: play, title: nil, cast: ["ALICE"], history: [])
+        let q2 = try Atelier.dramaturgeRequest(lang: .fr, question: "Q2", play: play, title: nil, cast: ["ALICE"],
+                                               history: [DramaturgeTurn(role: "user", text: "Q1"), DramaturgeTurn(role: "assistant", text: "R1")])
+        XCTAssertEqual(q1.tools, q2.tools)
+        XCTAssertEqual(q1.systemBlocks, q2.systemBlocks)   // tools + system identical → question 2 reads corpus + play
+        XCTAssertEqual(q2.messages, [.user("Q1"), .assistant("R1"), .user("Q2")])
+    }
+
     func testDramaturgeResDecodes() throws {
         let r = try JSONDecoder().decode(DramaturgeRes.self, from: Data(#"{"answer":"Alice veut qu'il parte.","followups":["Et Bruno ?"]}"#.utf8))
         XCTAssertEqual(r.followups, ["Et Bruno ?"])

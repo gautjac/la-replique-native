@@ -113,16 +113,22 @@ public struct ClaudeTool: Sendable, Equatable, Codable {
     public var description: String
     /// A JSON Schema, expressible as a Swift literal (see ``JSONValue``).
     public var inputSchema: JSONValue
+    /// Optional prompt-cache breakpoint (`cache_control`). Tools render first
+    /// in the prompt, so a marker on the LAST tool caches the whole tool list —
+    /// useful when the tools are big and the system prompt is small or varies.
+    public var cacheControl: ClaudeCacheControl?
 
     private enum CodingKeys: String, CodingKey {
         case name, description
         case inputSchema = "input_schema"
+        case cacheControl = "cache_control"
     }
 
-    public init(name: String, description: String, inputSchema: JSONValue) {
+    public init(name: String, description: String, inputSchema: JSONValue, cacheControl: ClaudeCacheControl? = nil) {
         self.name = name
         self.description = description
         self.inputSchema = inputSchema
+        self.cacheControl = cacheControl
     }
 }
 
@@ -169,14 +175,29 @@ public struct ClaudeRequest: Sendable, Equatable {
     public var systemBlocks: [ClaudeSystemBlock]?
     /// The conversation so far; must end on a `user` turn.
     public var messages: [ClaudeMessage]
-    /// Sampling temperature 0...1. Leave nil for the model default (some
-    /// models — opus, fable — reject an explicit temperature).
+    /// Sampling temperature 0...1. **Leave nil on every current model.**
+    ///
+    /// `temperature`, `top_p` and `top_k` were removed from the API: Opus 4.7
+    /// and later reject any value with a 400, and Sonnet 5 rejects any
+    /// non-default one. Only the older ids reachable through `.custom` still
+    /// accept it, which is the sole reason this stays. Steer tone and variance
+    /// from the prompt instead. (Encoded with `encodeIfPresent`, so a nil never
+    /// reaches the wire.)
     public var temperature: Double?
     /// Tool definitions, for structured output.
     public var tools: [ClaudeTool]?
     /// Tool-choice constraint; pair `.tool(name)` with a single tool for
     /// guaranteed-JSON responses.
     public var toolChoice: ClaudeToolChoice?
+    /// Automatic prompt caching — sent as the request's top-level
+    /// `cache_control`. The API puts the breakpoint on the last cacheable
+    /// block and moves it forward as a conversation grows, so each turn reads
+    /// the history the previous turn wrote: the right default for multi-turn
+    /// chat. For a shared prefix + varying tail (same corpus, different
+    /// question) mark the end of the shared part instead (``ClaudeSystemBlock``
+    /// or ``ClaudeTool/cacheControl``) — automatic caching would pay the write
+    /// premium on the tail every time. Counts toward the 4-breakpoint limit.
+    public var cacheControl: ClaudeCacheControl?
 
     public init(
         model: ClaudeModel = .sonnet,
@@ -186,7 +207,8 @@ public struct ClaudeRequest: Sendable, Equatable {
         messages: [ClaudeMessage],
         temperature: Double? = nil,
         tools: [ClaudeTool]? = nil,
-        toolChoice: ClaudeToolChoice? = nil
+        toolChoice: ClaudeToolChoice? = nil,
+        cacheControl: ClaudeCacheControl? = nil
     ) {
         self.model = model
         self.maxTokens = maxTokens
@@ -196,15 +218,24 @@ public struct ClaudeRequest: Sendable, Equatable {
         self.temperature = temperature
         self.tools = tools
         self.toolChoice = toolChoice
+        self.cacheControl = cacheControl
     }
 }
 
 // MARK: - System blocks + prompt caching
 
-/// A prompt-cache breakpoint on a system block (`cache_control`).
-/// Everything up to and including the marked block is cached as a prefix;
-/// reads cost ~0.1× input price. Minimum cacheable prefix is model-dependent
-/// (1024 tokens on Opus 4.8) — shorter prefixes silently don't cache.
+/// A prompt-cache breakpoint (`cache_control`) — on a system block, a tool, or
+/// the whole request (automatic caching, ``ClaudeRequest/cacheControl``).
+/// Everything up to and including the marked block is cached as a prefix, in
+/// render order tools → system → messages; reads cost ~0.1× input price, writes
+/// 1.25× (5 min) or 2× (1 h). At most 4 breakpoints per request, and a longer
+/// TTL must come before a shorter one.
+///
+/// The minimum cacheable prefix is model-dependent — 512 tokens on Opus 5 /
+/// Fable; 1024 on Opus 4.8, Sonnet 5 and Sonnet 4.x; 2048 on Opus 4.7; 4096 on
+/// Haiku 4.5 (the kit's `.haiku`). Shorter prefixes silently don't cache
+/// (`cache_creation_input_tokens` stays 0); see
+/// ``ClaudeModel/minimumCacheablePrefixTokens``.
 public struct ClaudeCacheControl: Sendable, Equatable, Codable {
     public enum TTL: String, Sendable, Codable {
         case fiveMinutes = "5m"

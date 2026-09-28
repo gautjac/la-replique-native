@@ -10,6 +10,10 @@ the app bundle as `Resources/Corpus/` (a folder reference on `Corpus/` in `proje
 - `Corpus/manifest.json` defines the `core` set (every op) and the per-op `extras`;
   `Sources/AI/Corpus.swift` reads it at runtime and builds the same block layout as the web
   function: core (cached 1h) → extras (cached 1h) → task prompt (uncached).
+- The Dramaturge adds a 4th system block: the play itself (`<piece …>`), cached **5 min** and placed
+  after the 1h blocks (a shorter TTL must follow the longer ones) — 3 breakpoints in all
+  (`Atelier.dramaturgeRequest`). The messages carry only the thread + the new question, so each
+  follow-up reads corpus + play from cache instead of re-sending the play at full price.
 - `Atelier.tools` is ONE fixed list in a fixed order: tool definitions sit ahead of `system` in the
   cache prefix, so varying them per op would drop the cached corpus on every switch. Only
   `tool_choice` varies.

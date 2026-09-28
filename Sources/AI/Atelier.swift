@@ -81,14 +81,28 @@ enum Atelier {
 
     private static func run<T: Decodable>(op: String, _ system: String, messages: [ClaudeMessage], tool: String,
                                           maxTokens: Int) async throws -> T {
+        try await send(request(op: op, system, messages: messages, tool: tool, maxTokens: maxTokens), op: op, tool: tool)
+    }
+
+    /// The request an op sends. `material` — text a whole thread keeps asking
+    /// about (the Dramaturge's play) — becomes one more cached block AFTER the
+    /// 1h corpus blocks (a shorter TTL must follow the longer ones), 5 min by
+    /// default: each follow-up reads it from cache instead of paying for it again.
+    static func request(op: String, _ system: String, messages: [ClaudeMessage], tool: String,
+                        maxTokens: Int, material: String? = nil) throws -> ClaudeRequest {
         precondition(toolSchemas.contains { $0.name == tool }, "unknown Atelier tool \(tool)")
-        let req = ClaudeRequest(
+        var systemBlocks = try Corpus.system(op: op, task: system)
+        if let material { systemBlocks.append(.cached(material)) }
+        return ClaudeRequest(
             model: .opus, maxTokens: maxTokens,
-            systemBlocks: try Corpus.system(op: op, task: system),
+            systemBlocks: systemBlocks,
             messages: messages,
             tools: tools,
             toolChoice: .tool(tool)
         )
+    }
+
+    private static func send<T: Decodable>(_ req: ClaudeRequest, op: String, tool: String) async throws -> T {
         let response = try await client().send(req)
         if let u = response.usage {
             // Proves the corpus is served from cache after the first call of a session.
@@ -209,6 +223,14 @@ enum Atelier {
     }
 
     static func dramaturge(lang: Lang, question: String, play: String, title: String?, cast: [String], history: [DramaturgeTurn]) async throws -> DramaturgeRes {
+        let req = try dramaturgeRequest(lang: lang, question: question, play: play, title: title, cast: cast, history: history)
+        return try await send(req, op: "dramaturge", tool: "reponse")
+    }
+
+    /// systemBlocks = [core (1h), extras (1h), task, play (5 min)] — 3 breakpoints.
+    /// The play is the thread's shared material, so it sits in the cached prefix;
+    /// the messages carry only the conversation.
+    static func dramaturgeRequest(lang: Lang, question: String, play: String, title: String?, cast: [String], history: [DramaturgeTurn]) throws -> ClaudeRequest {
         let outLang = lang == .fr ? "français" : "English"
         let system = """
         You are the dramaturg behind La Réplique, in a development room with a working playwright. They hand you their play (or one scene of it) and ask you questions about it — what a character wants, where a scene sags, whether an ending is earned, how to cut, what a title is doing, anything a dramaturg gets asked.
@@ -222,14 +244,8 @@ enum Atelier {
         let playText = "<piece langue=\"\(lang.rawValue)\">\n\(head.isEmpty ? "" : head + "\n")\(play)\n</piece>"
 
         let h = trimHistory(history)
-        var messages: [ClaudeMessage] = []
-        if h.isEmpty {
-            messages.append(.user(playText + "\n\n" + question))
-        } else {
-            messages.append(.user(playText + "\n\n" + h[0].text))
-            for t in h.dropFirst() { messages.append(t.role == "user" ? .user(t.text) : .assistant(t.text)) }
-            messages.append(.user(question))
-        }
-        return try await run(op: "dramaturge", system, messages: messages, tool: "reponse", maxTokens: 2500)
+        var messages: [ClaudeMessage] = h.map { $0.role == "user" ? .user($0.text) : .assistant($0.text) }
+        messages.append(.user(question))
+        return try request(op: "dramaturge", system, messages: messages, tool: "reponse", maxTokens: 2500, material: playText)
     }
 }

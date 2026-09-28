@@ -27,4 +27,17 @@ public enum ClaudeModel: Sendable, Hashable {
         case .custom(let id):  return id
         }
     }
+
+    /// The shortest prefix (in tokens) this model will cache; anything shorter
+    /// silently isn't (`cache_creation_input_tokens` stays 0). Nil for an id
+    /// the kit doesn't know — check the model's docs.
+    public var minimumCacheablePrefixTokens: Int? {
+        let id = self.id
+        if id.hasPrefix("claude-opus-5") || id.hasPrefix("claude-fable-5") { return 512 }
+        if id.hasPrefix("claude-opus-4-7") { return 2048 }
+        if id.hasPrefix("claude-haiku-4-5") || id.hasPrefix("claude-opus-4-6") || id.hasPrefix("claude-opus-4-5") { return 4096 }
+        if id.hasPrefix("claude-opus-4-8") || id.hasPrefix("claude-sonnet-5") || id.hasPrefix("claude-sonnet-4")
+            || id.hasPrefix("claude-opus-4-1") || id.hasPrefix("claude-opus-4-2") { return 1024 } // …-4-2025… = dated Opus 4
+        return nil
+    }
 }

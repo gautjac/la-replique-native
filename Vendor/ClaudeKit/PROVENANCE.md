@@ -6,7 +6,10 @@ La Réplique builds on **Xcode Cloud**, which clones only this repo and cannot
 reach the sibling `../atelier-kit` local package (AtelierKit has no git remote).
 
 - **Canonical source:** `~/Claude/apps/atelier-kit`, target/product `ClaudeKit`.
-- **Vendored from revision:** `044751a` (2026-09-12) — adds `systemBlocks` + `ClaudeCacheControl` for the craft corpus.
+- **Vendored from revision:** `044751a` (2026-09-12) — adds `systemBlocks` + `ClaudeCacheControl` for the craft corpus;
+  refreshed 2026-09-28 to `540beb4`, the prompt-caching changes:
+  sorted-keys encoding (tool schemas byte-stable across launches), top-level +
+  per-tool `cache_control`, streaming usage (`stream(_:onUsage:)`), `ClaudeModel.minimumCacheablePrefixTokens`.
 - **Contents:** `ClaudeClient`, `ClaudeError`, `ClaudeModel`, `ClaudeResponse`,
   `ClaudeTypes`, `JSONValue`, `KeychainStore`. Only imports `Foundation` and
   `Security` — no sibling-kit dependencies.
